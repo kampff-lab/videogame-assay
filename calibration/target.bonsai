@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.2.2">
+  <Workflow xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q3="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns:q2="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FlyCapture">
+          <q1:Index>0</q1:Index>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Image</Selector>
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+
+linesize = 500
+pointsize = 3
+
+@returns(IplImage)
+def process(value):
+
+  output = value.Clone()
+  CV.Line(output,Point(output.Width/2-linesize,output.Height/2),Point(output.Width/2+linesize,output.Height/2),Scalar.All(255),pointsize)
+  CV.Line(output,Point(output.Width/2,output.Height/2-linesize),Point(output.Width/2,output.Height/2+linesize),Scalar.All(255),pointsize)
+  CV.Circle(output,Point(output.Width/2,output.Height/2),pointsize,Scalar.All(255),-1)
+  return output</q2:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:UpdateFrame" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:WarpPerspective">
+          <q3:Destination>
+            <q3:Point2f>
+              <q3:X>-0.7262397</q3:X>
+              <q3:Y>-0.965328455</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>-0.7262397</q3:X>
+              <q3:Y>0.914233565</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>0.7427686</q3:X>
+              <q3:Y>0.9087591</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>0.7376033</q3:X>
+              <q3:Y>-0.961678863</q3:Y>
+            </q3:Point2f>
+          </q3:Destination>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:DrawShader">
+          <q3:ShaderName>Target</q3:ShaderName>
+          <q3:MeshName>Sprite</q3:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:UpdateUniform">
+          <q3:UniformName>mvp</q3:UniformName>
+          <q3:ShaderName>Target</q3:ShaderName>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.13.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.13.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.DrawShader, Bonsai.Shaders, Version=0.13.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.13.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
