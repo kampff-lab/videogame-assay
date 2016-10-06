@@ -10,7 +10,7 @@
 
 ## Projector Parameters
 
-Model: BenQ MW843UST
+Model: BenQ MW843UST  
 Resolution: 1280x800 @ 60Hz
 
 | Parameter          | Value        |
@@ -28,6 +28,6 @@ Resolution: 1280x800 @ 60Hz
 
 # Camera Parameters
 
-Model: Grasshopper3 GS3-U3-23S6C
-Driver: FlyCapture 2.10.3.169
+Model: Grasshopper3 GS3-U3-23S6C  
+Driver: FlyCapture 2.10.3.169  
 Resolution: 1600x1200 @ 60Hz
