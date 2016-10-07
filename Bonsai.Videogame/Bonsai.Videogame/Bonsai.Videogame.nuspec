@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://bitbucket.org/kampff-lab/videogame-assay/raw/d3a56b090a9f1c17e4c2db8dd17e424eb2733226/LICENSE</licenseUrl>
+    <projectUrl>https://bitbucket.org/kampff-lab/videogame-assay</projectUrl>
+    <iconUrl>https://bitbucket.org/horizongir/bonsai/raw/7aacc64dc4647e57362ab310238591dc197fef0d/Resources/Bonsai.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>$author$ © 2016</copyright>
+    <tags>Bonsai</tags>
+  </metadata>
+</package>
