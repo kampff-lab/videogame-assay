@@ -1,0 +1,13 @@
+syntax: glob
+*.suo
+*.dll
+*.exe
+*.old
+*.pdb
+*.cache
+*.nupkg
+*.settings
+bonsai/Packages/*
+Bonsai.Videogame/Bonsai.Videogame/bin/*
+Bonsai.Videogame/Bonsai.Videogame/obj/*
+Bonsai.Videogame/packages/*
