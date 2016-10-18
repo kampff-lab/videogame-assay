@@ -13,7 +13,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q2:ConvertColor">
-          <q2:Conversion>BayerBG2Gray</q2:Conversion>
+          <q2:Conversion>BayerRG2Gray</q2:Conversion>
         </Combinator>
       </Expression>
       <Expression xsi:type="MemberSelector">
@@ -66,8 +66,8 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q2:Crop">
           <q2:RegionOfInterest>
-            <q2:X>161</q2:X>
-            <q2:Y>90</q2:Y>
+            <q2:X>153</q2:X>
+            <q2:Y>84</q2:Y>
             <q2:Width>1286</q2:Width>
             <q2:Height>1026</q2:Height>
           </q2:RegionOfInterest>
@@ -200,6 +200,11 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Timestamp" />
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Flip">
+          <q2:Mode>Vertical</q2:Mode>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -209,7 +214,7 @@
       </Edge>
       <Edge>
         <From>1</From>
-        <To>2</To>
+        <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -342,6 +347,11 @@
         <To>29</To>
         <Label>Source1</Label>
       </Edge>
+      <Edge>
+        <From>31</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
@@ -365,5 +375,6 @@
     <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timestamp, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Flip, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

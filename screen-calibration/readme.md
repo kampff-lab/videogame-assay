@@ -11,7 +11,7 @@
 ## Projector Parameters
 
 Model: BenQ MW843UST  
-Resolution: 1280x800 @ 60Hz
+Resolution: 1280x800 @ 120Hz
 
 | Parameter          | Value        |
 | ------------------ | ------------ |
@@ -41,3 +41,4 @@ Resolution: 1600x1200 @ 60Hz
 | Gain               | 7 dB         |
 | W.B. Red           | 1023         |
 | W.B. Blue          | 0            |
+| Horizontal flip    | True         |

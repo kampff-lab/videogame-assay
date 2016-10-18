@@ -31,8 +31,8 @@
   <DialogSettings>
     <Visible>true</Visible>
     <Location>
-      <X>747</X>
-      <Y>603</Y>
+      <X>753</X>
+      <Y>577</Y>
     </Location>
     <Size>
       <Width>613</Width>
@@ -81,7 +81,7 @@
     <WindowState>Normal</WindowState>
   </DialogSettings>
   <DialogSettings>
-    <Visible>true</Visible>
+    <Visible>false</Visible>
     <Location>
       <X>352</X>
       <Y>632</Y>
@@ -363,6 +363,18 @@
     <VisualizerSettings>
       <IplImageVisualizer />
     </VisualizerSettings>
+  </DialogSettings>
+  <DialogSettings>
+    <Visible>false</Visible>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>0</Width>
+      <Height>0</Height>
+    </Size>
+    <WindowState>Normal</WindowState>
   </DialogSettings>
   <DialogSettings>
     <Visible>false</Visible>

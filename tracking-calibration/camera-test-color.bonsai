@@ -13,7 +13,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q2:ConvertColor">
-          <q2:Conversion>BayerBG2Bgr</q2:Conversion>
+          <q2:Conversion>BayerRG2Bgr</q2:Conversion>
         </Combinator>
       </Expression>
       <Expression xsi:type="MemberSelector">
@@ -97,8 +97,8 @@ def process(value):
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q2:Crop">
           <q2:RegionOfInterest>
-            <q2:X>161</q2:X>
-            <q2:Y>90</q2:Y>
+            <q2:X>153</q2:X>
+            <q2:Y>84</q2:Y>
             <q2:Width>1286</q2:Width>
             <q2:Height>1026</q2:Height>
           </q2:RegionOfInterest>
@@ -242,6 +242,11 @@ def process(value):
         <q5:IncludeHeader>false</q5:IncludeHeader>
         <q5:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q5:Selector>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Flip">
+          <q2:Mode>Vertical</q2:Mode>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -251,7 +256,7 @@ def process(value):
       </Edge>
       <Edge>
         <From>1</From>
-        <To>2</To>
+        <To>35</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -404,6 +409,11 @@ def process(value):
         <To>3</To>
         <Label>Source1</Label>
       </Edge>
+      <Edge>
+        <From>35</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
@@ -428,5 +438,6 @@ def process(value):
     <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timestamp, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Flip, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
