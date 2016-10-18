@@ -14,7 +14,7 @@
 ## Arduino Parameters
 
 Model: Arduino Uno
-Left Poke Port: COM6 @ 57600bps
+Left Poke Port: COM6 @ 57600bps  
 Right Poke Port: COM4 @ 57600bps
 
 | Wire               | Pin |
