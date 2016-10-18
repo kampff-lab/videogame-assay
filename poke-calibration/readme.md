@@ -2,13 +2,6 @@
 
 1. Open the poke calibration workflow (poke-calibration.bonsai).
 
-2. Display fullscreen white (white.bonsai).
-3. Align projector margins and keystone.
-4. Display calibration target (target.bonsai).
-5. Adjust warp corners to match the box corners, aligning each corner with the border between green and white.
-6. Check that the center of the calibration target matches the physical center of the box.
-7. Align camera calibration target (white cross) with the projection calibration target so that they overlap.
-
 # Poke Testing
 
 1. Open the poke testing workflow (poke-test.bonsai).
