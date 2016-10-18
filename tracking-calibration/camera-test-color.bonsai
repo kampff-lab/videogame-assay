@@ -209,13 +209,6 @@ def process(value):
         <q5:Suffix>None</q5:Suffix>
         <q5:IncludeHeader>false</q5:IncludeHeader>
       </Expression>
-      <Expression xsi:type="q5:CsvWriter">
-        <q5:FileName>counter.csv</q5:FileName>
-        <q5:Append>false</q5:Append>
-        <q5:Overwrite>true</q5:Overwrite>
-        <q5:Suffix>None</q5:Suffix>
-        <q5:IncludeHeader>false</q5:IncludeHeader>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q6:AnalogOutput">
           <q6:PortName>COM4</q6:PortName>
@@ -247,13 +240,13 @@ def process(value):
         <q5:Overwrite>true</q5:Overwrite>
         <q5:Suffix>None</q5:Suffix>
         <q5:IncludeHeader>false</q5:IncludeHeader>
-        <q5:Selector>Source.Timestamp</q5:Selector>
+        <q5:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q5:Selector>
       </Expression>
     </Nodes>
     <Edges>
       <Edge>
         <From>0</From>
-        <To>34</To>
+        <To>33</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -268,7 +261,7 @@ def process(value):
       </Edge>
       <Edge>
         <From>3</From>
-        <To>29</To>
+        <To>7</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -387,32 +380,27 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>29</From>
-        <To>7</To>
+        <From>30</From>
+        <To>29</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>31</From>
-        <To>30</To>
+        <From>32</From>
+        <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>33</From>
-        <To>32</To>
+        <To>34</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>34</From>
-        <To>35</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>35</From>
         <To>1</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>35</From>
+        <From>34</From>
         <To>3</To>
         <Label>Source1</Label>
       </Edge>

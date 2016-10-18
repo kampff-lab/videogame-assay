@@ -184,13 +184,6 @@
         <q6:Suffix>None</q6:Suffix>
         <q6:IncludeHeader>false</q6:IncludeHeader>
       </Expression>
-      <Expression xsi:type="q6:CsvWriter">
-        <q6:FileName>counter.csv</q6:FileName>
-        <q6:Append>false</q6:Append>
-        <q6:Overwrite>true</q6:Overwrite>
-        <q6:Suffix>None</q6:Suffix>
-        <q6:IncludeHeader>false</q6:IncludeHeader>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="IntProperty">
           <Value>0</Value>
@@ -202,7 +195,7 @@
         <q6:Overwrite>true</q6:Overwrite>
         <q6:Suffix>None</q6:Suffix>
         <q6:IncludeHeader>false</q6:IncludeHeader>
-        <q6:Selector>Source.Timestamp</q6:Selector>
+        <q6:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q6:Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Timestamp" />
@@ -211,7 +204,7 @@
     <Edges>
       <Edge>
         <From>0</From>
-        <To>31</To>
+        <To>30</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -226,7 +219,7 @@
       </Edge>
       <Edge>
         <From>3</From>
-        <To>28</To>
+        <To>7</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -331,27 +324,22 @@
       </Edge>
       <Edge>
         <From>28</From>
-        <To>7</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>29</From>
         <To>18</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>30</From>
+        <From>29</From>
         <To>1</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>30</From>
+        <From>29</From>
         <To>3</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>31</From>
-        <To>30</To>
+        <From>30</From>
+        <To>29</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
