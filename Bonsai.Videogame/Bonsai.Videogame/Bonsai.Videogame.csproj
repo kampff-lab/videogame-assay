@@ -70,7 +70,10 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy Condition="$(Configuration) == Release"
+          SourceFiles = "$(TargetPath)"
+          DestinationFolder = "$(SolutionDir)..\bonsai\Extensions" />
+  </Target>
 </Project>
