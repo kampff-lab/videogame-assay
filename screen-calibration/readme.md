@@ -31,3 +31,13 @@ Resolution: 1280x800 @ 60Hz
 Model: Grasshopper3 GS3-U3-23S6C  
 Driver: FlyCapture 2.10.3.169  
 Resolution: 1600x1200 @ 60Hz
+
+| Parameter          | Value        |
+| ------------------ | ------------ |
+| Brightness         | 2.515        |
+| Exposure           | -0.061       |
+| Gamma              | 1.250        |
+| Shutter            | Max          |
+| Gain               | 7 dB         |
+| W.B. Red           | 1023         |
+| W.B. Blue          | 0            |
