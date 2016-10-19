@@ -5,9 +5,8 @@ $dataPath = "Data"
 # Push into script location
 Push-Location $PSScriptRoot
 
-# Get subject name and current date time
+# Get subject name
 $subjectName = Read-Host "Enter Subject Id"
-$date = [DateTimeOffset]::Now
 Write-Host
 
 function Select-Game ($basePath)
@@ -85,6 +84,7 @@ while (!$selectedGame)
 }
 
 # Compute session data path
+$date = [DateTimeOffset]::Now
 $dataPath = Join-Path -Path $dataPath -ChildPath $subjectName
 $dataPath = Join-Path -Path $dataPath -ChildPath ($date).ToString("yyyy_MM_dd-HH_mm")
 
