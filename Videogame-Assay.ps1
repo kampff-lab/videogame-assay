@@ -2,6 +2,9 @@ $bonsaiPath = "bonsai/Bonsai64.exe"
 $gamesPath = "Games"
 $dataPath = "Data"
 
+# Push into script location
+Push-Location $PSScriptRoot
+
 # Get subject name and current date time
 $subjectName = Read-Host "Enter Subject Id"
 $date = [DateTimeOffset]::Now
