@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.2.2">
+<WorkflowBuilder Version="2.3.0-alpha3">
   <Workflow xmlns:q1="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalOutput">
-          <q1:PortName>COM3</q1:PortName>
-          <q1:Pin>5</q1:Pin>
+          <q1:PortName>COM4</q1:PortName>
+          <q1:Pin>2</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -15,8 +15,8 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalOutput">
-          <q1:PortName>COM3</q1:PortName>
-          <q1:Pin>5</q1:Pin>
+          <q1:PortName>COM4</q1:PortName>
+          <q1:Pin>2</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="BitwiseNot" />
@@ -27,8 +27,8 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Timer">
-          <DueTime>PT0S</DueTime>
-          <Period>PT1.5S</Period>
+          <DueTime>PT3S</DueTime>
+          <Period>PT2S</Period>
         </Combinator>
       </Expression>
       <Expression xsi:type="GreaterThanOrEqual">
@@ -72,11 +72,11 @@
   </Workflow>
   <ExtensionTypes>
     <Type>Bonsai.Arduino.DigitalOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.BitwiseNotBuilder, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.GreaterThanOrEqualBuilder, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseNotBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.GreaterThanOrEqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

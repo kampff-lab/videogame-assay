@@ -1,21 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.2.2">
+<WorkflowBuilder Version="2.3.0-alpha3">
   <Workflow xmlns:q2="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q4="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="BooleanProperty">
-          <Value>false</Value>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalOutput">
-          <q1:PortName>COM6</q1:PortName>
+          <q1:PortName>COM4</q1:PortName>
           <q1:Pin>2</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalInput">
-          <q1:PortName>COM6</q1:PortName>
+          <q1:PortName>COM4</q1:PortName>
           <q1:Pin>6</q1:Pin>
         </Combinator>
       </Expression>
@@ -36,13 +31,13 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM6</q1:PortName>
+          <q1:PortName>COM4</q1:PortName>
           <q1:Pin>3</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM6</q1:PortName>
+          <q1:PortName>COM4</q1:PortName>
           <q1:Pin>3</q1:Pin>
         </Combinator>
       </Expression>
@@ -77,7 +72,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM6</q1:PortName>
+          <q1:PortName>COM4</q1:PortName>
           <q1:Pin>5</q1:Pin>
         </Combinator>
       </Expression>
@@ -97,27 +92,38 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Merge" />
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:KeyDown">
+          <q2:Filter>W</q2:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:WaterValve">
+          <q3:MillilitersPerSecond>0.06</q3:MillilitersPerSecond>
+          <q3:MicrolitersPerDelivery>15</q3:MicrolitersPerDelivery>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
-        <From>0</From>
-        <To>1</To>
+        <From>2</From>
+        <To>3</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>3</From>
-        <To>4</To>
+        <To>16</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>4</From>
-        <To>17</To>
-        <Label>Source1</Label>
+        <To>13</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>5</From>
-        <To>14</To>
-        <Label>Source2</Label>
+        <From>7</From>
+        <To>5</To>
+        <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>8</From>
@@ -136,46 +142,52 @@
       </Edge>
       <Edge>
         <From>11</From>
-        <To>9</To>
+        <To>12</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>12</From>
-        <To>13</To>
+        <From>13</From>
+        <To>11</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>14</From>
-        <To>12</To>
+        <To>15</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>15</From>
         <To>16</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>16</From>
-        <To>17</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
+        <From>16</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>17</From>
-        <To>14</To>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>18</From>
+        <To>0</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
-    <Type>Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.DigitalOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.SquareWave, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Videogame.WaterValve, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
