@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.props" Condition="Exists('..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -33,6 +34,14 @@
     <Reference Include="Bonsai.Core">
       <HintPath>..\packages\Bonsai.Core.2.2.0\lib\net45\Bonsai.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Ode.Net, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ode.Net.Double.0.1.3\lib\net45\Ode.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenCV.Net, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCV.Net.3.3.0\lib\net40\OpenCV.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
@@ -51,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateContourTriMesh.cs" />
     <Compile Include="ExponentialTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SquareWave.cs" />
@@ -72,8 +82,16 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-    <Copy Condition="$(Configuration) == Release"
-          SourceFiles = "$(TargetPath)"
-          DestinationFolder = "$(SolutionDir)..\bonsai\Extensions" />
+    <Copy Condition="$(Configuration) == Release" SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)..\bonsai\Extensions" />
   </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.props'))" />
+    <Error Condition="!Exists('..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.targets'))" />
+    <Error Condition="!Exists('..\packages\Ode.Net.Double.0.1.3\build\net45\Ode.Net.Double.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Ode.Net.Double.0.1.3\build\net45\Ode.Net.Double.targets'))" />
+  </Target>
+  <Import Project="..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.targets" Condition="Exists('..\packages\OpenCV.Net.3.3.0\build\net40\OpenCV.Net.targets')" />
+  <Import Project="..\packages\Ode.Net.Double.0.1.3\build\net45\Ode.Net.Double.targets" Condition="Exists('..\packages\Ode.Net.Double.0.1.3\build\net45\Ode.Net.Double.targets')" />
 </Project>
