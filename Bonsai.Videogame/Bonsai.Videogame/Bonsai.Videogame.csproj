@@ -62,7 +62,10 @@
   <ItemGroup>
     <Compile Include="CreateContourTriMesh.cs" />
     <Compile Include="ExponentialTimer.cs" />
+    <Compile Include="NumericAggregateConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator.cs" />
+    <Compile Include="RandomPosition.cs" />
     <Compile Include="SquareWave.cs" />
     <Compile Include="WaterValve.cs" />
   </ItemGroup>
