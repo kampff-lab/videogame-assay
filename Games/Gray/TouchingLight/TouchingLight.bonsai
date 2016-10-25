@@ -820,12 +820,57 @@ single(Position.Y) as y)</q7:Expression>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfNullableOfVector3CreateSphere">
                     <MemberName>Position</MemberName>
-                    <Name>Position</Name>
+                    <Name />
                     <Value>
                       <X>0</X>
                       <Y>0</Y>
                       <Z>0</Z>
                     </Value>
+                  </Expression>
+                  <Expression xsi:type="Sink">
+                    <Name>RecordStimulus</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="q7:ExpressionTransform">
+                          <q7:Expression>new(
+Timestamp as Timestamp,
+"Position"+Value.ToString() as Name
+)</q7:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Timestamp" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>Events</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -931,7 +976,7 @@ single(Position.Y) as y)</q7:Expression>
                   </Edge>
                   <Edge>
                     <From>20</From>
-                    <To>25</To>
+                    <To>26</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -958,6 +1003,11 @@ single(Position.Y) as y)</q7:Expression>
                     <From>25</From>
                     <To>13</To>
                     <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>26</From>
+                    <To>25</To>
+                    <Label>Source1</Label>
                   </Edge>
                 </Edges>
               </Workflow>
@@ -1712,12 +1762,57 @@ single(Position.Y) as y)</q7:Expression>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfNullableOfVector3CreateSphere">
                     <MemberName>Position</MemberName>
-                    <Name>Position</Name>
+                    <Name />
                     <Value>
                       <X>0</X>
                       <Y>0</Y>
                       <Z>0</Z>
                     </Value>
+                  </Expression>
+                  <Expression xsi:type="Sink">
+                    <Name>RecordStimulus</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="q7:ExpressionTransform">
+                          <q7:Expression>new(
+Timestamp as Timestamp,
+"Position"+Value.ToString() as Name
+)</q7:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Timestamp" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>Events</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1823,7 +1918,7 @@ single(Position.Y) as y)</q7:Expression>
                   </Edge>
                   <Edge>
                     <From>20</From>
-                    <To>25</To>
+                    <To>26</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -1850,6 +1945,11 @@ single(Position.Y) as y)</q7:Expression>
                     <From>25</From>
                     <To>13</To>
                     <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>26</From>
+                    <To>25</To>
+                    <Label>Source1</Label>
                   </Edge>
                 </Edges>
               </Workflow>

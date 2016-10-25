@@ -589,7 +589,7 @@ Timestamp as Timestamp,
                   <Edge>
                     <From>4</From>
                     <To>5</To>
-                    <Label>Source2</Label>
+                    <Label>Source3</Label>
                   </Edge>
                   <Edge>
                     <From>5</From>
@@ -604,7 +604,7 @@ Timestamp as Timestamp,
                   <Edge>
                     <From>7</From>
                     <To>5</To>
-                    <Label>Source3</Label>
+                    <Label>Source2</Label>
                   </Edge>
                 </Edges>
               </Workflow>
@@ -762,18 +762,13 @@ Timestamp as Timestamp,
                       <q8:CollideBits xsi:nil="true" />
                       <q8:Position>
                         <q8:X>0</q8:X>
-                        <q8:Y>-0.56698688151873045</q8:Y>
+                        <q8:Y>-0.25213429468084791</q8:Y>
                         <q8:Z>0</q8:Z>
                       </q8:Position>
                       <q8:Orientation xsi:nil="true" />
                       <q8:LengthX>0.15</q8:LengthX>
                       <q8:LengthY>0.45</q8:LengthY>
                       <q8:LengthZ>2</q8:LengthZ>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="FloatProperty">
-                      <Value>0.1</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -871,62 +866,107 @@ single(Position.Y) as y)</q7:Expression>
                       <Value>false</Value>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Sink">
+                    <Name>RecordStimulus</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="q7:ExpressionTransform">
+                          <q7:Expression>new(
+Timestamp as Timestamp,
+"Position"+Value.ToString() as Name
+)</q7:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Timestamp" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>Events</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
                     <From>2</From>
-                    <To>4</To>
+                    <To>7</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
+                    <To>10</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>20</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>14</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
                     <To>11</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>3</From>
-                    <To>21</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>15</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>8</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
                     <From>6</From>
-                    <To>12</To>
-                    <Label>Source1</Label>
+                    <To>7</To>
+                    <Label>Source2</Label>
                   </Edge>
                   <Edge>
                     <From>7</From>
                     <To>8</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>8</From>
-                    <To>9</To>
+                    <To>5</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>9</From>
-                    <To>6</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>10</From>
                     <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
+                    <From>10</From>
+                    <To>11</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
                     <From>11</From>
                     <To>12</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>12</From>
@@ -935,57 +975,57 @@ single(Position.Y) as y)</q7:Expression>
                   </Edge>
                   <Edge>
                     <From>13</From>
-                    <To>14</To>
+                    <To>18</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>14</From>
-                    <To>19</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>15</From>
-                    <To>23</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>16</From>
-                    <To>17</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>17</From>
                     <To>22</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
+                    <From>15</From>
+                    <To>16</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>23</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>17</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
                     <From>18</From>
-                    <To>5</To>
+                    <To>19</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>19</From>
-                    <To>20</To>
+                    <To>17</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>20</From>
                     <To>18</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>21</From>
-                    <To>19</To>
                     <Label>Source2</Label>
                   </Edge>
                   <Edge>
-                    <From>22</From>
+                    <From>21</From>
                     <To>3</To>
                     <Label>Source2</Label>
                   </Edge>
                   <Edge>
-                    <From>23</From>
+                    <From>22</From>
                     <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>23</From>
+                    <To>21</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -2076,7 +2116,7 @@ Timestamp as Timestamp,
                   <Edge>
                     <From>4</From>
                     <To>5</To>
-                    <Label>Source2</Label>
+                    <Label>Source3</Label>
                   </Edge>
                   <Edge>
                     <From>5</From>
@@ -2091,7 +2131,7 @@ Timestamp as Timestamp,
                   <Edge>
                     <From>7</From>
                     <To>5</To>
-                    <Label>Source3</Label>
+                    <Label>Source2</Label>
                   </Edge>
                 </Edges>
               </Workflow>
@@ -2249,18 +2289,13 @@ Timestamp as Timestamp,
                       <q8:CollideBits xsi:nil="true" />
                       <q8:Position>
                         <q8:X>0</q8:X>
-                        <q8:Y>-0.34346554885546932</q8:Y>
+                        <q8:Y>-0.098830443329098849</q8:Y>
                         <q8:Z>0</q8:Z>
                       </q8:Position>
                       <q8:Orientation xsi:nil="true" />
                       <q8:LengthX>0.15</q8:LengthX>
                       <q8:LengthY>0.45</q8:LengthY>
                       <q8:LengthZ>2</q8:LengthZ>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="FloatProperty">
-                      <Value>0.1</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2358,62 +2393,107 @@ single(Position.Y) as y)</q7:Expression>
                       <Value>false</Value>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="Sink">
+                    <Name>RecordStimulus</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="q7:ExpressionTransform">
+                          <q7:Expression>new(
+Timestamp as Timestamp,
+"Position"+Value.ToString() as Name
+)</q7:Expression>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Timestamp" />
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>Events</Name>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
                     <From>2</From>
-                    <To>4</To>
+                    <To>7</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
+                    <To>10</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>20</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>14</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
                     <To>11</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>3</From>
-                    <To>21</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>15</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>8</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
                     <From>6</From>
-                    <To>12</To>
-                    <Label>Source1</Label>
+                    <To>7</To>
+                    <Label>Source2</Label>
                   </Edge>
                   <Edge>
                     <From>7</From>
                     <To>8</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>8</From>
-                    <To>9</To>
+                    <To>5</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>9</From>
-                    <To>6</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>10</From>
                     <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
+                    <From>10</From>
+                    <To>11</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
                     <From>11</From>
                     <To>12</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>12</From>
@@ -2422,57 +2502,57 @@ single(Position.Y) as y)</q7:Expression>
                   </Edge>
                   <Edge>
                     <From>13</From>
-                    <To>14</To>
+                    <To>18</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>14</From>
-                    <To>19</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>15</From>
-                    <To>23</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>16</From>
-                    <To>17</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>17</From>
                     <To>22</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
+                    <From>15</From>
+                    <To>16</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>23</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>17</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
                     <From>18</From>
-                    <To>5</To>
+                    <To>19</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>19</From>
-                    <To>20</To>
+                    <To>17</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>20</From>
                     <To>18</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>21</From>
-                    <To>19</To>
                     <Label>Source2</Label>
                   </Edge>
                   <Edge>
-                    <From>22</From>
+                    <From>21</From>
                     <To>3</To>
                     <Label>Source2</Label>
                   </Edge>
                   <Edge>
-                    <From>23</From>
+                    <From>22</From>
                     <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>23</From>
+                    <To>21</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -3045,7 +3125,6 @@ Timestamp as Timestamp,
     <Type>Bonsai.Expressions.MulticastSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.SinkBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateBox, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.FloatProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.12.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.GeomCollision, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
