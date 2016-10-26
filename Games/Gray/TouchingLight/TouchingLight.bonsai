@@ -751,8 +751,8 @@ Timestamp as Timestamp,
                       <q8:CategoryBits xsi:nil="true" />
                       <q8:CollideBits xsi:nil="true" />
                       <q8:Position>
-                        <q8:X>0.577520678787269</q8:X>
-                        <q8:Y>0.79299728707084316</q8:Y>
+                        <q8:X>-0.72693350586431738</q8:X>
+                        <q8:Y>-0.60565190823080572</q8:Y>
                         <q8:Z>0</q8:Z>
                       </q8:Position>
                       <q8:Orientation>
@@ -1693,8 +1693,8 @@ Timestamp as Timestamp,
                       <q8:CategoryBits xsi:nil="true" />
                       <q8:CollideBits xsi:nil="true" />
                       <q8:Position>
-                        <q8:X>-0.707814959719691</q8:X>
-                        <q8:Y>-0.79881536639240358</q8:Y>
+                        <q8:X>-0.022136290707688966</q8:X>
+                        <q8:Y>0.83061340187239174</q8:Y>
                         <q8:Z>0</q8:Z>
                       </q8:Position>
                       <q8:Orientation>
@@ -3530,13 +3530,8 @@ Timestamp as Timestamp,
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Source.Name</Selector>
-                  </Expression>
-                  <Expression xsi:type="Equal">
-                    <Operand xsi:type="StringProperty">
-                      <Value>BallOn</Value>
-                    </Operand>
+                  <Expression xsi:type="q7:ExpressionTransform">
+                    <q7:Expression>Name.EndsWith("TrialStart")</q7:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3547,11 +3542,6 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
                     <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
@@ -3653,6 +3643,9 @@ def process(value):
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SkipUntil" />
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
@@ -3662,7 +3655,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>0</From>
-              <To>5</To>
+              <To>10</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3679,6 +3672,11 @@ def process(value):
               <From>1</From>
               <To>8</To>
               <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>10</To>
+              <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>2</From>
@@ -3698,6 +3696,11 @@ def process(value):
             <Edge>
               <From>9</From>
               <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>5</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3978,8 +3981,7 @@ def process(value):
     <Type>Bonsai.Reactive.DelaySubscription, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.RepeatCount, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

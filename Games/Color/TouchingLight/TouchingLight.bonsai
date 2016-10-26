@@ -3546,13 +3546,8 @@ Timestamp as Timestamp,
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Source.Name</Selector>
-                  </Expression>
-                  <Expression xsi:type="Equal">
-                    <Operand xsi:type="StringProperty">
-                      <Value>BallOn</Value>
-                    </Operand>
+                  <Expression xsi:type="q6:ExpressionTransform">
+                    <q6:Expression>Name.EndsWith("TrialStart")</q6:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3563,11 +3558,6 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
                     <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
@@ -3669,6 +3659,9 @@ def process(value):
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SkipUntil" />
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
@@ -3678,7 +3671,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>0</From>
-              <To>5</To>
+              <To>10</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3695,6 +3688,11 @@ def process(value):
               <From>1</From>
               <To>8</To>
               <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>10</To>
+              <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>2</From>
@@ -3714,6 +3712,11 @@ def process(value):
             <Edge>
               <From>9</From>
               <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>5</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3995,7 +3998,6 @@ def process(value):
     <Type>Bonsai.Reactive.DelaySubscription, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.RepeatCount, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

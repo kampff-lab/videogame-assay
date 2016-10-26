@@ -4024,13 +4024,8 @@ Timestamp as Timestamp,
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Source.Name</Selector>
-                  </Expression>
-                  <Expression xsi:type="Equal">
-                    <Operand xsi:type="StringProperty">
-                      <Value>BarOn</Value>
-                    </Operand>
+                  <Expression xsi:type="q7:ExpressionTransform">
+                    <q7:Expression>Name.EndsWith("TrialStart")</q7:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -4041,11 +4036,6 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
                     <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
