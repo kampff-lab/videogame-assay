@@ -748,8 +748,8 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q8:CreateSphere">
                       <q8:Enabled>true</q8:Enabled>
-                      <q8:CategoryBits xsi:nil="true" />
-                      <q8:CollideBits xsi:nil="true" />
+                      <q8:CategoryBits>2</q8:CategoryBits>
+                      <q8:CollideBits>1</q8:CollideBits>
                       <q8:Position>
                         <q8:X>-0.72693350586431738</q8:X>
                         <q8:Y>-0.60565190823080572</q8:Y>
@@ -1690,8 +1690,8 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q8:CreateSphere">
                       <q8:Enabled>true</q8:Enabled>
-                      <q8:CategoryBits xsi:nil="true" />
-                      <q8:CollideBits xsi:nil="true" />
+                      <q8:CategoryBits>2</q8:CategoryBits>
+                      <q8:CollideBits>1</q8:CollideBits>
                       <q8:Position>
                         <q8:X>-0.022136290707688966</q8:X>
                         <q8:Y>0.83061340187239174</q8:Y>
@@ -2286,7 +2286,7 @@ Timestamp as Timestamp,
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q8:CreateTriMesh">
                 <q8:Enabled>true</q8:Enabled>
-                <q8:CategoryBits xsi:nil="true" />
+                <q8:CategoryBits>1</q8:CategoryBits>
                 <q8:CollideBits xsi:nil="true" />
                 <q8:Position xsi:nil="true" />
                 <q8:Orientation xsi:nil="true" />
