@@ -51,15 +51,15 @@ namespace Bonsai.Videogame
                     vertices[vi++] = +depth;
                     if (i > 0)
                     {
-                        indices[ii++] = vcount + 1; // t0v3
-                        indices[ii++] = vcount + 1; // t1v3
-                        indices[ii++] = vcount + 0; // t1v2
-                        indices[ii++] = vcount - 2; // t1v0
+                        indices[ii++] = vcount + 0; // t1v0
+                        indices[ii++] = vcount + 0; // t1v0
+                        indices[ii++] = vcount + 1; // t1v1
+                        indices[ii++] = vcount - 1; // t0v1
                     }
                     if (i < points.Length - 1)
                     {
-                        indices[ii++] = vcount + 0; // t0v0
                         indices[ii++] = vcount + 1; // t0v1
+                        indices[ii++] = vcount + 0; // t0v0
                     }
                 }
                 output.BuildSingle(vertices, indices);
