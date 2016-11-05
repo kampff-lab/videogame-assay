@@ -171,11 +171,14 @@ def process(value):
                 </q5:RegionOfInterest>
               </Combinator>
             </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Centroid</Selector>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
               <From>0</From>
-              <To>8</To>
+              <To>10</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -216,6 +219,11 @@ def process(value):
             <Edge>
               <From>9</From>
               <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>8</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
