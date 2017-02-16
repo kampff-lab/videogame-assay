@@ -37,5 +37,12 @@ namespace Bonsai.Videogame
                 });
             });
         }
+
+        public IObservable<DateTimeOffset> Generate(IObservable<Random> source)
+        {
+            return source.SelectMany(random =>
+                Observable.Timer(NextInterval(random))
+                          .Select(x => HighResolutionScheduler.Now));
+        }
     }
 }
