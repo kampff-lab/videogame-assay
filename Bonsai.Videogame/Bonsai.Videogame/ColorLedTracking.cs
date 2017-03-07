@@ -25,7 +25,7 @@ namespace Bonsai.Videogame
                 {
                     if (red == null) red = new IplImage(input.Size, input.Depth, 1);
                     if (blue == null) blue = new IplImage(input.Size, input.Depth, 1);
-                    CV.Split(input, blue, null, red, null);
+                    CV.Split(input, red, null, blue, null);
                     CV.Threshold(red, red, ThresholdRed, 255, ThresholdTypes.Binary);
                     CV.Threshold(blue, blue, ThresholdBlue, 255, ThresholdTypes.Binary);
                     var redled = ConnectedComponent.FromImage(red);
