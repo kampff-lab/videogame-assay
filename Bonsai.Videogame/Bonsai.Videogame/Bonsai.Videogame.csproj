@@ -81,6 +81,7 @@
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="RandomPosition.cs" />
     <Compile Include="SquareWave.cs" />
+    <Compile Include="UndistortPoints.cs" />
     <Compile Include="WaterValve.cs" />
   </ItemGroup>
   <ItemGroup>
