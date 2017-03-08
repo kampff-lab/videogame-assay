@@ -6,39 +6,27 @@
 4. Display calibration target (target.bonsai).
 5. Adjust warp corners to match the box corners, aligning each corner with the border between green and white.
 6. Check that the center of the calibration target matches the physical center of the box.
-7. Align camera calibration target (white cross) with the projection calibration target so that they overlap. 
+7. Align camera calibration target (white cross) with the projection calibration target so that they overlap.
+8. Adjust radial and tangential distortion parameters (Undistort node) so that the edges of the box look straight.
+9. Define a region of interest in the Crop node such that the green border fits snug inside a rectangle.
+10. Set the Resize node parameters to be half of the crop region size.
+11. Scale the focal length to half (we need to do this because we resize the image by a factor of 2; this is enough because only the Resize node changes the proportions of the image, whereas the Crop only selects a subregion).
+12. Update the principal point of the Undistort to match the center of the white cross in the resized image (the reason this works is that the Crop and Resize operations are modifying the calibration image such that the cross still marks the optical center of the lens).
 
-## Projector Parameters
-
-Model: BenQ MW843UST  
-Resolution: 1280x800 @ 120Hz
-
-| Parameter          | Value        |
-| ------------------ | ------------ |
-| Keystone alignment | 1            |
-| Aspect ratio       | 16 : 10      |
-| Wall color         | Off          |
-| Digital zoom       | 0            |
-| Picture mode       | User1        |
-| Reference mode     | Presentation |
-| Brightness         | 50           |
-| Contrast           | 0            |
-| Brilliant color    | On           |
-| Color temperature  | Cool         |
-
-# Camera Parameters
-
-Model: Grasshopper3 GS3-U3-23S6C  
-Driver: FlyCapture 2.10.3.169  
-Resolution: 1600x1200 @ 60Hz
+# Undistort Parameters (original)
 
 | Parameter          | Value        |
 | ------------------ | ------------ |
-| Brightness         | 2.515        |
-| Exposure           | -0.061       |
-| Gamma              | 1.250        |
-| Shutter            | Max          |
-| Gain               | 7 dB         |
-| W.B. Red           | 1023         |
-| W.B. Blue          | 0            |
-| Horizontal flip    | True         |
+| Focal length       | 2000, 2000   |
+| Principal point    | 800, 600     |
+| Radial distortion  | -0.3, 0, 0   |
+| Tang. distortion   | 0, -0.01     |
+
+# Undistort Parameters (resized)
+
+| Parameter          | Value        |
+| ------------------ | ------------ |
+| Focal length       | 1000, 1000   |
+| Principal point    | 317, 254     |
+| Radial distortion  | -0.3, 0, 0   |
+| Tang. distortion   | 0, -0.01     |
