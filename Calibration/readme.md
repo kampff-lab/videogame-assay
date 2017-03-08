@@ -32,6 +32,9 @@ Resolution: 1600x1200 @ 60Hz
 | ------------------ | ------------ |
 | Brightness         | 2.515        |
 | Exposure           | -0.061       |
+| Sharpness          | 1024         |
+| Hue                | 0            |
+| Saturation         | 100          |
 | Gamma              | 1.250        |
 | Shutter (Auto off) | 16 ms        |
 | Gain               | 7 dB         |
@@ -64,9 +67,12 @@ Resolution: 1600x1200 @ 120Hz
 | ------------------ | ------------ |
 | Brightness         | 2.515        |
 | Exposure           | -0.061       |
+| Sharpness          | 1024         |
+| Hue                | 0            |
+| Saturation         | 100          |
 | Gamma              | 1.250        |
 | Shutter (Auto off) | 8 ms         |
-| Gain               | 7 dB         |
+| Gain               | 15 dB        |
 | W.B. Red           | 1023         |
 | W.B. Blue          | 0            |
 | Horizontal flip    | True         |
