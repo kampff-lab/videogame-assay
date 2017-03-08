@@ -58,18 +58,6 @@ Timestamp as Timestamp,
           <Period>PT0S</Period>
         </Combinator>
       </Expression>
-      <Expression xsi:type="q3:PythonTransform">
-        <q3:Script>import os
-import clr
-clr.AddReference("Bonsai.System")
-from Bonsai.IO import PathHelper, PathSuffix
-
-filename = 'video.mp4'
-ffmpeg = r'..\..\..\..\ffmpeg\ffmpeg.exe'
-
-def process(value):
-  os.system(r'{0} -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {1}'.format(ffmpeg, filename))</q3:Script>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q5:ImageWriter">
           <q5:Path>\\.\pipe\video</q5:Path>
@@ -528,6 +516,17 @@ def process(value):
           <q7:Pin>6</q7:Pin>
         </Combinator>
       </Expression>
+      <Expression xsi:type="q3:PythonTransform">
+        <q3:Script>import os
+import clr
+clr.AddReference("Bonsai.System")
+from Bonsai.IO import PathHelper, PathSuffix
+
+filename = 'video.mp4'
+
+def process(value):
+  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {0}'.format(filename))</q3:Script>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -542,12 +541,12 @@ def process(value):
       </Edge>
       <Edge>
         <From>2</From>
-        <To>18</To>
+        <To>17</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>3</From>
-        <To>12</To>
+        <To>11</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -572,12 +571,17 @@ def process(value):
       </Edge>
       <Edge>
         <From>10</From>
-        <To>11</To>
+        <To>25</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>12</From>
-        <To>16</To>
+        <From>11</From>
+        <To>15</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>12</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -587,27 +591,27 @@ def process(value):
       </Edge>
       <Edge>
         <From>15</From>
-        <To>14</To>
+        <To>18</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>16</From>
-        <To>19</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>17</From>
-        <To>18</To>
+        <To>17</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>18</From>
+        <From>17</From>
         <To>9</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>18</From>
+        <From>17</From>
         <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>20</From>
+        <To>19</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -616,18 +620,13 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>22</From>
-        <To>21</To>
+        <From>23</From>
+        <To>22</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>24</From>
         <To>23</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>25</From>
-        <To>24</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -641,8 +640,8 @@ def process(value):
     <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>

@@ -67,18 +67,6 @@ Timestamp as Timestamp,
           <Period>PT0S</Period>
         </Combinator>
       </Expression>
-      <Expression xsi:type="q4:PythonTransform">
-        <q4:Script>import os
-import clr
-clr.AddReference("Bonsai.System")
-from Bonsai.IO import PathHelper, PathSuffix
-
-filename = 'video.mp4'
-ffmpeg = r'..\..\..\..\ffmpeg\ffmpeg.exe'
-
-def process(value):
-  os.system(r'{0} -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {1}'.format(ffmpeg, filename))</q4:Script>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q6:ImageWriter">
           <q6:Path>\\.\pipe\video</q6:Path>
@@ -1163,6 +1151,17 @@ Timestamp as Timestamp,
       <Expression xsi:type="SubscribeSubject">
         <Name>Random</Name>
       </Expression>
+      <Expression xsi:type="q4:PythonTransform">
+        <q4:Script>import os
+import clr
+clr.AddReference("Bonsai.System")
+from Bonsai.IO import PathHelper, PathSuffix
+
+filename = 'video.mp4'
+
+def process(value):
+  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {0}'.format(filename))</q4:Script>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -1177,7 +1176,7 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>2</From>
-        <To>18</To>
+        <To>17</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1187,12 +1186,12 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>4</From>
-        <To>21</To>
+        <To>20</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>5</From>
-        <To>14</To>
+        <To>13</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1217,12 +1216,17 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>12</From>
-        <To>13</To>
+        <To>35</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>14</From>
-        <To>19</To>
+        <From>13</From>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>14</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1231,28 +1235,28 @@ Timestamp as Timestamp,
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>17</From>
-        <To>16</To>
+        <From>18</From>
+        <To>21</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>19</From>
-        <To>22</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>20</From>
-        <To>21</To>
+        <To>20</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>21</From>
+        <From>20</From>
         <To>11</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>21</From>
+        <From>20</From>
         <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>24</From>
+        <To>22</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1277,17 +1281,17 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>29</From>
-        <To>27</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>30</From>
-        <To>27</To>
+        <To>26</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
+        <From>30</From>
+        <To>28</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>31</From>
-        <To>29</To>
+        <To>30</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1305,11 +1309,6 @@ Timestamp as Timestamp,
         <To>33</To>
         <Label>Source1</Label>
       </Edge>
-      <Edge>
-        <From>35</From>
-        <To>34</To>
-        <Label>Source1</Label>
-      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
@@ -1322,8 +1321,8 @@ Timestamp as Timestamp,
     <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
