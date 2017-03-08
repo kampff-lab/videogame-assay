@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q2="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q4="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q1="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FlyCapture">
+          <q1:Index>0</q1:Index>
+          <q1:ColorFormat>Bgr</q1:ColorFormat>
+          <q1:ColorProcessing>Default</q1:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Image</Selector>
+      </Expression>
+      <Expression xsi:type="q2:PythonTransform">
+        <q2:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+
+linesize = 500
+pointsize = 3
+
+@returns(IplImage)
+def process(value):
+
+  output = value.Clone()
+  CV.Line(output,Point(output.Width/2-linesize,output.Height/2),Point(output.Width/2+linesize,output.Height/2),Scalar.All(255),pointsize)
+  CV.Line(output,Point(output.Width/2,output.Height/2-linesize),Point(output.Width/2,output.Height/2+linesize),Scalar.All(255),pointsize)
+  CV.Circle(output,Point(output.Width/2,output.Height/2),pointsize,Scalar.All(255),-1)
+  return output</q2:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:UpdateFrame" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:WarpPerspective">
+          <q3:Destination>
+            <q3:Point2f>
+              <q3:X>-0.7262397</q3:X>
+              <q3:Y>-0.965328455</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>-0.7262397</q3:X>
+              <q3:Y>0.914233565</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>0.7427686</q3:X>
+              <q3:Y>0.9087591</q3:Y>
+            </q3:Point2f>
+            <q3:Point2f>
+              <q3:X>0.7376033</q3:X>
+              <q3:Y>-0.961678863</q3:Y>
+            </q3:Point2f>
+          </q3:Destination>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:UpdateUniform">
+          <q3:UniformName>mvp</q3:UniformName>
+          <q3:ShaderName>Target</q3:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:DrawMesh">
+          <q3:ShaderName>Target</q3:ShaderName>
+          <q3:MeshName>Sprite</q3:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:Undistort">
+          <q4:Alpha>0</q4:Alpha>
+          <q4:ComputeOptimalMatrix>false</q4:ComputeOptimalMatrix>
+          <q4:FocalLength>
+            <q4:X>1000</q4:X>
+            <q4:Y>1000</q4:Y>
+          </q4:FocalLength>
+          <q4:PrincipalPoint>
+            <q4:X>317</q4:X>
+            <q4:Y>254</q4:Y>
+          </q4:PrincipalPoint>
+          <q4:RadialDistortion>
+            <q4:X>-0.3</q4:X>
+            <q4:Y>0</q4:Y>
+            <q4:Z>0</q4:Z>
+          </q4:RadialDistortion>
+          <q4:TangentialDistortion>
+            <q4:X>0</q4:X>
+            <q4:Y>-0.01</q4:Y>
+          </q4:TangentialDistortion>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:Crop">
+          <q4:RegionOfInterest>
+            <q4:X>164</q4:X>
+            <q4:Y>91</q4:Y>
+            <q4:Width>1280</q4:Width>
+            <q4:Height>1024</q4:Height>
+          </q4:RegionOfInterest>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:Resize">
+          <q4:Size>
+            <q4:Width>640</q4:Width>
+            <q4:Height>512</q4:Height>
+          </q4:Size>
+          <q4:Interpolation>Linear</q4:Interpolation>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>8</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
