@@ -1,0 +1,659 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q2="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q7="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q6="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:UpdateFrame" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:FlyCapture">
+          <q2:Index>0</q2:Index>
+          <q2:ColorFormat>Rgb</q2:ColorFormat>
+          <q2:ColorProcessing>NearestNeighbor</q2:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timestamp" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Value.Image</Selector>
+      </Expression>
+      <Expression xsi:type="BehaviorSubject">
+        <Name>Events</Name>
+      </Expression>
+      <Expression xsi:type="q3:ExpressionTransform">
+        <q3:Expression>new(
+Timestamp as Timestamp,
+"SessionStart" as Name
+)</q3:Expression>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Take">
+          <Count>1</Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DrawMesh">
+          <q1:ShaderName>Background</q1:ShaderName>
+          <q1:MeshName>background</q1:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DrawMesh">
+          <q1:ShaderName>Trigger</q1:ShaderName>
+          <q1:MeshName>background</q1:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>video.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>false</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+        <q4:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q4:Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timer">
+          <DueTime>PT5S</DueTime>
+          <Period>PT0S</Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="q3:PythonTransform">
+        <q3:Script>import os
+import clr
+clr.AddReference("Bonsai.System")
+from Bonsai.IO import PathHelper, PathSuffix
+
+filename = 'video.mp4'
+ffmpeg = r'..\..\..\..\ffmpeg\ffmpeg.exe'
+
+def process(value):
+  os.system(r'{0} -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {1}'.format(ffmpeg, filename))</q3:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q5:ImageWriter">
+          <q5:Path>\\.\pipe\video</q5:Path>
+          <q5:Suffix>None</q5:Suffix>
+          <q5:Overwrite>false</q5:Overwrite>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>SaveEvents</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>LightPosition</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:ExpressionTransform">
+                    <q3:Expression>Name.StartsWith("Position")</q3:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>TrialStart</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:ExpressionTransform">
+                    <q3:Expression>Name.EndsWith("TrialStart")</q3:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="q4:CsvWriter">
+              <q4:FileName>events\TrialStart.csv</q4:FileName>
+              <q4:Append>false</q4:Append>
+              <q4:Overwrite>false</q4:Overwrite>
+              <q4:Suffix>None</q4:Suffix>
+              <q4:IncludeHeader>false</q4:IncludeHeader>
+              <q4:Selector>Source.Timestamp</q4:Selector>
+            </Expression>
+            <Expression xsi:type="q4:CsvWriter">
+              <q4:FileName>events\LightTouched.csv</q4:FileName>
+              <q4:Append>false</q4:Append>
+              <q4:Overwrite>false</q4:Overwrite>
+              <q4:Suffix>None</q4:Suffix>
+              <q4:IncludeHeader>false</q4:IncludeHeader>
+              <q4:Selector>Source.Timestamp</q4:Selector>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>LightTouched</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:ExpressionTransform">
+                    <q3:Expression>Name.EndsWith("PokeAvailable")</q3:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="q4:CsvWriter">
+              <q4:FileName>events\LightPosition.csv</q4:FileName>
+              <q4:Append>false</q4:Append>
+              <q4:Overwrite>false</q4:Overwrite>
+              <q4:Suffix>None</q4:Suffix>
+              <q4:IncludeHeader>false</q4:IncludeHeader>
+              <q4:Selector />
+            </Expression>
+            <Expression xsi:type="q4:CsvWriter">
+              <q4:FileName>events\BeamBreak.csv</q4:FileName>
+              <q4:Append>false</q4:Append>
+              <q4:Overwrite>false</q4:Overwrite>
+              <q4:Suffix>None</q4:Suffix>
+              <q4:IncludeHeader>false</q4:IncludeHeader>
+              <q4:Selector>Source.Timestamp</q4:Selector>
+            </Expression>
+            <Expression xsi:type="q3:PythonTransform">
+              <q3:Script>from System import Tuple, DateTimeOffset
+
+start = 9
+
+@returns(Tuple[DateTimeOffset,str,str])
+def process(value):
+  sub = value.Name.Substring(9).TrimEnd(')')
+  pos = sub.Split(',')
+  return Tuple.Create(value.Timestamp,pos[0],pos[1])</q3:Script>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>BeamBreak</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:ExpressionTransform">
+                    <q3:Expression>Name.EndsWith("BeamBreak")</q3:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SkipUntil" />
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>10</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>events.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>false</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Events</Name>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>Tracking</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:LargestBinaryRegion" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:BinaryRegionAnalysis" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:FindContours">
+                <q5:Mode>External</q5:Mode>
+                <q5:Method>ChainApproxNone</q5:Method>
+                <q5:Offset>
+                  <q5:X>0</q5:X>
+                  <q5:Y>0</q5:Y>
+                </q5:Offset>
+                <q5:MinArea>200</q5:MinArea>
+                <q5:MaxArea xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:Threshold">
+                <q5:ThresholdValue>18</q5:ThresholdValue>
+                <q5:MaxValue>255</q5:MaxValue>
+                <q5:ThresholdType>BinaryInv</q5:ThresholdType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="q3:PythonTransform">
+              <q3:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+
+@returns(IplImage)
+def process(value):
+  green = IplImage(value.Size,value.Depth,1)
+  CV.Split(value,None,green,None,None)
+  return green</q3:Script>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Centroid</Selector>
+            </Expression>
+            <Expression xsi:type="q3:ExpressionTransform">
+              <q3:Expression>new(
+2 * Item1.X / Item2.Width - 1 as X,
+2 * Item1.Y / Item2.Height - 1 as Y)</q3:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Size</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:Undistort">
+                <q5:Alpha>0</q5:Alpha>
+                <q5:ComputeOptimalMatrix>false</q5:ComputeOptimalMatrix>
+                <q5:FocalLength>
+                  <q5:X>1000</q5:X>
+                  <q5:Y>1000</q5:Y>
+                </q5:FocalLength>
+                <q5:PrincipalPoint>
+                  <q5:X>317</q5:X>
+                  <q5:Y>254</q5:Y>
+                </q5:PrincipalPoint>
+                <q5:RadialDistortion>
+                  <q5:X>-0.3</q5:X>
+                  <q5:Y>0</q5:Y>
+                  <q5:Z>0</q5:Z>
+                </q5:RadialDistortion>
+                <q5:TangentialDistortion>
+                  <q5:X>0</q5:X>
+                  <q5:Y>-0.01</q5:Y>
+                </q5:TangentialDistortion>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:Resize">
+                <q5:Size>
+                  <q5:Width>640</q5:Width>
+                  <q5:Height>512</q5:Height>
+                </q5:Size>
+                <q5:Interpolation>Linear</q5:Interpolation>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:Crop">
+                <q5:RegionOfInterest>
+                  <q5:X>164</q5:X>
+                  <q5:Y>91</q5:Y>
+                  <q5:Width>1280</q5:Width>
+                  <q5:Height>1024</q5:Height>
+                </q5:RegionOfInterest>
+              </Combinator>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>11</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>9</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>12</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q6:KeyDown">
+          <q6:Filter>Z</q6:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TakeUntil" />
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>tracking.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>false</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>left_poke_activity.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>false</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+        <q4:Selector>Source.Timestamp,Source.Value</q4:Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timestamp" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q7:DigitalInput">
+          <q7:PortName>COM6</q7:PortName>
+          <q7:Pin>6</q7:Pin>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="q4:CsvWriter">
+        <q4:FileName>right_poke_activity.csv</q4:FileName>
+        <q4:Append>false</q4:Append>
+        <q4:Overwrite>false</q4:Overwrite>
+        <q4:Suffix>None</q4:Suffix>
+        <q4:IncludeHeader>false</q4:IncludeHeader>
+        <q4:Selector>Source.Timestamp,Source.Value</q4:Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timestamp" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q7:DigitalInput">
+          <q7:PortName>COM4</q7:PortName>
+          <q7:Pin>6</q7:Pin>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>16</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>19</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>18</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>18</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>18</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>21</From>
+        <To>20</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>22</From>
+        <To>21</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>24</From>
+        <To>23</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>25</From>
+        <To>24</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Timestamp, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.TakeUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
