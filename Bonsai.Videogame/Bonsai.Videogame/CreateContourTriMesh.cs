@@ -14,11 +14,14 @@ namespace Bonsai.Videogame
         public CreateContourTriMesh()
         {
             Depth = 1;
+            FlipContour = FlipMode.Vertical;
         }
 
         public Size ImageSize { get; set; }
 
         public float Depth { get; set; }
+
+        public FlipMode? FlipContour { get; set; }
 
         public override IObservable<TriMeshData> Process(IObservable<Contour> source)
         {
@@ -28,6 +31,7 @@ namespace Bonsai.Videogame
 
                 var depth = Depth;
                 var size = ImageSize;
+                var flipContour = FlipContour;
                 var width = (float)size.Width;
                 var height = (float)size.Height;
                 var points = new Point[input.Count + 1];
@@ -39,10 +43,12 @@ namespace Bonsai.Videogame
                 var output = new TriMeshData();
                 var vertices = new float[points.Length * 6];
                 var indices = new int[(points.Length - 1) * 6];
+                var scaleX = flipContour.HasValue && flipContour.Value != FlipMode.Vertical ? -2.0f : 2.0f;
+                var scaleY = flipContour.HasValue && flipContour.Value != FlipMode.Horizontal ? -2.0f : 2.0f;
                 for (int i = 0, vcount = 0; i < points.Length; i++, vcount += 2)
                 {
-                    var x = 2.0f * (points[i].X / width - 0.5f);
-                    var y = -2.0f * (points[i].Y / height - 0.5f);
+                    var x = scaleX * (points[i].X / width - 0.5f);
+                    var y = scaleY * (points[i].Y / height - 0.5f);
                     vertices[vi++] = x;
                     vertices[vi++] = y;
                     vertices[vi++] = -depth;
