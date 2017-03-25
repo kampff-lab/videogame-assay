@@ -3,6 +3,7 @@ using OpenCV.Net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -12,15 +13,17 @@ namespace Bonsai.Videogame
 {
     public class ColorLedTracking : Transform<IplImage, Tuple<Point2f, Point2f>>
     {
+        [Range(0, 255)]
         [Category("Threshold")]
+        [Editor(DesignTypes.SliderEditor, typeof(UITypeEditor))]
         [Description("Threshold used to segment the red LED.")]
         public int ThresholdRed { get; set; }
 
+        [Range(0, 255)]
         [Category("Threshold")]
+        [Editor(DesignTypes.SliderEditor, typeof(UITypeEditor))]
         [Description("Threshold used to segment the blue LED.")]
         public int ThresholdBlue { get; set; }
-
-
 
         public override IObservable<Tuple<Point2f, Point2f>> Process(IObservable<IplImage> source)
         {
