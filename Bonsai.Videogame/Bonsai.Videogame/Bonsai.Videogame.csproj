@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="RandomPosition.cs" />
+    <Compile Include="RandomName.cs" />
     <Compile Include="SquareWave.cs" />
     <Compile Include="UndistortPoints.cs" />
     <Compile Include="WaterValve.cs" />
