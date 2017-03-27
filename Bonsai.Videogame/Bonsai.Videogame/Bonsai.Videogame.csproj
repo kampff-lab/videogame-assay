@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpandableCollectionConverter.cs" />
     <Compile Include="ColorLedTracking.cs" />
     <Compile Include="CreateContourTriMesh.cs" />
     <Compile Include="ExponentialTimer.cs" />
