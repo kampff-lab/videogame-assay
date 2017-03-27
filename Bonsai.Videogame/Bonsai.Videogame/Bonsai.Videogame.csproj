@@ -85,6 +85,7 @@
     <Compile Include="RandomName.cs" />
     <Compile Include="SquareWave.cs" />
     <Compile Include="UndistortPoints.cs" />
+    <Compile Include="SetRadius.cs" />
     <Compile Include="WaterValve.cs" />
   </ItemGroup>
   <ItemGroup>
