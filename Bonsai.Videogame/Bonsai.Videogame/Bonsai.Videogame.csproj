@@ -76,7 +76,9 @@
   <ItemGroup>
     <Compile Include="Collide.cs" />
     <Compile Include="ExpandableCollectionConverter.cs" />
+    <Compile Include="TimestampedEvent.cs" />
     <Compile Include="ShuffleNames.cs" />
+    <Compile Include="TimestampEvent.cs" />
     <Compile Include="TouchDisplacement.cs" />
     <Compile Include="ColorLedTracking.cs" />
     <Compile Include="CreateContourTriMesh.cs" />
