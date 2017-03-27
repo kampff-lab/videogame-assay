@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpandableCollectionConverter.cs" />
+    <Compile Include="ShuffleNames.cs" />
     <Compile Include="ColorLedTracking.cs" />
     <Compile Include="CreateContourTriMesh.cs" />
     <Compile Include="ExponentialTimer.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="UndistortPoints.cs" />
     <Compile Include="SetRadius.cs" />
     <Compile Include="WaterValve.cs" />
+    <Compile Include="Weighted.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Bonsai.Videogame.nuspec" />
