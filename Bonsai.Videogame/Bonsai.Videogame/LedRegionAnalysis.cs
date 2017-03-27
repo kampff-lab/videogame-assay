@@ -11,6 +11,8 @@ namespace Bonsai.Videogame
 {
     public class LedRegionAnalysis : Transform<Tuple<Point2f, Point2f>, ConnectedComponent>
     {
+        public float AngleOffset { get; set; }
+
         public bool KeepLatest { get; set; }
 
         public override IObservable<ConnectedComponent> Process(IObservable<Tuple<Point2f, Point2f>> source)
@@ -32,7 +34,7 @@ namespace Bonsai.Videogame
                     var r2 = direction.X * direction.X + direction.Y * direction.Y;
                     var r = Math.Sqrt(r2);
                     result.Centroid = redled;
-                    result.Orientation = Math.Atan2(direction.Y, direction.X);
+                    result.Orientation = Math.Atan2(direction.Y, direction.X) + AngleOffset;
                     result.MajorAxisLength = result.MinorAxisLength = 2 * r;
                     result.Area = 2 * Math.PI * r2;
                     if (KeepLatest) latest = result;
