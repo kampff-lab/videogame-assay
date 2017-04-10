@@ -1,14 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.3.0">
-  <Workflow xmlns:q10="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q8="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q9="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q3="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:q7="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Physics.Collision;assembly=Bonsai.Physics" xmlns:q4="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q6="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
+  <Workflow xmlns:q10="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q8="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q2="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q9="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q3="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:q7="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q4="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:q6="clr-namespace:Bonsai.Physics.Collision;assembly=Bonsai.Physics" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:UpdateFrame" />
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Delay">
-          <DueTime>PT3S</DueTime>
-        </Combinator>
+      <Expression xsi:type="SelectMany">
+        <Name>StartTrial</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q2:KeyDown">
+                <q2:Filter>L</q2:Filter>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:RandomName">
+                <q3:Names>
+                  <q3:string>Ball</q3:string>
+                  <q3:string>NoBall</q3:string>
+                </q3:Names>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Random</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SubscribeWhen" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>3</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="SelectMany">
         <Name>RightTrial</Name>
@@ -32,9 +79,9 @@
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -69,9 +116,9 @@
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -119,9 +166,9 @@
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalInput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>6</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalInput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>6</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -174,9 +221,9 @@
                     <Combinator xsi:type="Last" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>2</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>2</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -233,9 +280,9 @@
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -287,17 +334,17 @@
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightTrialStart" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightPokeAvailable" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Merge" />
@@ -359,11 +406,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightBeamBreak" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -404,11 +451,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightTrialEnd" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -451,8 +498,8 @@ Timestamp as Timestamp,
                     <Name>Space</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q5:GeomCollision">
-                      <q5:IncludeContacts>true</q5:IncludeContacts>
+                    <Combinator xsi:type="q6:GeomCollision">
+                      <q6:IncludeContacts>true</q6:IncludeContacts>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -501,11 +548,11 @@ Timestamp as Timestamp,
                           <Name>Source1</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="q4:ExpressionTransform">
-                          <q4:Expression>new(
+                        <Expression xsi:type="q5:ExpressionTransform">
+                          <q5:Expression>new(
 Timestamp as Timestamp,
 "Position"+Value.ToString() as Name
-)</q4:Expression>
+)</q5:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="Timestamp" />
@@ -554,16 +601,16 @@ Timestamp as Timestamp,
                         </Expression>
                         <Expression xsi:type="Accumulate" />
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:Rescale">
-                            <q6:Min>0</q6:Min>
-                            <q6:Max>0.25</q6:Max>
-                            <q6:RangeMin>0</q6:RangeMin>
-                            <q6:RangeMax>0.8</q6:RangeMax>
-                            <q6:RescaleType>Clamp</q6:RescaleType>
+                          <Combinator xsi:type="q7:Rescale">
+                            <q7:Min>0</q7:Min>
+                            <q7:Max>0.25</q7:Max>
+                            <q7:RangeMin>0</q7:RangeMin>
+                            <q7:RangeMax>0.8</q7:RangeMax>
+                            <q7:RescaleType>Clamp</q7:RescaleType>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="q4:ExpressionTransform">
-                          <q4:Expression>single(it)</q4:Expression>
+                        <Expression xsi:type="q5:ExpressionTransform">
+                          <q5:Expression>single(it)</q5:Expression>
                         </Expression>
                         <Expression xsi:type="MemberSelector">
                           <Selector>Source,Source</Selector>
@@ -629,13 +676,13 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q5:CreateSphere">
-                      <q5:Enabled>true</q5:Enabled>
-                      <q5:CategoryBits>2</q5:CategoryBits>
-                      <q5:CollideBits>1</q5:CollideBits>
-                      <q5:Position xsi:nil="true" />
-                      <q5:Orientation xsi:nil="true" />
-                      <q5:Radius>0.5</q5:Radius>
+                    <Combinator xsi:type="q6:CreateSphere">
+                      <q6:Enabled>true</q6:Enabled>
+                      <q6:CategoryBits>2</q6:CategoryBits>
+                      <q6:CollideBits>1</q6:CollideBits>
+                      <q6:Position xsi:nil="true" />
+                      <q6:Orientation xsi:nil="true" />
+                      <q6:Radius>0.5</q6:Radius>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -722,9 +769,9 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -785,11 +832,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightTrialSuccess" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -833,11 +880,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "RightTrialFailure" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -876,9 +923,9 @@ Timestamp as Timestamp,
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -917,11 +964,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
-"TouchBall" as Name
-)</q4:Expression>
+"TouchBar" as Name
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -1058,10 +1105,22 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalInput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>6</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalInput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>6</q4:Pin>
                     </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Timer">
+                      <DueTime>PT5S</DueTime>
+                      <Period>PT0S</Period>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="TakeUntil" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="LastOrDefault" />
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1072,12 +1131,27 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>1</To>
+                    <To>5</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
                     <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>5</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -1114,7 +1188,7 @@ Timestamp as Timestamp,
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Delay">
-                <DueTime>PT2S</DueTime>
+                <DueTime>PT1S</DueTime>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1186,7 +1260,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>12</From>
-              <To>22</To>
+              <To>26</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -1241,7 +1315,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>22</From>
-              <To>26</To>
+              <To>14</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -1316,7 +1390,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>37</From>
-              <To>14</To>
+              <To>22</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -1334,12 +1408,12 @@ Timestamp as Timestamp,
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:CreateTriMesh">
-                <q5:Enabled>true</q5:Enabled>
-                <q5:CategoryBits>1</q5:CategoryBits>
-                <q5:CollideBits xsi:nil="true" />
-                <q5:Position xsi:nil="true" />
-                <q5:Orientation xsi:nil="true" />
+              <Combinator xsi:type="q6:CreateTriMesh">
+                <q6:Enabled>true</q6:Enabled>
+                <q6:CategoryBits>1</q6:CategoryBits>
+                <q6:CollideBits xsi:nil="true" />
+                <q6:Position xsi:nil="true" />
+                <q6:Orientation xsi:nil="true" />
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
@@ -1353,8 +1427,8 @@ Timestamp as Timestamp,
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>it != null</q4:Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>it != null</q5:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1423,32 +1497,32 @@ Timestamp as Timestamp,
         <Workflow>
           <Nodes>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:LargestBinaryRegion" />
+              <Combinator xsi:type="q8:LargestBinaryRegion" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:BinaryRegionAnalysis" />
+              <Combinator xsi:type="q8:BinaryRegionAnalysis" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:FindContours">
-                <q7:Mode>External</q7:Mode>
-                <q7:Method>ChainApproxNone</q7:Method>
-                <q7:Offset>
-                  <q7:X>0</q7:X>
-                  <q7:Y>0</q7:Y>
-                </q7:Offset>
-                <q7:MinArea>200</q7:MinArea>
-                <q7:MaxArea xsi:nil="true" />
+              <Combinator xsi:type="q8:FindContours">
+                <q8:Mode>External</q8:Mode>
+                <q8:Method>ChainApproxNone</q8:Method>
+                <q8:Offset>
+                  <q8:X>0</q8:X>
+                  <q8:Y>0</q8:Y>
+                </q8:Offset>
+                <q8:MinArea>200</q8:MinArea>
+                <q8:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:Threshold">
-                <q7:ThresholdValue>18</q7:ThresholdValue>
-                <q7:MaxValue>255</q7:MaxValue>
-                <q7:ThresholdType>BinaryInv</q7:ThresholdType>
+              <Combinator xsi:type="q8:Threshold">
+                <q8:ThresholdValue>15</q8:ThresholdValue>
+                <q8:MaxValue>255</q8:MaxValue>
+                <q8:ThresholdType>BinaryInv</q8:ThresholdType>
               </Combinator>
             </Expression>
-            <Expression xsi:type="q4:PythonTransform">
-              <q4:Script>import clr
+            <Expression xsi:type="q5:PythonTransform">
+              <q5:Script>import clr
 clr.AddReference("OpenCV.Net")
 from OpenCV.Net import *
 
@@ -1456,7 +1530,7 @@ from OpenCV.Net import *
 def process(value):
   green = IplImage(value.Size,value.Depth,1)
   CV.Split(value,None,green,None,None)
-  return green</q4:Script>
+  return green</q5:Script>
             </Expression>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
@@ -1465,12 +1539,12 @@ def process(value):
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Centroid,Source.Contour</Selector>
             </Expression>
-            <Expression xsi:type="q4:ExpressionTransform">
-              <q4:Expression>new(
+            <Expression xsi:type="q5:ExpressionTransform">
+              <q5:Expression>new(
 2 * Item1.Item1.X / Item2.Width - 1 as X,
 2 * Item1.Item1.Y / Item2.Height - 1 as Y,
 Item1.Item2 as Contour,
-Item2 as ImageSize)</q4:Expression>
+Item2 as ImageSize)</q5:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Zip" />
@@ -1479,45 +1553,45 @@ Item2 as ImageSize)</q4:Expression>
               <Selector>Source.Size</Selector>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:Undistort">
-                <q7:Alpha>0</q7:Alpha>
-                <q7:ComputeOptimalMatrix>false</q7:ComputeOptimalMatrix>
-                <q7:FocalLength>
-                  <q7:X>1000</q7:X>
-                  <q7:Y>1000</q7:Y>
-                </q7:FocalLength>
-                <q7:PrincipalPoint>
-                  <q7:X>317</q7:X>
-                  <q7:Y>254</q7:Y>
-                </q7:PrincipalPoint>
-                <q7:RadialDistortion>
-                  <q7:X>-0.3</q7:X>
-                  <q7:Y>0</q7:Y>
-                  <q7:Z>0</q7:Z>
-                </q7:RadialDistortion>
-                <q7:TangentialDistortion>
-                  <q7:X>0</q7:X>
-                  <q7:Y>-0.01</q7:Y>
-                </q7:TangentialDistortion>
+              <Combinator xsi:type="q8:Undistort">
+                <q8:Alpha>0</q8:Alpha>
+                <q8:ComputeOptimalMatrix>false</q8:ComputeOptimalMatrix>
+                <q8:FocalLength>
+                  <q8:X>1000</q8:X>
+                  <q8:Y>1000</q8:Y>
+                </q8:FocalLength>
+                <q8:PrincipalPoint>
+                  <q8:X>317</q8:X>
+                  <q8:Y>254</q8:Y>
+                </q8:PrincipalPoint>
+                <q8:RadialDistortion>
+                  <q8:X>-0.3</q8:X>
+                  <q8:Y>0</q8:Y>
+                  <q8:Z>0</q8:Z>
+                </q8:RadialDistortion>
+                <q8:TangentialDistortion>
+                  <q8:X>0</q8:X>
+                  <q8:Y>-0.01</q8:Y>
+                </q8:TangentialDistortion>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:Resize">
-                <q7:Size>
-                  <q7:Width>640</q7:Width>
-                  <q7:Height>512</q7:Height>
-                </q7:Size>
-                <q7:Interpolation>Linear</q7:Interpolation>
+              <Combinator xsi:type="q8:Resize">
+                <q8:Size>
+                  <q8:Width>640</q8:Width>
+                  <q8:Height>512</q8:Height>
+                </q8:Size>
+                <q8:Interpolation>Linear</q8:Interpolation>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:Crop">
-                <q7:RegionOfInterest>
-                  <q7:X>164</q7:X>
-                  <q7:Y>91</q7:Y>
-                  <q7:Width>1280</q7:Width>
-                  <q7:Height>1024</q7:Height>
-                </q7:RegionOfInterest>
+              <Combinator xsi:type="q8:Crop">
+                <q8:RegionOfInterest>
+                  <q8:X>164</q8:X>
+                  <q8:Y>91</q8:Y>
+                  <q8:Width>1280</q8:Width>
+                  <q8:Height>1024</q8:Height>
+                </q8:RegionOfInterest>
               </Combinator>
             </Expression>
           </Nodes>
@@ -1652,8 +1726,8 @@ Item2 as ImageSize)</q4:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>Name.StartsWith("Position")</q4:Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>Name.StartsWith("Position")</q5:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1678,8 +1752,8 @@ Item2 as ImageSize)</q4:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>Name.EndsWith("TrialStart")</q4:Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>Name.EndsWith("TrialStart")</q5:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1696,21 +1770,21 @@ Item2 as ImageSize)</q4:Expression>
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="q8:CsvWriter">
-              <q8:FileName>events\TrialStart.csv</q8:FileName>
-              <q8:Append>false</q8:Append>
-              <q8:Overwrite>false</q8:Overwrite>
-              <q8:Suffix>None</q8:Suffix>
-              <q8:IncludeHeader>false</q8:IncludeHeader>
-              <q8:Selector>Source.Timestamp</q8:Selector>
+            <Expression xsi:type="q9:CsvWriter">
+              <q9:FileName>events\TrialStart.csv</q9:FileName>
+              <q9:Append>false</q9:Append>
+              <q9:Overwrite>false</q9:Overwrite>
+              <q9:Suffix>None</q9:Suffix>
+              <q9:IncludeHeader>false</q9:IncludeHeader>
+              <q9:Selector>Source.Timestamp</q9:Selector>
             </Expression>
-            <Expression xsi:type="q8:CsvWriter">
-              <q8:FileName>events\LightTouched.csv</q8:FileName>
-              <q8:Append>false</q8:Append>
-              <q8:Overwrite>false</q8:Overwrite>
-              <q8:Suffix>None</q8:Suffix>
-              <q8:IncludeHeader>false</q8:IncludeHeader>
-              <q8:Selector>Source.Timestamp</q8:Selector>
+            <Expression xsi:type="q9:CsvWriter">
+              <q9:FileName>events\LightTouched.csv</q9:FileName>
+              <q9:Append>false</q9:Append>
+              <q9:Overwrite>false</q9:Overwrite>
+              <q9:Suffix>None</q9:Suffix>
+              <q9:IncludeHeader>false</q9:IncludeHeader>
+              <q9:Selector>Source.Timestamp</q9:Selector>
             </Expression>
             <Expression xsi:type="Condition">
               <Name>LightTouched</Name>
@@ -1720,8 +1794,8 @@ Item2 as ImageSize)</q4:Expression>
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>Name.EndsWith("PokeAvailable")</q4:Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>Name.EndsWith("PokeAvailable")</q5:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1738,24 +1812,24 @@ Item2 as ImageSize)</q4:Expression>
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="q8:CsvWriter">
-              <q8:FileName>events\LightPosition.csv</q8:FileName>
-              <q8:Append>false</q8:Append>
-              <q8:Overwrite>false</q8:Overwrite>
-              <q8:Suffix>None</q8:Suffix>
-              <q8:IncludeHeader>false</q8:IncludeHeader>
-              <q8:Selector />
+            <Expression xsi:type="q9:CsvWriter">
+              <q9:FileName>events\LightPosition.csv</q9:FileName>
+              <q9:Append>false</q9:Append>
+              <q9:Overwrite>false</q9:Overwrite>
+              <q9:Suffix>None</q9:Suffix>
+              <q9:IncludeHeader>false</q9:IncludeHeader>
+              <q9:Selector />
             </Expression>
-            <Expression xsi:type="q8:CsvWriter">
-              <q8:FileName>events\BeamBreak.csv</q8:FileName>
-              <q8:Append>false</q8:Append>
-              <q8:Overwrite>false</q8:Overwrite>
-              <q8:Suffix>None</q8:Suffix>
-              <q8:IncludeHeader>false</q8:IncludeHeader>
-              <q8:Selector>Source.Timestamp</q8:Selector>
+            <Expression xsi:type="q9:CsvWriter">
+              <q9:FileName>events\BeamBreak.csv</q9:FileName>
+              <q9:Append>false</q9:Append>
+              <q9:Overwrite>false</q9:Overwrite>
+              <q9:Suffix>None</q9:Suffix>
+              <q9:IncludeHeader>false</q9:IncludeHeader>
+              <q9:Selector>Source.Timestamp</q9:Selector>
             </Expression>
-            <Expression xsi:type="q4:PythonTransform">
-              <q4:Script>from System import Tuple, DateTimeOffset
+            <Expression xsi:type="q5:PythonTransform">
+              <q5:Script>from System import Tuple, DateTimeOffset
 
 start = 9
 
@@ -1763,7 +1837,7 @@ start = 9
 def process(value):
   sub = value.Name.Substring(9).TrimEnd(')')
   pos = sub.Split(',')
-  return Tuple.Create(value.Timestamp,pos[0],pos[1])</q4:Script>
+  return Tuple.Create(value.Timestamp,pos[0],pos[1])</q5:Script>
             </Expression>
             <Expression xsi:type="Condition">
               <Name>BeamBreak</Name>
@@ -1773,8 +1847,8 @@ def process(value):
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>Name.EndsWith("BeamBreak")</q4:Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>Name.EndsWith("BeamBreak")</q5:Expression>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1854,38 +1928,38 @@ def process(value):
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="q8:CsvWriter">
-        <q8:FileName>events.csv</q8:FileName>
-        <q8:Append>false</q8:Append>
-        <q8:Overwrite>false</q8:Overwrite>
-        <q8:Suffix>None</q8:Suffix>
-        <q8:IncludeHeader>false</q8:IncludeHeader>
+      <Expression xsi:type="q9:CsvWriter">
+        <q9:FileName>events.csv</q9:FileName>
+        <q9:Append>false</q9:Append>
+        <q9:Overwrite>false</q9:Overwrite>
+        <q9:Suffix>None</q9:Suffix>
+        <q9:IncludeHeader>false</q9:IncludeHeader>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>Events</Name>
       </Expression>
-      <Expression xsi:type="q8:CsvWriter">
-        <q8:FileName>tracking.csv</q8:FileName>
-        <q8:Append>false</q8:Append>
-        <q8:Overwrite>false</q8:Overwrite>
-        <q8:Suffix>None</q8:Suffix>
-        <q8:IncludeHeader>false</q8:IncludeHeader>
-        <q8:Selector>Source.X,Source.Y</q8:Selector>
+      <Expression xsi:type="q9:CsvWriter">
+        <q9:FileName>tracking.csv</q9:FileName>
+        <q9:Append>false</q9:Append>
+        <q9:Overwrite>false</q9:Overwrite>
+        <q9:Suffix>None</q9:Suffix>
+        <q9:IncludeHeader>false</q9:IncludeHeader>
+        <q9:Selector>Source.X,Source.Y</q9:Selector>
       </Expression>
       <Expression xsi:type="BehaviorSubject">
         <Name>Events</Name>
       </Expression>
-      <Expression xsi:type="q4:ExpressionTransform">
-        <q4:Expression>new(
+      <Expression xsi:type="q5:ExpressionTransform">
+        <q5:Expression>new(
 Timestamp as Timestamp,
 "SessionStart" as Name
-)</q4:Expression>
+)</q5:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q7:ImageWriter">
-          <q7:Path>\\.\pipe\video</q7:Path>
-          <q7:Suffix>None</q7:Suffix>
-          <q7:Overwrite>false</q7:Overwrite>
+        <Combinator xsi:type="q8:ImageWriter">
+          <q8:Path>\\.\pipe\video</q8:Path>
+          <q8:Suffix>None</q8:Suffix>
+          <q8:Overwrite>false</q8:Overwrite>
         </Combinator>
       </Expression>
       <Expression xsi:type="SelectMany">
@@ -1910,9 +1984,9 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -1944,9 +2018,9 @@ Timestamp as Timestamp,
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -1983,9 +2057,9 @@ Timestamp as Timestamp,
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2027,9 +2101,9 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM4</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM4</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -2101,12 +2175,12 @@ Timestamp as Timestamp,
           <q3:Seed xsi:nil="true" />
         </Combinator>
       </Expression>
-      <Expression xsi:type="q4:ExpressionTransform">
-        <q4:Expression>Index*2+2</q4:Expression>
+      <Expression xsi:type="q5:ExpressionTransform">
+        <q5:Expression>Index*2+2</q5:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:KeyDown">
-          <q9:Filter>Z</q9:Filter>
+        <Combinator xsi:type="q2:KeyDown">
+          <q2:Filter>Z</q2:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -2116,15 +2190,13 @@ Timestamp as Timestamp,
         <Combinator xsi:type="Repeat" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Delay">
-          <DueTime>PT3S</DueTime>
+        <Combinator xsi:type="Timer">
+          <DueTime>PT0S</DueTime>
+          <Period>PT0S</Period>
         </Combinator>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>Random</Name>
-      </Expression>
-      <Expression xsi:type="q4:PythonTransform">
-        <q4:Script>import os
+      <Expression xsi:type="q5:PythonTransform">
+        <q5:Script>import os
 import clr
 clr.AddReference("Bonsai.System")
 from Bonsai.IO import PathHelper, PathSuffix
@@ -2132,57 +2204,49 @@ from Bonsai.IO import PathHelper, PathSuffix
 filename = 'video.mp4'
 
 def process(value):
-  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {0}'.format(filename))</q4:Script>
+  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 60 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M {0}'.format(filename))</q5:Script>
       </Expression>
-      <Expression xsi:type="q8:CsvWriter">
-        <q8:FileName>left_poke_activity.csv</q8:FileName>
-        <q8:Append>false</q8:Append>
-        <q8:Overwrite>false</q8:Overwrite>
-        <q8:Suffix>None</q8:Suffix>
-        <q8:IncludeHeader>false</q8:IncludeHeader>
-        <q8:Selector>Source.Timestamp,Source.Value</q8:Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Timestamp" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q2:DigitalInput">
-          <q2:PortName>COM6</q2:PortName>
-          <q2:Pin>6</q2:Pin>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="q8:CsvWriter">
-        <q8:FileName>right_poke_activity.csv</q8:FileName>
-        <q8:Append>false</q8:Append>
-        <q8:Overwrite>false</q8:Overwrite>
-        <q8:Suffix>None</q8:Suffix>
-        <q8:IncludeHeader>false</q8:IncludeHeader>
-        <q8:Selector>Source.Timestamp,Source.Value</q8:Selector>
+      <Expression xsi:type="q9:CsvWriter">
+        <q9:FileName>left_poke_activity.csv</q9:FileName>
+        <q9:Append>false</q9:Append>
+        <q9:Overwrite>false</q9:Overwrite>
+        <q9:Suffix>None</q9:Suffix>
+        <q9:IncludeHeader>false</q9:IncludeHeader>
+        <q9:Selector>Source.Timestamp,Source.Value</q9:Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Timestamp" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q2:DigitalInput">
-          <q2:PortName>COM4</q2:PortName>
-          <q2:Pin>6</q2:Pin>
+        <Combinator xsi:type="q4:DigitalInput">
+          <q4:PortName>COM6</q4:PortName>
+          <q4:Pin>6</q4:Pin>
         </Combinator>
+      </Expression>
+      <Expression xsi:type="q9:CsvWriter">
+        <q9:FileName>right_poke_activity.csv</q9:FileName>
+        <q9:Append>false</q9:Append>
+        <q9:Overwrite>false</q9:Overwrite>
+        <q9:Suffix>None</q9:Suffix>
+        <q9:IncludeHeader>false</q9:IncludeHeader>
+        <q9:Selector>Source.Timestamp,Source.Value</q9:Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q3:RandomName">
-          <q3:Names>
-            <q3:string>Ball</q3:string>
-            <q3:string>NoBall</q3:string>
-          </q3:Names>
+        <Combinator xsi:type="Timestamp" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:DigitalInput">
+          <q4:PortName>COM4</q4:PortName>
+          <q4:Pin>6</q4:Pin>
         </Combinator>
       </Expression>
-      <Expression xsi:type="q8:CsvWriter">
-        <q8:FileName>video.csv</q8:FileName>
-        <q8:Append>false</q8:Append>
-        <q8:Overwrite>false</q8:Overwrite>
-        <q8:Suffix>None</q8:Suffix>
-        <q8:IncludeHeader>false</q8:IncludeHeader>
-        <q8:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q8:Selector>
+      <Expression xsi:type="q9:CsvWriter">
+        <q9:FileName>video.csv</q9:FileName>
+        <q9:Append>false</q9:Append>
+        <q9:Overwrite>false</q9:Overwrite>
+        <q9:Suffix>None</q9:Suffix>
+        <q9:IncludeHeader>false</q9:IncludeHeader>
+        <q9:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q9:Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:UpdateUniform">
@@ -2221,10 +2285,10 @@ def process(value):
         <Combinator xsi:type="q1:UpdateFrame" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q5:CreateHashSpace">
-          <q5:MaxContacts>1</q5:MaxContacts>
-          <q5:ExcludeConnected>true</q5:ExcludeConnected>
-          <q5:CollisionHandlers />
+        <Combinator xsi:type="q6:CreateHashSpace">
+          <q6:MaxContacts>1</q6:MaxContacts>
+          <q6:ExcludeConnected>true</q6:ExcludeConnected>
+          <q6:CollisionHandlers />
         </Combinator>
       </Expression>
       <Expression xsi:type="BehaviorSubject">
@@ -2237,8 +2301,8 @@ def process(value):
         <Combinator xsi:type="Timestamp" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:KeyDown">
-          <q9:Filter>Z</q9:Filter>
+        <Combinator xsi:type="q2:KeyDown">
+          <q2:Filter>Z</q2:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -2270,9 +2334,9 @@ def process(value):
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -2307,9 +2371,9 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2357,9 +2421,9 @@ def process(value):
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalInput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>6</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalInput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>6</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -2412,9 +2476,9 @@ def process(value):
                     <Combinator xsi:type="Last" />
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>2</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>2</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2471,9 +2535,9 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2525,17 +2589,17 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftTrialStart" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftPokeAvailable" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Merge" />
@@ -2597,11 +2661,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftBeamBreak" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -2642,11 +2706,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftTrialEnd" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -2689,8 +2753,8 @@ Timestamp as Timestamp,
                     <Name>Space</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q5:GeomCollision">
-                      <q5:IncludeContacts>true</q5:IncludeContacts>
+                    <Combinator xsi:type="q6:GeomCollision">
+                      <q6:IncludeContacts>true</q6:IncludeContacts>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -2739,11 +2803,11 @@ Timestamp as Timestamp,
                           <Name>Source1</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="q4:ExpressionTransform">
-                          <q4:Expression>new(
+                        <Expression xsi:type="q5:ExpressionTransform">
+                          <q5:Expression>new(
 Timestamp as Timestamp,
 "Position"+Value.ToString() as Name
-)</q4:Expression>
+)</q5:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="Timestamp" />
@@ -2792,16 +2856,16 @@ Timestamp as Timestamp,
                         </Expression>
                         <Expression xsi:type="Accumulate" />
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:Rescale">
-                            <q6:Min>0</q6:Min>
-                            <q6:Max>0.25</q6:Max>
-                            <q6:RangeMin>0</q6:RangeMin>
-                            <q6:RangeMax>0.8</q6:RangeMax>
-                            <q6:RescaleType>Clamp</q6:RescaleType>
+                          <Combinator xsi:type="q7:Rescale">
+                            <q7:Min>0</q7:Min>
+                            <q7:Max>0.25</q7:Max>
+                            <q7:RangeMin>0</q7:RangeMin>
+                            <q7:RangeMax>0.8</q7:RangeMax>
+                            <q7:RescaleType>Clamp</q7:RescaleType>
                           </Combinator>
                         </Expression>
-                        <Expression xsi:type="q4:ExpressionTransform">
-                          <q4:Expression>single(it)</q4:Expression>
+                        <Expression xsi:type="q5:ExpressionTransform">
+                          <q5:Expression>single(it)</q5:Expression>
                         </Expression>
                         <Expression xsi:type="MemberSelector">
                           <Selector>Source,Source</Selector>
@@ -2867,13 +2931,13 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q5:CreateSphere">
-                      <q5:Enabled>true</q5:Enabled>
-                      <q5:CategoryBits>2</q5:CategoryBits>
-                      <q5:CollideBits>1</q5:CollideBits>
-                      <q5:Position xsi:nil="true" />
-                      <q5:Orientation xsi:nil="true" />
-                      <q5:Radius>0.5</q5:Radius>
+                    <Combinator xsi:type="q6:CreateSphere">
+                      <q6:Enabled>true</q6:Enabled>
+                      <q6:CategoryBits>2</q6:CategoryBits>
+                      <q6:CollideBits>1</q6:CollideBits>
+                      <q6:Position xsi:nil="true" />
+                      <q6:Orientation xsi:nil="true" />
+                      <q6:Radius>0.5</q6:Radius>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -2960,9 +3024,9 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>5</q4:Pin>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -3023,11 +3087,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftTrialSuccess" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -3071,11 +3135,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "LeftTrialFailure" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -3114,9 +3178,9 @@ Timestamp as Timestamp,
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
+                    <Combinator xsi:type="q4:AnalogOutput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>3</q4:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -3155,11 +3219,11 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q4:ExpressionTransform">
-                    <q4:Expression>new(
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>new(
 Timestamp as Timestamp,
 "TouchBar" as Name
-)</q4:Expression>
+)</q5:Expression>
                   </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
@@ -3286,7 +3350,7 @@ Timestamp as Timestamp,
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Delay">
-                <DueTime>PT2S</DueTime>
+                <DueTime>PT1S</DueTime>
               </Combinator>
             </Expression>
             <Expression xsi:type="SelectMany">
@@ -3301,10 +3365,22 @@ Timestamp as Timestamp,
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:DigitalInput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>6</q2:Pin>
+                    <Combinator xsi:type="q4:DigitalInput">
+                      <q4:PortName>COM6</q4:PortName>
+                      <q4:Pin>6</q4:Pin>
                     </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Timer">
+                      <DueTime>PT5S</DueTime>
+                      <Period>PT0S</Period>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="TakeUntil" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="LastOrDefault" />
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3315,12 +3391,27 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>1</To>
+                    <To>5</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
                     <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>5</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -3412,7 +3503,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>12</From>
-              <To>22</To>
+              <To>26</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3467,7 +3558,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>22</From>
-              <To>26</To>
+              <To>14</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3527,7 +3618,59 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>33</From>
-              <To>14</To>
+              <To>22</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>StartTrial</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q2:KeyDown">
+                <q2:Filter>L</q2:Filter>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:RandomName">
+                <q3:Names>
+                  <q3:string>Ball</q3:string>
+                  <q3:string>NoBall</q3:string>
+                </q3:Names>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>Random</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SubscribeWhen" />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>3</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>4</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3542,12 +3685,12 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>0</From>
-        <To>44</To>
+        <To>42</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>1</From>
-        <To>2</To>
+        <To>50</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -3592,7 +3735,7 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>12</From>
-        <To>33</To>
+        <To>32</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -3667,12 +3810,12 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>31</From>
-        <To>52</To>
+        <To>1</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>32</From>
-        <To>40</To>
+        <From>34</From>
+        <To>33</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -3681,8 +3824,8 @@ Timestamp as Timestamp,
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>36</From>
-        <To>35</To>
+        <From>37</From>
+        <To>36</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -3692,74 +3835,71 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>39</From>
-        <To>38</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>40</From>
-        <To>31</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>41</From>
         <To>11</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>43</From>
-        <To>42</To>
+        <From>41</From>
+        <To>40</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>44</From>
-        <To>43</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>45</From>
-        <To>46</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>46</From>
-        <To>47</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>48</From>
+        <From>42</From>
         <To>41</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>48</From>
+        <From>43</From>
+        <To>44</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>44</From>
+        <To>45</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>46</From>
+        <To>39</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>46</From>
         <To>8</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>47</From>
+        <To>46</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>48</From>
+        <To>46</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
         <From>49</From>
-        <To>48</To>
+        <To>47</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>50</From>
-        <To>48</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
-        <From>51</From>
-        <To>49</To>
+        <To>51</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>52</From>
-        <To>1</To>
+        <From>51</From>
+        <To>2</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
     <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Videogame.RandomName, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Last, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -3789,10 +3929,11 @@ Timestamp as Timestamp,
     <Type>Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Skip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TakeUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.IgnoreElements, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.LastOrDefault, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Videogame.RandomName, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.IgnoreElements, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Switch, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateTriMesh, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -3806,14 +3947,12 @@ Timestamp as Timestamp,
     <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.CreateContourTriMesh, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.AsyncSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.RandomGenerator, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Index, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
