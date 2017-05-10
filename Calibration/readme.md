@@ -23,7 +23,7 @@ Resolution: 1280x800 @ 120Hz
 ## Camera Memory Channel 1 (Behaviour)
 
 Model: Grasshopper3 GS3-U3-23S6C  
-Driver: FlyCapture 2.10.3.169
+Driver: FlyCapture 2.10.3.169 (install newer version : 2.11.2.121.SDK 64 bits)
 Resolution: 1600x1200 @ 60Hz
 
 ### Camera Settings
@@ -89,3 +89,4 @@ Resolution: 1600x1200 @ 120Hz
 | GPIO 2             | Out          |
 | Enable strobe on   | GPIO 2       |
 | Strobe polarity    | High         |
+
