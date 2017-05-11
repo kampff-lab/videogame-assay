@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.3.0-alpha3">
-  <Workflow xmlns:q8="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q9="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q7="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q6="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q8="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q9="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q7="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q4="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q6="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:UpdateFrame" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q1:DrawShader">
-          <q1:ShaderName>Background</q1:ShaderName>
-          <q1:MeshName>background</q1:MeshName>
-        </Combinator>
+        <Combinator xsi:type="Merge" />
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q2:DigitalInput">
@@ -28,27 +25,23 @@
         <q3:IncludeHeader>false</q3:IncludeHeader>
         <q3:Selector>Source.Timestamp,Source.Value</q3:Selector>
       </Expression>
-      <Expression xsi:type="q3:CsvWriter">
-        <q3:FileName>right_poke_activity.csv</q3:FileName>
-        <q3:Append>false</q3:Append>
-        <q3:Overwrite>false</q3:Overwrite>
-        <q3:Suffix>None</q3:Suffix>
-        <q3:IncludeHeader>false</q3:IncludeHeader>
-        <q3:Selector>Source.Timestamp,Source.Value</q3:Selector>
-      </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Timestamp" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q2:DigitalInput">
-          <q2:PortName>COM4</q2:PortName>
-          <q2:Pin>6</q2:Pin>
+        <Combinator xsi:type="q4:KeyDown">
+          <q4:Filter>S</q4:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:FlyCapture">
-          <q4:Index>0</q4:Index>
-          <q4:ColorProcessing>NoColorProcessing</q4:ColorProcessing>
+        <Combinator xsi:type="q4:KeyDown">
+          <q4:Filter>E</q4:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="SubscribeWhen" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q5:FlyCapture">
+          <q5:Index>0</q5:Index>
+          <q5:ColorProcessing>NoColorProcessing</q5:ColorProcessing>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -66,23 +59,23 @@
         <Selector>Source.Value.Image</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q5:ConvertColor">
-          <q5:Conversion>BayerRG2Bgr</q5:Conversion>
+        <Combinator xsi:type="q6:ConvertColor">
+          <q6:Conversion>BayerRG2Bgr</q6:Conversion>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q5:VideoWriter">
-          <q5:FileName>color.avi</q5:FileName>
-          <q5:Suffix>None</q5:Suffix>
-          <q5:Buffered>true</q5:Buffered>
-          <q5:Overwrite>false</q5:Overwrite>
-          <q5:FourCC>FMP4</q5:FourCC>
-          <q5:FrameRate>60</q5:FrameRate>
-          <q5:FrameSize>
-            <q5:Width>0</q5:Width>
-            <q5:Height>0</q5:Height>
-          </q5:FrameSize>
-          <q5:ResizeInterpolation>NearestNeighbor</q5:ResizeInterpolation>
+        <Combinator xsi:type="q6:VideoWriter">
+          <q6:FileName>color.avi</q6:FileName>
+          <q6:Suffix>None</q6:Suffix>
+          <q6:Buffered>true</q6:Buffered>
+          <q6:Overwrite>false</q6:Overwrite>
+          <q6:FourCC>FMP4</q6:FourCC>
+          <q6:FrameRate>60</q6:FrameRate>
+          <q6:FrameSize>
+            <q6:Width>0</q6:Width>
+            <q6:Height>0</q6:Height>
+          </q6:FrameSize>
+          <q6:ResizeInterpolation>NearestNeighbor</q6:ResizeInterpolation>
         </Combinator>
       </Expression>
       <Expression xsi:type="NestedWorkflow">
@@ -90,71 +83,73 @@
         <Workflow>
           <Nodes>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:LargestBinaryRegion" />
+              <Combinator xsi:type="q6:LargestBinaryRegion" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:BinaryRegionAnalysis" />
+              <Combinator xsi:type="q6:BinaryRegionAnalysis" />
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:FindContours">
-                <q5:Mode>External</q5:Mode>
-                <q5:Method>ChainApproxNone</q5:Method>
-                <q5:Offset>
-                  <q5:X>0</q5:X>
-                  <q5:Y>0</q5:Y>
-                </q5:Offset>
-                <q5:MinArea>20</q5:MinArea>
-                <q5:MaxArea xsi:nil="true" />
+              <Combinator xsi:type="q6:FindContours">
+                <q6:Mode>External</q6:Mode>
+                <q6:Method>ChainApproxNone</q6:Method>
+                <q6:Offset>
+                  <q6:X>0</q6:X>
+                  <q6:Y>0</q6:Y>
+                </q6:Offset>
+                <q6:MinArea>3</q6:MinArea>
+                <q6:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:Threshold">
-                <q5:ThresholdValue>60</q5:ThresholdValue>
-                <q5:MaxValue>255</q5:MaxValue>
-                <q5:ThresholdType>Binary</q5:ThresholdType>
+              <Combinator xsi:type="q6:Threshold">
+                <q6:ThresholdValue>180</q6:ThresholdValue>
+                <q6:MaxValue>255</q6:MaxValue>
+                <q6:ThresholdType>Binary</q6:ThresholdType>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:Undistort">
-                <q5:Alpha>0</q5:Alpha>
-                <q5:ComputeOptimalMatrix>false</q5:ComputeOptimalMatrix>
-                <q5:FocalLength>
-                  <q5:X>1000</q5:X>
-                  <q5:Y>1000</q5:Y>
-                </q5:FocalLength>
-                <q5:PrincipalPoint>
-                  <q5:X>321.5</q5:X>
-                  <q5:Y>256.5</q5:Y>
-                </q5:PrincipalPoint>
-                <q5:RadialDistortion>
-                  <q5:X>-0.3</q5:X>
-                  <q5:Y>0</q5:Y>
-                  <q5:Z>0</q5:Z>
-                </q5:RadialDistortion>
-                <q5:TangentialDistortion>
-                  <q5:X>0</q5:X>
-                  <q5:Y>0</q5:Y>
-                </q5:TangentialDistortion>
+              <Combinator xsi:type="q6:Undistort">
+                <q6:Alpha>0</q6:Alpha>
+                <q6:ComputeOptimalMatrix>false</q6:ComputeOptimalMatrix>
+                <q6:FocalLength>
+                  <q6:X>1000</q6:X>
+                  <q6:Y>1000</q6:Y>
+                </q6:FocalLength>
+                <q6:PrincipalPoint>
+                  <q6:X>321.5</q6:X>
+                  <q6:Y>256.5</q6:Y>
+                </q6:PrincipalPoint>
+                <q6:RadialDistortion>
+                  <q6:X>-0.3</q6:X>
+                  <q6:Y>0</q6:Y>
+                  <q6:Z>0</q6:Z>
+                </q6:RadialDistortion>
+                <q6:TangentialDistortion>
+                  <q6:X>0</q6:X>
+                  <q6:Y>0</q6:Y>
+                </q6:TangentialDistortion>
               </Combinator>
             </Expression>
-            <Expression xsi:type="q6:PythonTransform">
-              <q6:Script>import clr
+            <Expression xsi:type="q7:PythonTransform">
+              <q7:Script>import clr
 clr.AddReference("OpenCV.Net")
 from OpenCV.Net import *
+from System import Tuple
 
-@returns(IplImage)
+@returns(Tuple[IplImage,IplImage])
 def process(value):
   red = IplImage(value.Size,value.Depth,1)
-  CV.Split(value,None,None,red,None)
-  return red</q6:Script>
+  green = IplImage(value.Size,value.Depth,1)
+  CV.Split(value,None,green,red,None)
+  return Tuple.Create(red,green)</q7:Script>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:Resize">
-                <q5:Size>
-                  <q5:Width>643</q5:Width>
-                  <q5:Height>513</q5:Height>
-                </q5:Size>
-                <q5:Interpolation>Linear</q5:Interpolation>
+              <Combinator xsi:type="q6:Resize">
+                <q6:Size>
+                  <q6:Width>643</q6:Width>
+                  <q6:Height>513</q6:Height>
+                </q6:Size>
+                <q6:Interpolation>Linear</q6:Interpolation>
               </Combinator>
             </Expression>
             <Expression xsi:type="WorkflowInput">
@@ -162,17 +157,54 @@ def process(value):
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q5:Crop">
-                <q5:RegionOfInterest>
-                  <q5:X>153</q5:X>
-                  <q5:Y>84</q5:Y>
-                  <q5:Width>1286</q5:Width>
-                  <q5:Height>1026</q5:Height>
-                </q5:RegionOfInterest>
+              <Combinator xsi:type="q6:Crop">
+                <q6:RegionOfInterest>
+                  <q6:X>153</q6:X>
+                  <q6:Y>84</q6:Y>
+                  <q6:Width>1286</q6:Width>
+                  <q6:Height>1026</q6:Height>
+                </q6:RegionOfInterest>
               </Combinator>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Centroid</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Centroid</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:LargestBinaryRegion" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:BinaryRegionAnalysis" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:FindContours">
+                <q6:Mode>External</q6:Mode>
+                <q6:Method>ChainApproxNone</q6:Method>
+                <q6:Offset>
+                  <q6:X>0</q6:X>
+                  <q6:Y>0</q6:Y>
+                </q6:Offset>
+                <q6:MinArea>3</q6:MinArea>
+                <q6:MaxArea xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:Threshold">
+                <q6:ThresholdValue>115</q6:ThresholdValue>
+                <q6:MaxValue>255</q6:MaxValue>
+                <q6:ThresholdType>Binary</q6:ThresholdType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
             </Expression>
           </Nodes>
           <Edges>
@@ -198,17 +230,22 @@ def process(value):
             </Edge>
             <Edge>
               <From>4</From>
-              <To>3</To>
+              <To>5</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>5</From>
-              <To>4</To>
+              <To>11</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>18</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>6</From>
-              <To>5</To>
+              <To>4</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -223,7 +260,47 @@ def process(value):
             </Edge>
             <Edge>
               <From>10</From>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>17</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>12</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>14</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>14</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>15</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
               <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>16</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -237,18 +314,18 @@ def process(value):
         <q3:IncludeHeader>false</q3:IncludeHeader>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q5:Flip">
-          <q5:Mode>Vertical</q5:Mode>
+        <Combinator xsi:type="q6:Flip">
+          <q6:Mode>Vertical</q6:Mode>
         </Combinator>
       </Expression>
       <Expression xsi:type="BehaviorSubject">
         <Name>Events</Name>
       </Expression>
-      <Expression xsi:type="q6:ExpressionTransform">
-        <q6:Expression>new(
+      <Expression xsi:type="q7:ExpressionTransform">
+        <q7:Expression>new(
 Timestamp as Timestamp,
 "SessionStart" as Name
-)</q6:Expression>
+)</q7:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Take">
@@ -265,21 +342,16 @@ Timestamp as Timestamp,
         <q3:Suffix>None</q3:Suffix>
         <q3:IncludeHeader>false</q3:IncludeHeader>
       </Expression>
+      <Expression xsi:type="Unit" />
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q1:DrawShader">
-          <q1:ShaderName>Trigger</q1:ShaderName>
-          <q1:MeshName>background</q1:MeshName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q7:Rhd2000EvalBoard">
-          <q7:BitFileName>rhd2000.bit</q7:BitFileName>
-          <q7:SampleRate>SampleRate30000Hz</q7:SampleRate>
-          <q7:FastSettle>false</q7:FastSettle>
-          <q7:LowerBandwidth>0.1</q7:LowerBandwidth>
-          <q7:UpperBandwidth>7500</q7:UpperBandwidth>
-          <q7:DspCutoffFrequency>1</q7:DspCutoffFrequency>
-          <q7:DspEnabled>true</q7:DspEnabled>
+        <Combinator xsi:type="q8:Rhd2000EvalBoard">
+          <q8:BitFileName>rhd2000.bit</q8:BitFileName>
+          <q8:SampleRate>SampleRate30000Hz</q8:SampleRate>
+          <q8:FastSettle>false</q8:FastSettle>
+          <q8:LowerBandwidth>0.1</q8:LowerBandwidth>
+          <q8:UpperBandwidth>7500</q8:UpperBandwidth>
+          <q8:DspCutoffFrequency>1</q8:DspCutoffFrequency>
+          <q8:DspEnabled>true</q8:DspEnabled>
         </Combinator>
       </Expression>
       <Expression xsi:type="MemberSelector">
@@ -295,19 +367,19 @@ Timestamp as Timestamp,
         <Selector>Source.BufferCapacity</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q8:MatrixWriter">
-          <q8:Path>amplifier.bin</q8:Path>
-          <q8:Suffix>None</q8:Suffix>
-          <q8:Overwrite>false</q8:Overwrite>
-          <q8:Layout>ColumnMajor</q8:Layout>
+        <Combinator xsi:type="q9:MatrixWriter">
+          <q9:Path>amplifier.bin</q9:Path>
+          <q9:Suffix>None</q9:Suffix>
+          <q9:Overwrite>false</q9:Overwrite>
+          <q9:Layout>ColumnMajor</q9:Layout>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q8:MatrixWriter">
-          <q8:Path>sync.bin</q8:Path>
-          <q8:Suffix>None</q8:Suffix>
-          <q8:Overwrite>false</q8:Overwrite>
-          <q8:Layout>ColumnMajor</q8:Layout>
+        <Combinator xsi:type="q9:MatrixWriter">
+          <q9:Path>sync.bin</q9:Path>
+          <q9:Suffix>None</q9:Suffix>
+          <q9:Overwrite>false</q9:Overwrite>
+          <q9:Layout>ColumnMajor</q9:Layout>
         </Combinator>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
@@ -317,24 +389,37 @@ Timestamp as Timestamp,
         <Combinator xsi:type="SubscribeWhen" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:KeyDown">
-          <q9:Filter>C</q9:Filter>
+        <Combinator xsi:type="q4:KeyDown">
+          <q4:Filter>C</q4:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="TakeUntil" />
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DrawMesh">
+          <q1:ShaderName>Background</q1:ShaderName>
+          <q1:MeshName>background</q1:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DrawMesh">
+          <q1:ShaderName>Trigger</q1:ShaderName>
+          <q1:MeshName>background</q1:MeshName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Unit" />
     </Nodes>
     <Edges>
       <Edge>
         <From>0</From>
-        <To>1</To>
+        <To>34</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>1</From>
-        <To>22</To>
-        <Label>Source1</Label>
+        <To>31</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
         <From>2</From>
@@ -347,13 +432,28 @@ Timestamp as Timestamp,
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>5</From>
+        <To>36</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>6</From>
-        <To>5</To>
+        <To>7</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>24</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>7</From>
-        <To>6</To>
+        <To>25</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>27</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -413,22 +513,12 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>22</From>
-        <To>31</To>
+        <To>1</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>23</From>
-        <To>24</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>23</From>
-        <To>25</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>23</From>
-        <To>27</To>
+        <To>7</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -448,8 +538,8 @@ Timestamp as Timestamp,
       </Edge>
       <Edge>
         <From>30</From>
-        <To>31</To>
-        <Label>Source2</Label>
+        <To>22</To>
+        <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>32</From>
@@ -466,32 +556,49 @@ Timestamp as Timestamp,
         <To>19</To>
         <Label>Source1</Label>
       </Edge>
+      <Edge>
+        <From>34</From>
+        <To>35</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>35</From>
+        <To>31</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>36</From>
+        <To>1</To>
+        <Label>Source2</Label>
+      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
-    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.12.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.DrawShader, Bonsai.Shaders, Version=0.12.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.14.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timestamp, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.ConvertColor, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.VideoWriter, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Flip, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.ConvertColor, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.VideoWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Flip, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TakeUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.14.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
