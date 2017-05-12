@@ -107,7 +107,7 @@
         <Combinator xsi:type="q1:UpdateFrame" />
       </Expression>
       <Expression xsi:type="q6:CsvWriter">
-        <q6:FileName>counter.csv</q6:FileName>
+        <q6:FileName>video.csv</q6:FileName>
         <q6:Append>false</q6:Append>
         <q6:Overwrite>false</q6:Overwrite>
         <q6:Suffix>None</q6:Suffix>
@@ -130,7 +130,7 @@ filename = 'out.avi'
 
 def process(value):
   path = PathHelper.AppendSuffix(filename, PathSuffix.FileCount)
-  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 120 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M output.avi'.format(path))</q7:Script>
+  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 120 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M video.avi'.format(path))</q7:Script>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q8:ImageWriter">
