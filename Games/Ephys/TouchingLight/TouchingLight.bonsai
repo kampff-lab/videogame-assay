@@ -136,11 +136,105 @@
       <Expression xsi:type="BehaviorSubject">
         <Name>Events</Name>
       </Expression>
-      <Expression xsi:type="q6:ExpressionTransform">
-        <q6:Expression>new(
-Timestamp as Timestamp,
-"SessionStart" as Name
-)</q6:Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>SaveEvents</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="GroupBy">
+              <KeySelector>Source.Name</KeySelector>
+            </Expression>
+            <Expression xsi:type="SelectMany">
+              <Name>SaveEventFile</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="q6:ExpressionTransform">
+                    <q6:Expression>"events/"+Key+".csv"</q6:Expression>
+                  </Expression>
+                  <Expression xsi:type="q3:CsvWriter">
+                    <q3:FileName>events/BallPosition.csv</q3:FileName>
+                    <q3:Append>false</q3:Append>
+                    <q3:Overwrite>true</q3:Overwrite>
+                    <q3:Suffix>None</q3:Suffix>
+                    <q3:IncludeHeader>false</q3:IncludeHeader>
+                    <q3:Selector>Source.Timestamp,Source.Value</q3:Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="AsyncSubject">
+                    <Name>Sequence</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>Sequence</Name>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
+                    <MemberName>FileName</MemberName>
+                    <Name>FileName</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>Sequence</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Merge" />
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Take">
@@ -362,39 +456,18 @@ def process(value):
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="NestedWorkflow">
-              <Name>LedOff</Name>
+            <Expression xsi:type="Condition">
+              <Name>Success</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="IntProperty">
-                      <Value>0</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>5</q2:Pin>
-                    </Combinator>
-                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
                     <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
                     <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
@@ -458,7 +531,7 @@ def process(value):
                       <q9:Value>15</q9:Value>
                       <q9:Duration>PT0.1S</q9:Duration>
                       <q9:Period>PT0.2S</q9:Period>
-                      <q9:Count xsi:nil="true" />
+                      <q9:Count>100</q9:Count>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowInput">
@@ -513,62 +586,29 @@ def process(value):
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Timestamp" />
-                  </Expression>
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>new(
-Timestamp as Timestamp,
-"LeftTrialStart" as Name
-)</q6:Expression>
-                  </Expression>
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>new(
-Timestamp as Timestamp,
-"BallOn" as Name
-)</q6:Expression>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Merge" />
-                  </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q9:TimestampEvent">
+                      <q9:Name>LeftTrialStart</q9:Name>
+                    </Combinator>
                   </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
                     <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
                     <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>4</To>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
-                    <To>5</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>5</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>5</From>
-                    <To>6</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>1</To>
+                    <To>2</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -578,7 +618,7 @@ Timestamp as Timestamp,
               <Combinator xsi:type="Amb" />
             </Expression>
             <Expression xsi:type="Sink">
-              <Name>RecordEvent</Name>
+              <Name>LedOff</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="WorkflowInput">
@@ -586,16 +626,15 @@ Timestamp as Timestamp,
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Timestamp" />
+                    <Combinator xsi:type="IntProperty">
+                      <Value>0</Value>
+                    </Combinator>
                   </Expression>
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>new(
-Timestamp as Timestamp,
-"LeftBeamBreak" as Name
-)</q6:Expression>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>Events</Name>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:AnalogOutput">
+                      <q2:PortName>COM6</q2:PortName>
+                      <q2:Pin>5</q2:Pin>
+                    </Combinator>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -611,11 +650,6 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>3</From>
-                    <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
                     <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
@@ -630,38 +664,29 @@ Timestamp as Timestamp,
                     <Name>Source1</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Timestamp" />
-                  </Expression>
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>new(
-Timestamp as Timestamp,
-"LeftTrialEnd" as Name
-)</q6:Expression>
-                  </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q9:TimestampEvent">
+                      <q9:Name>LeftTrialEnd</q9:Name>
+                    </Combinator>
                   </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
                     <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
                     <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>3</From>
-                    <To>4</To>
+                    <From>2</From>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>4</From>
-                    <To>1</To>
+                    <From>3</From>
+                    <To>2</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -774,28 +799,36 @@ single(Position.Y) as y)</q6:Expression>
                           <Name>Source1</Name>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="q6:ExpressionTransform">
-                          <q6:Expression>new(
-Timestamp as Timestamp,
-"Position"+Value.ToString() as Name
-)</q6:Expression>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Timestamp" />
-                        </Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>Events</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q9:TimestampEvent">
+                            <q9:Name>BallPosition</q9:Name>
+                            <q9:Value />
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="InputMapping">
+                          <PropertyMappings>
+                            <Property name="Value" selector="Source" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="q6:ExpressionTransform">
+                          <q6:Expression>it.ToString()</q6:Expression>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Source.X,Source.Y</Selector>
                         </Expression>
                       </Nodes>
                       <Edges>
                         <Edge>
                           <From>0</From>
-                          <To>3</To>
+                          <To>6</To>
                           <Label>Source1</Label>
                         </Edge>
                         <Edge>
                           <From>2</From>
-                          <To>4</To>
+                          <To>1</To>
                           <Label>Source1</Label>
                         </Edge>
                         <Edge>
@@ -805,7 +838,17 @@ Timestamp as Timestamp,
                         </Edge>
                         <Edge>
                           <From>4</From>
-                          <To>1</To>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>6</From>
+                          <To>5</To>
                           <Label>Source1</Label>
                         </Edge>
                       </Edges>
@@ -922,6 +965,95 @@ Timestamp as Timestamp,
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="Condition">
+              <Name>Miss</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="BitwiseNot" />
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>true</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Sink">
+              <Name>RecordEvent</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>Events</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q9:TimestampEvent">
+                      <q9:Name>TrialOutcome</q9:Name>
+                      <q9:Value>True</q9:Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property name="Value" selector="Source" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="q6:ExpressionTransform">
+                    <q6:Expression>it.ToString()</q6:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
             <Expression xsi:type="Sink">
               <Name>RecordEvent</Name>
               <Workflow>
@@ -933,14 +1065,21 @@ Timestamp as Timestamp,
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Timestamp" />
                   </Expression>
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>new(
-Timestamp as Timestamp,
-"LeftPokeAvailable" as Name
-)</q6:Expression>
-                  </Expression>
                   <Expression xsi:type="MulticastSubject">
                     <Name>Events</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q9:TimestampEvent">
+                      <q9:Name>LeftPokeAvailable</q9:Name>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q9:TimestampEvent">
+                      <q9:Name>LightTouched</q9:Name>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Merge" />
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -951,21 +1090,39 @@ Timestamp as Timestamp,
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
                     <To>4</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>4</From>
+                    <From>2</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
                     <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>6</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
               </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Merge" />
             </Expression>
           </Nodes>
           <Edges>
@@ -986,7 +1143,7 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>4</From>
-              <To>10</To>
+              <To>14</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -996,13 +1153,13 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>6</From>
-              <To>11</To>
+              <To>18</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>7</From>
-              <To>9</To>
-              <Label>Source2</Label>
+              <To>15</To>
+              <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>8</From>
@@ -1011,12 +1168,17 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>9</From>
+              <To>16</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
               <To>5</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>10</From>
-              <To>9</To>
+              <To>13</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -1026,17 +1188,42 @@ Timestamp as Timestamp,
             </Edge>
             <Edge>
               <From>12</From>
-              <To>13</To>
+              <To>17</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>13</From>
+              <To>18</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>14</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>9</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
               <To>2</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>13</From>
+              <From>17</From>
               <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>11</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -1384,223 +1571,6 @@ Item2 as ImageSize)</q6:Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>Events</Name>
       </Expression>
-      <Expression xsi:type="NestedWorkflow">
-        <Name>SaveEvents</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Name>LightPosition</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>Name.StartsWith("Position")</q6:Expression>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Name>TrialStart</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>Name.EndsWith("TrialStart")</q6:Expression>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="q3:CsvWriter">
-              <q3:FileName>events\TrialStart.csv</q3:FileName>
-              <q3:Append>false</q3:Append>
-              <q3:Overwrite>false</q3:Overwrite>
-              <q3:Suffix>None</q3:Suffix>
-              <q3:IncludeHeader>false</q3:IncludeHeader>
-              <q3:Selector>Source.Timestamp</q3:Selector>
-            </Expression>
-            <Expression xsi:type="q3:CsvWriter">
-              <q3:FileName>events\LightTouched.csv</q3:FileName>
-              <q3:Append>false</q3:Append>
-              <q3:Overwrite>false</q3:Overwrite>
-              <q3:Suffix>None</q3:Suffix>
-              <q3:IncludeHeader>false</q3:IncludeHeader>
-              <q3:Selector>Source.Timestamp</q3:Selector>
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Name>LightTouched</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>Name.EndsWith("PokeAvailable")</q6:Expression>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="q3:CsvWriter">
-              <q3:FileName>events\LightPosition.csv</q3:FileName>
-              <q3:Append>false</q3:Append>
-              <q3:Overwrite>false</q3:Overwrite>
-              <q3:Suffix>None</q3:Suffix>
-              <q3:IncludeHeader>false</q3:IncludeHeader>
-              <q3:Selector />
-            </Expression>
-            <Expression xsi:type="q3:CsvWriter">
-              <q3:FileName>events\BeamBreak.csv</q3:FileName>
-              <q3:Append>false</q3:Append>
-              <q3:Overwrite>false</q3:Overwrite>
-              <q3:Suffix>None</q3:Suffix>
-              <q3:IncludeHeader>false</q3:IncludeHeader>
-              <q3:Selector>Source.Timestamp</q3:Selector>
-            </Expression>
-            <Expression xsi:type="q6:PythonTransform">
-              <q6:Script>from System import Tuple, DateTimeOffset
-
-start = 9
-
-@returns(Tuple[DateTimeOffset,str,str])
-def process(value):
-  sub = value.Name.Substring(9).TrimEnd(')')
-  pos = sub.Split(',')
-  return Tuple.Create(value.Timestamp,pos[0],pos[1])</q6:Script>
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Name>BeamBreak</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="q6:ExpressionTransform">
-                    <q6:Expression>Name.EndsWith("BeamBreak")</q6:Expression>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="SkipUntil" />
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge>
-              <From>0</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>0</From>
-              <To>10</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>0</From>
-              <To>1</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>0</From>
-              <To>9</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>1</From>
-              <To>8</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>1</From>
-              <To>10</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>2</From>
-              <To>3</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>5</From>
-              <To>4</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>8</From>
-              <To>6</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>9</From>
-              <To>7</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>10</From>
-              <To>5</To>
-              <Label>Source1</Label>
-            </Edge>
-          </Edges>
-        </Workflow>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:UpdateUniform">
           <q1:UniformName>mvp</q1:UniformName>
@@ -1634,6 +1604,11 @@ def process(value):
           <Count>1</Count>
         </Combinator>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q9:TimestampEvent">
+          <q9:Name>SessionStart</q9:Name>
+        </Combinator>
+      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -1643,7 +1618,7 @@ def process(value):
       </Edge>
       <Edge>
         <From>0</From>
-        <To>46</To>
+        <To>45</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1682,13 +1657,8 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>10</From>
-        <To>9</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
         <From>11</From>
-        <To>10</To>
+        <To>46</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1768,7 +1738,7 @@ def process(value):
       </Edge>
       <Edge>
         <From>29</From>
-        <To>43</To>
+        <To>10</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -1822,13 +1792,18 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>44</From>
+        <To>43</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>45</From>
         <To>44</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>46</From>
-        <To>45</To>
+        <To>9</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -1843,11 +1818,15 @@ def process(value):
     <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.InputMappingBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.GroupByBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.AsyncSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TakeUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Switch, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1860,8 +1839,8 @@ def process(value):
     <Type>Bonsai.Videogame.SquareWave, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.DigitalOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.WaterValve, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.MulticastSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Videogame.TimestampEvent, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.SinkBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Amb, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.LatestOnUpdateFrame, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1872,20 +1851,20 @@ def process(value):
     <Type>Bonsai.Videogame.RandomPosition, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Nullable`1[[Ode.Net.Vector3, Ode.Net, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Physics.Collision.CreateSphere, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.AsyncSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseNotBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Index, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.RandomGenerator, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateHashSpace, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Undistort, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.SkipUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
