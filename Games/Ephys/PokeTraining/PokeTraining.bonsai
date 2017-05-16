@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.3.0">
-  <Workflow xmlns:q8="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q7="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q6="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
+  <Workflow xmlns:q8="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q4="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q6="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q7="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:UpdateFrame" />
@@ -1009,7 +1009,7 @@ Timestamp as Timestamp,
               </Workflow>
             </Expression>
             <Expression xsi:type="q3:CsvWriter">
-              <q3:FileName>events\TrialStart.csv</q3:FileName>
+              <q3:FileName>events\LeftTrialStart.csv</q3:FileName>
               <q3:Append>false</q3:Append>
               <q3:Overwrite>false</q3:Overwrite>
               <q3:Suffix>None</q3:Suffix>
