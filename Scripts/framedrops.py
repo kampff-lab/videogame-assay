@@ -15,7 +15,7 @@ def framedrops(counterpath):
     return drops.counter
     
 # Set the following path to be the 'video.csv' file of the folder to test
-path = r'C:/Projects/Videogame/Videogame-Assay/Data/AK_4.2/2017_03_28-14_21/counter.csv'
+path = r'C:/Projects/Videogame/Games/Ephys/test_ephys/counter.csv'
 drops = framedrops(path)
 totaldrops = drops.sum()
 print(totaldrops)
