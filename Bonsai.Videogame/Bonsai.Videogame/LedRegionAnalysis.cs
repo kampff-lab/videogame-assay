@@ -36,7 +36,7 @@ namespace Bonsai.Videogame
                     result.Centroid = redled;
                     result.Orientation = Math.Atan2(direction.Y, direction.X) + AngleOffset;
                     result.MajorAxisLength = result.MinorAxisLength = 2 * r;
-                    result.Area = 2 * Math.PI * r2;
+                    result.Area = Math.PI * r2;
                     if (KeepLatest) latest = result;
                     else latest = null;
                     return result;
