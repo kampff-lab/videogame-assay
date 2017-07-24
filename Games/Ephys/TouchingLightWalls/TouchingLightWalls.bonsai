@@ -108,11 +108,8 @@ import clr
 clr.AddReference("Bonsai.System")
 from Bonsai.IO import PathHelper, PathSuffix
 
-filename = 'out.avi'
-
 def process(value):
-  path = PathHelper.AppendSuffix(filename, PathSuffix.FileCount)
-  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 120 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M video.avi'.format(path))</q7:Script>
+  os.system(r'ffmpeg -f rawvideo -vcodec rawvideo -s 1600x1200 -r 120 -pix_fmt rgb24 -i \\.\pipe\video -c:v h264_nvenc -preset fast -vb 20M video.avi')</q7:Script>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q8:ImageWriter">
@@ -537,9 +534,6 @@ def process(value):
           <q10:CableDelayC xsi:nil="true" />
           <q10:CableDelayD xsi:nil="true" />
         </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Timestamp" />
       </Expression>
       <Expression xsi:type="InputMapping">
         <PropertyMappings>
@@ -1909,6 +1903,7 @@ single(Position.Y) as y)</q7:Expression>
         </Combinator>
       </Expression>
       <Expression xsi:type="SelectMany">
+        <Name>CreateWallsCollider</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
@@ -1950,14 +1945,6 @@ single(Position.Y) as y)</q7:Expression>
                     </PropertyMappings>
                     <Selector>Source.Item2</Selector>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q5:GeomCollision">
-                      <q5:IncludeContacts>false</q5:IncludeContacts>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Source.EventArgs.Geom.CategoryBits</Selector>
-                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
@@ -1967,7 +1954,7 @@ single(Position.Y) as y)</q7:Expression>
                   </Edge>
                   <Edge>
                     <From>2</From>
-                    <To>6</To>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -1983,16 +1970,6 @@ single(Position.Y) as y)</q7:Expression>
                   <Edge>
                     <From>5</From>
                     <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>7</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>7</From>
-                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -2122,7 +2099,7 @@ single(Position.Y) as y)</q7:Expression>
     <Edges>
       <Edge>
         <From>0</From>
-        <To>62</To>
+        <To>61</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2152,12 +2129,12 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>7</From>
-        <To>61</To>
+        <To>60</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>8</From>
-        <To>60</To>
+        <To>59</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2167,7 +2144,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>10</From>
-        <To>79</To>
+        <To>78</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2197,7 +2174,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>17</From>
-        <To>78</To>
+        <To>77</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2212,7 +2189,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>22</From>
-        <To>58</To>
+        <To>57</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2232,7 +2209,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>28</From>
-        <To>67</To>
+        <To>66</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2242,12 +2219,12 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>30</From>
-        <To>53</To>
+        <To>52</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>31</From>
-        <To>52</To>
+        <To>51</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2267,12 +2244,12 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>34</From>
-        <To>64</To>
+        <To>63</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>35</From>
-        <To>57</To>
+        <To>56</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2282,7 +2259,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>37</From>
-        <To>65</To>
+        <To>64</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2292,7 +2269,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>39</From>
-        <To>65</To>
+        <To>64</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
@@ -2346,113 +2323,118 @@ single(Position.Y) as y)</q7:Expression>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>52</From>
-        <To>54</To>
+        <From>51</From>
+        <To>53</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>54</From>
+        <From>53</From>
         <To>27</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>55</From>
+        <From>54</From>
         <To>9</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>56</From>
+        <From>55</From>
         <To>29</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>57</From>
-        <To>59</To>
+        <From>56</From>
+        <To>58</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>58</From>
+        <From>57</From>
         <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>59</From>
+        <From>58</From>
         <To>36</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>60</From>
+        <From>59</From>
         <To>6</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>62</From>
-        <To>55</To>
+        <From>61</From>
+        <To>54</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>63</From>
-        <To>62</To>
+        <From>62</From>
+        <To>61</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>64</From>
+        <From>63</From>
         <To>28</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>65</From>
+        <From>64</From>
         <To>38</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>66</From>
-        <To>64</To>
+        <From>65</From>
+        <To>63</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
+        <From>67</From>
+        <To>69</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>68</From>
-        <To>70</To>
+        <To>65</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>69</From>
-        <To>66</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>70</From>
         <To>32</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
         <From>71</From>
-        <To>51</To>
+        <To>70</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>72</From>
-        <To>71</To>
+        <To>74</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>73</From>
-        <To>75</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>74</From>
-        <To>73</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>75</From>
         <To>72</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>74</From>
+        <To>71</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>75</From>
+        <To>73</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>76</From>
-        <To>74</To>
+        <To>75</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>77</From>
+        <To>55</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2462,16 +2444,6 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>78</From>
-        <To>56</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>78</From>
-        <To>77</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>79</From>
         <To>33</To>
         <Label>Source1</Label>
       </Edge>
