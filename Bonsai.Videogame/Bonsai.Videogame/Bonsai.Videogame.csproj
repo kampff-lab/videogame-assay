@@ -41,8 +41,8 @@
       <HintPath>..\packages\Bonsai.Dsp.2.3.0\lib\net45\Bonsai.Dsp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bonsai.Shaders.0.15.0\lib\net45\Bonsai.Shaders.dll</HintPath>
+    <Reference Include="Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bonsai.Shaders.0.18.0\lib\net45\Bonsai.Shaders.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Bonsai.System, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -88,6 +88,7 @@
     <Compile Include="CreateContourMesh.cs" />
     <Compile Include="CreateTriMeshData.cs" />
     <Compile Include="ExpandableCollectionConverter.cs" />
+    <Compile Include="ObservableCombinators.cs" />
     <Compile Include="TimestampedEvent.cs" />
     <Compile Include="ShuffleNames.cs" />
     <Compile Include="TimestampEvent.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="SquareWave.cs" />
     <Compile Include="UndistortPoints.cs" />
     <Compile Include="SetRadius.cs" />
+    <Compile Include="UpdateMeshData.cs" />
+    <Compile Include="VertexHelper.cs" />
     <Compile Include="WaterValve.cs" />
     <Compile Include="Weighted.cs" />
   </ItemGroup>
