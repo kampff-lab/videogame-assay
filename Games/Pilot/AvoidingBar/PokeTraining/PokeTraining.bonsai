@@ -1144,8 +1144,8 @@ Timestamp as Timestamp,
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q8:ExponentialTimer">
-          <q8:Mean>1000</q8:Mean>
-          <q8:Offset>1000</q8:Offset>
+          <q8:Mean>10000</q8:Mean>
+          <q8:Offset>6000</q8:Offset>
         </Combinator>
       </Expression>
       <Expression xsi:type="SubscribeSubject">

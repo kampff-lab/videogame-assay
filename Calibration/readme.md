@@ -23,8 +23,8 @@ Resolution: 1280x800 @ 120Hz
 ## Camera Memory Channel 1 (Behaviour)
 
 Model: Grasshopper3 GS3-U3-23S6C  
-Driver: FlyCapture 2.10.3.169
-Resolution: 1600x1200 @ 60Hz
+Driver: FlyCapture 2.10.3.169 (install newer version : 2.11.2.121.SDK 64 bits)
+Resolution: 1600x1200 @ 120Hz
 
 ### Camera Settings
 
@@ -36,8 +36,8 @@ Resolution: 1600x1200 @ 60Hz
 | Hue                | 0            |
 | Saturation         | 100          |
 | Gamma              | 1.250        |
-| Shutter (Auto off) | 16 ms        |
-| Gain               | 7 dB         |
+| Shutter (Auto off) | 8 ms         |
+| Gain               | 15 dB        |
 | W.B. Red           | 1023         |
 | W.B. Blue          | 0            |
 | Horizontal flip    | True         |
@@ -73,8 +73,8 @@ Resolution: 1600x1200 @ 120Hz
 | Gamma              | 1.250        |
 | Shutter (Auto off) | 8 ms         |
 | Gain               | 15 dB        |
-| W.B. Red           | 1023         |
-| W.B. Blue          | 0            |
+| W.B. Red           | 600          |
+| W.B. Blue          | 500          |
 | Horizontal flip    | True         |
 
 ### Trigger / Strobe
@@ -89,3 +89,4 @@ Resolution: 1600x1200 @ 120Hz
 | GPIO 2             | Out          |
 | Enable strobe on   | GPIO 2       |
 | Strobe polarity    | High         |
+

@@ -702,6 +702,10 @@ single(Radius*2) as Radius)</q7:Expression>
           <q12:UpperBandwidth>7500</q12:UpperBandwidth>
           <q12:DspCutoffFrequency>1</q12:DspCutoffFrequency>
           <q12:DspEnabled>true</q12:DspEnabled>
+          <q12:CableDelayA xsi:nil="true" />
+          <q12:CableDelayB xsi:nil="true" />
+          <q12:CableDelayC xsi:nil="true" />
+          <q12:CableDelayD xsi:nil="true" />
         </Combinator>
       </Expression>
       <Expression xsi:type="q7:ExpressionTransform">
@@ -1249,7 +1253,7 @@ single(0) as Y)</q7:Expression>
                       <q4:Value>15</q4:Value>
                       <q4:Duration>PT0.1S</q4:Duration>
                       <q4:Period>PT0.2S</q4:Period>
-                      <q4:Count>200</q4:Count>
+                      <q4:Count>20000</q4:Count>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowInput">
@@ -2577,16 +2581,6 @@ Item2 * Math.Sin(Item1) as Y)</q7:Expression>
           <q11:Layout>ColumnMajor</q11:Layout>
         </Combinator>
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q11:ConvertFromArray">
-          <q11:Size>
-            <q11:Width>0</q11:Width>
-            <q11:Height>0</q11:Height>
-          </q11:Size>
-          <q11:Depth>S32</q11:Depth>
-          <q11:Channels>1</q11:Channels>
-        </Combinator>
-      </Expression>
     </Nodes>
     <Edges>
       <Edge>
@@ -2621,7 +2615,7 @@ Item2 * Math.Sin(Item1) as Y)</q7:Expression>
       </Edge>
       <Edge>
         <From>7</From>
-        <To>67</To>
+        <To>66</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2874,11 +2868,6 @@ Item2 * Math.Sin(Item1) as Y)</q7:Expression>
         <To>6</To>
         <Label>Source1</Label>
       </Edge>
-      <Edge>
-        <From>67</From>
-        <To>66</To>
-        <Label>Source1</Label>
-      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
@@ -2922,7 +2911,7 @@ Item2 * Math.Sin(Item1) as Y)</q7:Expression>
     <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.LedRegionAnalysis, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.ColorLedTracking, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -2956,6 +2945,5 @@ Item2 * Math.Sin(Item1) as Y)</q7:Expression>
     <Type>Bonsai.Reactive.AccumulateBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.CreateVector2, Bonsai.Shaders, Version=0.15.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Dsp.ConvertFromArray, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
