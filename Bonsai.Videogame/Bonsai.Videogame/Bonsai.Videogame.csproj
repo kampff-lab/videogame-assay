@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collide.cs" />
+    <Compile Include="CreateContourMesh.cs" />
+    <Compile Include="CreateTriMeshData.cs" />
     <Compile Include="ExpandableCollectionConverter.cs" />
     <Compile Include="TimestampedEvent.cs" />
     <Compile Include="ShuffleNames.cs" />
