@@ -1,4 +1,5 @@
-﻿using Ode.Net.Collision;
+﻿using Bonsai.Vision;
+using Ode.Net.Collision;
 using OpenCV.Net;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,68 @@ namespace Bonsai.Videogame
         public float Depth { get; set; }
 
         public FlipMode? FlipContour { get; set; }
+
+        public IObservable<Tuple<float[], int[]>> Process(IObservable<Contours> source)
+        {
+            return Observable.Defer(() =>
+            {
+                var vertices = new List<float>();
+                var indices = new List<int>();
+                return source.Select(input =>
+                {
+                    if (input == null) return null;
+
+                    var vcount = 0;
+                    var depth = Depth;
+                    var size = input.ImageSize;
+                    var flipContour = FlipContour;
+                    var width = (float)size.Width;
+                    var height = (float)size.Height;
+                    var contour = input.FirstContour;
+                    while (contour != null)
+                    {
+                        var points = new Point[contour.Count + 1];
+                        contour.CopyTo(points);
+                        points[contour.Count] = points[0];
+
+                        var vi = 0;
+                        var ii = 0;
+                        var scaleX = flipContour.HasValue && flipContour.Value != FlipMode.Vertical ? -2.0f : 2.0f;
+                        var scaleY = flipContour.HasValue && flipContour.Value != FlipMode.Horizontal ? -2.0f : 2.0f;
+                        for (int i = 0; i < points.Length; i++, vcount += 2)
+                        {
+                            var x = scaleX * (points[i].X / width - 0.5f);
+                            var y = scaleY * (points[i].Y / height - 0.5f);
+                            vertices.Add(x);
+                            vertices.Add(y);
+                            vertices.Add(-depth);
+                            vertices.Add(x);
+                            vertices.Add(y);
+                            vertices.Add(+depth);
+                            if (i > 0)
+                            {
+                                indices.Add(vcount + 0); // t1v0
+                                indices.Add(vcount + 0); // t1v0
+                                indices.Add(vcount + 1); // t1v1
+                                indices.Add(vcount - 1); // t0v1
+                            }
+                            if (i < points.Length - 1)
+                            {
+                                indices.Add(vcount + 1); // t0v1
+                                indices.Add(vcount + 0); // t0v0
+                            }
+                        }
+
+                        contour = contour.HNext;
+                    }
+
+                    var output = Tuple.Create(vertices.ToArray(), indices.ToArray());
+                    vertices.Clear();
+                    indices.Clear();
+                    return output;
+                });
+            });
+        }
 
         public override IObservable<Tuple<float[], int[]>> Process(IObservable<Contour> source)
         {
