@@ -86,6 +86,9 @@
   <ItemGroup>
     <Compile Include="Collide.cs" />
     <Compile Include="ExpandableCollectionConverter.cs" />
+    <Compile Include="SetBoxLengths.cs" />
+    <Compile Include="SetCapsuleDimensions.cs" />
+    <Compile Include="SetCylinderDimensions.cs" />
     <Compile Include="TimestampedEvent.cs" />
     <Compile Include="ShuffleNames.cs" />
     <Compile Include="TimestampEvent.cs" />
@@ -101,7 +104,7 @@
     <Compile Include="RandomName.cs" />
     <Compile Include="SquareWave.cs" />
     <Compile Include="UndistortPoints.cs" />
-    <Compile Include="SetRadius.cs" />
+    <Compile Include="SetSphereRadius.cs" />
     <Compile Include="WaterValve.cs" />
     <Compile Include="Weighted.cs" />
   </ItemGroup>

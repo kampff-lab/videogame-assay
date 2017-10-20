@@ -1950,8 +1950,8 @@ single(Position.Y) as Y)</q7:Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:CreateContourTriMesh">
                 <q4:ImageSize>
-                  <q4:Width>640</q4:Width>
-                  <q4:Height>512</q4:Height>
+                  <q4:Width>1210</q4:Width>
+                  <q4:Height>970</q4:Height>
                 </q4:ImageSize>
                 <q4:Depth>10</q4:Depth>
                 <q4:FlipContour xsi:nil="true" />
