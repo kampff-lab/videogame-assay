@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bonsai.Videogame
 {
-    public class SetRadius : Sink<Sphere>
+    public class SetSphereRadius : Sink<Sphere>
     {
         public float Radius { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.3.0">
-  <Workflow xmlns:q7="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q9="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q3="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q8="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:q5="clr-namespace:Bonsai.Physics.Collision;assembly=Bonsai.Physics" xmlns:q11="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q10="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns:q6="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns="https://horizongir.org/bonsai">
+  <Workflow xmlns:q8="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q2="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q9="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q3="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q7="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Physics.Collision;assembly=Bonsai.Physics" xmlns:q4="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:q6="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q1="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:RenderFrame" />
@@ -29,9 +29,6 @@
       </Expression>
       <Expression xsi:type="BehaviorSubject">
         <Name>Events</Name>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Source.Timestamp</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Take">
@@ -494,46 +491,6 @@ def process(value):
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>EndTrigger</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:MatrixWriter">
-          <q9:Path>sync.bin</q9:Path>
-          <q9:Suffix>None</q9:Suffix>
-          <q9:Overwrite>false</q9:Overwrite>
-          <q9:Layout>ColumnMajor</q9:Layout>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Source.BufferCapacity</Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:MatrixWriter">
-          <q9:Path>amplifier.bin</q9:Path>
-          <q9:Suffix>None</q9:Suffix>
-          <q9:Overwrite>false</q9:Overwrite>
-          <q9:Layout>ColumnMajor</q9:Layout>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Source.TtlIn</Selector>
-      </Expression>
-      <Expression xsi:type="MemberSelector">
-        <Selector>Source.AmplifierData</Selector>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q10:Rhd2000EvalBoard">
-          <q10:BitFileName>rhd2000.bit</q10:BitFileName>
-          <q10:SampleRate>SampleRate30000Hz</q10:SampleRate>
-          <q10:FastSettle>false</q10:FastSettle>
-          <q10:LowerBandwidth>0.1</q10:LowerBandwidth>
-          <q10:UpperBandwidth>7500</q10:UpperBandwidth>
-          <q10:DspCutoffFrequency>1</q10:DspCutoffFrequency>
-          <q10:DspEnabled>true</q10:DspEnabled>
-          <q10:CableDelayA xsi:nil="true" />
-          <q10:CableDelayB xsi:nil="true" />
-          <q10:CableDelayC xsi:nil="true" />
-          <q10:CableDelayD xsi:nil="true" />
-        </Combinator>
       </Expression>
       <Expression xsi:type="InputMapping">
         <PropertyMappings>
@@ -1862,19 +1819,11 @@ single(Position.Y) as y)</q7:Expression>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:MatrixWriter">
-          <q9:Path>timestamp.bin</q9:Path>
-          <q9:Suffix>None</q9:Suffix>
-          <q9:Overwrite>false</q9:Overwrite>
-          <q9:Layout>ColumnMajor</q9:Layout>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
         <Combinator xsi:type="SubscribeWhen" />
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q11:KeyDown">
-          <q11:Filter>S</q11:Filter>
+        <Combinator xsi:type="q9:KeyDown">
+          <q9:Filter>S</q9:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -1893,8 +1842,8 @@ single(Position.Y) as y)</q7:Expression>
         <Name>EndTrigger</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q11:KeyDown">
-          <q11:Filter>Z</q11:Filter>
+        <Combinator xsi:type="q9:KeyDown">
+          <q9:Filter>Z</q9:Filter>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -2099,7 +2048,7 @@ single(Position.Y) as y)</q7:Expression>
     <Edges>
       <Edge>
         <From>0</From>
-        <To>61</To>
+        <To>53</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2109,7 +2058,7 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>2</From>
-        <To>26</To>
+        <To>25</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2119,77 +2068,77 @@ single(Position.Y) as y)</q7:Expression>
       </Edge>
       <Edge>
         <From>4</From>
-        <To>32</To>
+        <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>5</From>
-        <To>22</To>
+        <To>21</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>7</From>
-        <To>60</To>
+        <To>52</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>8</From>
-        <To>59</To>
+        <To>9</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>9</From>
-        <To>10</To>
+        <To>70</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>10</From>
-        <To>78</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>11</From>
-        <To>13</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>13</From>
         <To>12</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>12</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>15</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
         <To>14</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>16</From>
-        <To>18</To>
+        <To>69</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>17</From>
-        <To>15</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>17</From>
-        <To>77</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>19</From>
+        <From>18</From>
         <To>5</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>20</From>
-        <To>21</To>
+        <From>19</From>
+        <To>20</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>22</From>
-        <To>57</To>
+        <From>21</From>
+        <To>50</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>23</From>
+        <To>22</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -2198,79 +2147,79 @@ single(Position.Y) as y)</q7:Expression>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>25</From>
-        <To>24</To>
+        <From>26</From>
+        <To>29</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>27</From>
-        <To>30</To>
+        <To>58</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>28</From>
-        <To>66</To>
+        <To>15</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>29</From>
-        <To>16</To>
+        <To>45</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>30</From>
-        <To>52</To>
+        <To>44</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>31</From>
-        <To>51</To>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>31</From>
+        <To>7</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>32</From>
-        <To>19</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>32</From>
-        <To>8</To>
+        <To>33</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>33</From>
-        <To>34</To>
+        <To>55</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>34</From>
-        <To>63</To>
+        <To>49</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>35</From>
-        <To>56</To>
+        <To>36</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>36</From>
-        <To>37</To>
+        <To>56</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>37</From>
-        <To>64</To>
+        <To>39</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>38</From>
-        <To>40</To>
-        <Label>Source1</Label>
+        <To>56</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
         <From>39</From>
-        <To>64</To>
-        <Label>Source2</Label>
+        <To>40</To>
+        <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>40</From>
@@ -2283,168 +2232,133 @@ single(Position.Y) as y)</q7:Expression>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>42</From>
-        <To>43</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>44</From>
-        <To>41</To>
+        <From>43</From>
+        <To>40</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>48</From>
-        <To>45</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>49</From>
-        <To>47</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>50</From>
-        <To>49</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>50</From>
-        <To>48</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>50</From>
-        <To>7</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>50</From>
+        <From>44</From>
         <To>46</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>51</From>
-        <To>53</To>
+        <From>46</From>
+        <To>26</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>53</From>
-        <To>27</To>
+        <From>47</From>
+        <To>8</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>54</From>
-        <To>9</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>55</From>
-        <To>29</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>56</From>
-        <To>58</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>57</From>
-        <To>31</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>58</From>
-        <To>36</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>59</From>
-        <To>6</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>61</From>
-        <To>54</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>62</From>
-        <To>61</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
-        <From>63</From>
+        <From>48</From>
         <To>28</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>49</From>
+        <To>51</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>50</From>
+        <To>30</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>51</From>
+        <To>35</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>52</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>53</From>
+        <To>47</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>54</From>
+        <To>53</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>55</From>
+        <To>27</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>56</From>
+        <To>37</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>57</From>
+        <To>55</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>59</From>
+        <To>61</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>60</From>
+        <To>57</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>61</From>
+        <To>31</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>63</From>
+        <To>62</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>64</From>
-        <To>38</To>
+        <To>66</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>65</From>
-        <To>63</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
-        <From>67</From>
-        <To>69</To>
+        <To>64</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>68</From>
+        <From>66</From>
+        <To>63</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>67</From>
         <To>65</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>68</From>
+        <To>67</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>69</From>
+        <To>48</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>69</From>
+        <To>68</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>70</From>
         <To>32</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
-        <From>71</From>
-        <To>70</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>72</From>
-        <To>74</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>73</From>
-        <To>72</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>74</From>
-        <To>71</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>75</From>
-        <To>73</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>76</From>
-        <To>75</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>77</From>
-        <To>55</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>77</From>
-        <To>76</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
-        <From>78</From>
-        <To>33</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -2483,8 +2397,6 @@ single(Position.Y) as y)</q7:Expression>
     <Type>Bonsai.Reactive.LastOrDefault, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Switch, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.CreateContourTriMesh, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>

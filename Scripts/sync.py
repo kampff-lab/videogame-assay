@@ -36,7 +36,7 @@ def read_sync(syncpath,counterpath):
     return syncidx,frameidx
 
 # Set the following path to be the 'video.csv' and 'sync.bin' file of the folder to test
-syncpath ='C:/Projects/Videogame/Data/test/2017_05_26-20_13/sync.bin'
-counterpath = 'C:/Projects/Videogame/Data/test/2017_05_26-20_13/video.csv'
+syncpath = 'C:/Projects/Videogame/Data/AK_14.2/2017_05_27-12_04/sync.bin'
+counterpath = 'C:/Projects/Videogame/Data/AK_14.2/2017_05_27-12_04/video.csv'
 syncidx, frameidx = read_sync(syncpath, counterpath)
 
