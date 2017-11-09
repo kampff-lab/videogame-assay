@@ -9,7 +9,7 @@ NO ports tones present but ports activity monitored.
 
 Food ports training.
 Each port is associated with a tone called 'availability tone'. The rat needs to learn that when the tone is played the correspondent port could deliver a pellet if it pokes in it.
-This level could present time out ot not (the availability tone plays .
+This level could present time out ot not (the availability tone plays).
 Between trials there is an exponential delay (6000/3000 as start) which will be increased over the days to prevent the rat from staying in fron of the ports waiting for the reward.
 Every time the rat sussessfully pokes into the port a reward tone is played and the reward delivered right after.
 
