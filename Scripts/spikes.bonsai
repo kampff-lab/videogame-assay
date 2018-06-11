@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q1="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q2="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:MatrixReader">
+          <q1:Path>C:\Projects\Videogame\Data\AK_14.2\2017_05_27-12_04\amplifier.bin</q1:Path>
+          <q1:FileName>C:\Projects\Videogame\Data\AK_14.2\2017_05_27-12_04\amplifier.bin</q1:FileName>
+          <q1:Offset>0</q1:Offset>
+          <q1:Frequency>30000</q1:Frequency>
+          <q1:ChannelCount>128</q1:ChannelCount>
+          <q1:BufferLength>60</q1:BufferLength>
+          <q1:Depth>U16</q1:Depth>
+          <q1:Layout>ColumnMajor</q1:Layout>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:AdcScale">
+          <q2:AdcType>Electrode</q2:AdcType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:FrequencyFilter">
+          <q1:SamplingFrequency>30000</q1:SamplingFrequency>
+          <q1:Cutoff1>300</q1:Cutoff1>
+          <q1:Cutoff2>0</q1:Cutoff2>
+          <q1:KernelLength>60</q1:KernelLength>
+          <q1:FilterType>HighPass</q1:FilterType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:ReferenceChannels" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DetectSpikes">
+          <q1:Delay>20</q1:Delay>
+          <q1:Length>60</q1:Length>
+          <q1:Threshold>
+            <q1:double>-51.422245741683554</q1:double>
+            <q1:double>-40.188431333574009</q1:double>
+            <q1:double>-31.906431859195639</q1:double>
+            <q1:double>-28.603026960952491</q1:double>
+            <q1:double>-30.773212460980233</q1:double>
+            <q1:double>-35.206901528953367</q1:double>
+            <q1:double>-45.905805637160441</q1:double>
+            <q1:double>-41.360989895731606</q1:double>
+            <q1:double>-46.534951583276829</q1:double>
+            <q1:double>-47.604357289734637</q1:double>
+            <q1:double>-39.657765293231556</q1:double>
+            <q1:double>-40.646233514548165</q1:double>
+            <q1:double>-46.022112620043274</q1:double>
+            <q1:double>-61.086121113403919</q1:double>
+            <q1:double>-54.7682375807876</q1:double>
+            <q1:double>-49.745047497321153</q1:double>
+            <q1:double>-37.47951782937897</q1:double>
+            <q1:double>-39.136083221864766</q1:double>
+            <q1:double>-25.954588666421312</q1:double>
+            <q1:double>-39.760982186219465</q1:double>
+            <q1:double>-24.507622908109663</q1:double>
+            <q1:double>-52.426167670814493</q1:double>
+            <q1:double>-37.894597860014152</q1:double>
+            <q1:double>-31.482603203383313</q1:double>
+            <q1:double>-39.755759255443451</q1:double>
+            <q1:double>-47.722756796381084</q1:double>
+            <q1:double>-25.95951888280203</q1:double>
+            <q1:double>-38.752623329219126</q1:double>
+            <q1:double>-27.272679057507464</q1:double>
+            <q1:double>-31.27451545797355</q1:double>
+            <q1:double>-44.600300098297566</q1:double>
+            <q1:double>-34.757745000754028</q1:double>
+            <q1:double>-34.399718837155191</q1:double>
+            <q1:double>-47.783274730791078</q1:double>
+            <q1:double>-40.97729970164054</q1:double>
+            <q1:double>-43.245804552965659</q1:double>
+            <q1:double>-53.185580888369806</q1:double>
+            <q1:double>-42.07285809019109</q1:double>
+            <q1:double>-35.401917817070192</q1:double>
+            <q1:double>-40.4799605667277</q1:double>
+            <q1:double>-34.957376577248539</q1:double>
+            <q1:double>-45.486277822787038</q1:double>
+            <q1:double>-48.129926240603496</q1:double>
+            <q1:double>-49.05106745276472</q1:double>
+            <q1:double>-28.850417357911653</q1:double>
+            <q1:double>-28.486828776847531</q1:double>
+            <q1:double>-39.136393211289509</q1:double>
+            <q1:double>-28.931110605963163</q1:double>
+            <q1:double>-37.924768887459805</q1:double>
+            <q1:double>-32.4132454678145</q1:double>
+            <q1:double>-42.261478338437364</q1:double>
+            <q1:double>-47.325188524487395</q1:double>
+            <q1:double>-38.037928029990674</q1:double>
+            <q1:double>-42.415524255594008</q1:double>
+            <q1:double>-52.292305876393016</q1:double>
+            <q1:double>-49.134551082823918</q1:double>
+            <q1:double>-47.791564779087686</q1:double>
+            <q1:double>-29.032311891441488</q1:double>
+            <q1:double>-50.290323833563264</q1:double>
+            <q1:double>-47.94867794495508</q1:double>
+            <q1:double>-31.20363652001793</q1:double>
+            <q1:double>-39.751200952888645</q1:double>
+            <q1:double>-45.548239587022337</q1:double>
+            <q1:double>-44.88775489058137</q1:double>
+          </q1:Threshold>
+          <q1:WaveformRefinement>AlignPeaks</q1:WaveformRefinement>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Submatrix">
+          <q1:StartRow>0</q1:StartRow>
+          <q1:EndRow>64</q1:EndRow>
+          <q1:StartCol>0</q1:StartCol>
+          <q1:EndCol xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:DetectSpikes">
+          <q1:Delay>20</q1:Delay>
+          <q1:Length>60</q1:Length>
+          <q1:Threshold>
+            <q1:double>-33.831122576695748</q1:double>
+            <q1:double>-30.0588259346642</q1:double>
+            <q1:double>-34.684437529386713</q1:double>
+            <q1:double>-48.921141434025934</q1:double>
+            <q1:double>-33.115000891618074</q1:double>
+            <q1:double>-33.428617114909656</q1:double>
+            <q1:double>-28.142938302158836</q1:double>
+            <q1:double>-33.37316860708421</q1:double>
+            <q1:double>-30.924152517758824</q1:double>
+            <q1:double>-39.95323237846133</q1:double>
+            <q1:double>-29.456757927397234</q1:double>
+            <q1:double>-35.657560350722754</q1:double>
+            <q1:double>-29.765643133779257</q1:double>
+            <q1:double>-32.51788235641699</q1:double>
+            <q1:double>-32.881788850966174</q1:double>
+            <q1:double>-31.701877340895944</q1:double>
+            <q1:double>-30.4812300406332</q1:double>
+            <q1:double>-30.192489418994054</q1:double>
+            <q1:double>-51.591398020816676</q1:double>
+            <q1:double>-31.93913922715215</q1:double>
+            <q1:double>-50.254532783965949</q1:double>
+            <q1:double>-33.385919968541891</q1:double>
+            <q1:double>-28.853501213338475</q1:double>
+            <q1:double>-43.693244545694874</q1:double>
+            <q1:double>-32.921525905589725</q1:double>
+            <q1:double>-33.832822589162681</q1:double>
+            <q1:double>-31.235983864345663</q1:double>
+            <q1:double>-34.306604207718166</q1:double>
+            <q1:double>-33.023806985972904</q1:double>
+            <q1:double>-45.127096564268342</q1:double>
+            <q1:double>-42.498812542966427</q1:double>
+            <q1:double>-38.956307609129375</q1:double>
+            <q1:double>-34.711901423666774</q1:double>
+            <q1:double>-49.511055941271835</q1:double>
+            <q1:double>-34.905127562389488</q1:double>
+            <q1:double>-48.356782847127171</q1:double>
+            <q1:double>-35.825187062658379</q1:double>
+            <q1:double>-29.455857775817449</q1:double>
+            <q1:double>-32.136813381105569</q1:double>
+            <q1:double>-29.383669604673717</q1:double>
+            <q1:double>-30.613774214774047</q1:double>
+            <q1:double>-30.451586057157318</q1:double>
+            <q1:double>-31.379136156612788</q1:double>
+            <q1:double>-35.47665246375113</q1:double>
+            <q1:double>-37.081554549052477</q1:double>
+            <q1:double>-40.683220219913395</q1:double>
+            <q1:double>-35.221994585823865</q1:double>
+            <q1:double>-38.899307917154381</q1:double>
+            <q1:double>-38.640773811950027</q1:double>
+            <q1:double>-36.813080272225257</q1:double>
+            <q1:double>-37.88915560931575</q1:double>
+            <q1:double>-45.236699809617747</q1:double>
+            <q1:double>-40.558478681783505</q1:double>
+            <q1:double>-24.694761163517576</q1:double>
+            <q1:double>-33.038294710455588</q1:double>
+            <q1:double>-24.203668622384541</q1:double>
+            <q1:double>-31.309830196518817</q1:double>
+            <q1:double>-24.567805445764336</q1:double>
+            <q1:double>-34.310840072896617</q1:double>
+            <q1:double>-24.904000789998324</q1:double>
+            <q1:double>-33.315506743530328</q1:double>
+            <q1:double>-34.301741188514846</q1:double>
+            <q1:double>-31.91235579822666</q1:double>
+            <q1:double>-35.874408523773475</q1:double>
+          </q1:Threshold>
+          <q1:WaveformRefinement>AlignPeaks</q1:WaveformRefinement>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Submatrix">
+          <q1:StartRow>64</q1:StartRow>
+          <q1:EndRow xsi:nil="true" />
+          <q1:StartCol>0</q1:StartCol>
+          <q1:EndCol xsi:nil="true" />
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Dsp.MatrixReader, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Ephys.AdcScale, Bonsai.Ephys, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.ReferenceChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.DetectSpikes, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Submatrix, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
