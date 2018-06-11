@@ -2,6 +2,16 @@ $bonsaiPath = "bonsai/Bonsai64.exe"
 $gamesPath = "Games"
 $dataPath = "Data"
 
+# Check if we have enough free space
+$disk = Get-WmiObject Win32_Volume | where { $_.driveletter -eq 'C:' } | Select-Object FreeSpace
+if ($disk.freeSpace -lt 100Gb)
+{
+	Write-Host "Not enough free space available to start the session!"
+	Write-Host "Please back up and clean the data before running the session."
+	Read-Host "Press enter/return to EXIT."
+	return
+}
+
 # Push into script location
 Push-Location $PSScriptRoot
 

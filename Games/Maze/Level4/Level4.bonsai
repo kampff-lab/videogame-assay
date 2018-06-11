@@ -92,7 +92,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q4:Threshold">
-                <q4:ThresholdValue>10</q4:ThresholdValue>
+                <q4:ThresholdValue>12</q4:ThresholdValue>
                 <q4:MaxValue>255</q4:MaxValue>
                 <q4:ThresholdType>BinaryInv</q4:ThresholdType>
               </Combinator>
@@ -185,6 +185,31 @@ Item2 as ImageSize)</q5:Expression>
                 </q4:FillValue>
               </Combinator>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q4:LoadImage">
+                <q4:FileName>textures\walls-binary.png</q4:FileName>
+                <q4:Mode>Grayscale</q4:Mode>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q4:MorphologicalOperator">
+                <q4:Size>
+                  <q4:Width>3</q4:Width>
+                  <q4:Height>3</q4:Height>
+                </q4:Size>
+                <q4:Anchor>
+                  <q4:X>1</q4:X>
+                  <q4:Y>1</q4:Y>
+                </q4:Anchor>
+                <q4:Shape>Rectangle</q4:Shape>
+                <q4:Iterations>1</q4:Iterations>
+                <q4:Operation>Erode</q4:Operation>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Subtract" />
           </Nodes>
           <Edges>
             <Edge>
@@ -204,12 +229,7 @@ Item2 as ImageSize)</q5:Expression>
             </Edge>
             <Edge>
               <From>3</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>3</From>
-              <To>10</To>
+              <To>16</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -260,6 +280,31 @@ Item2 as ImageSize)</q5:Expression>
             <Edge>
               <From>14</From>
               <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>17</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>18</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>10</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -805,7 +850,7 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q6:TimestampEvent">
                       <q6:Name>TrialRewardType</q6:Name>
-                      <q6:Value>DrinkTrial</q6:Value>
+                      <q6:Value>FoodTrial</q6:Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="WorkflowInput">
@@ -1079,336 +1124,6 @@ def process(value):
                   <Edge>
                     <From>5</From>
                     <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="SelectMany">
-              <Name>RewardTone</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Last" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM12</q2:PortName>
-                      <q2:Pin>3</q2:Pin>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q6:SquareWave">
-                      <q6:Value>128</q6:Value>
-                      <q6:Duration>PT0.05S</q6:Duration>
-                      <q6:Period>PT0.1S</q6:Period>
-                      <q6:Count>2</q6:Count>
-                    </Combinator>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>1</From>
-                    <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>0</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="SelectMany">
-              <Name>DrinkTrial</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="StringProperty">
-                      <Value>DrinkReward</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="StringProperty">
-                      <Value>MissedTrial</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Sink">
-                    <Name>RecordEvent</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>Events</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:TimestampEvent">
-                            <q6:Name>DrinkBeamBreak</q6:Name>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="SelectMany">
-                    <Name>AvailabilityTone</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:SquareWave">
-                            <q6:Value>15</q6:Value>
-                            <q6:Duration>PT0.1S</q6:Duration>
-                            <q6:Period>PT0.2S</q6:Period>
-                            <q6:Count>100</q6:Count>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM6</q2:PortName>
-                            <q2:Pin>3</q2:Pin>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Last" />
-                        </Expression>
-                        <Expression xsi:type="Unit" />
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>1</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>4</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>4</From>
-                          <To>5</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>5</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="SelectMany">
-                    <Name>BeamBreak</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Unit" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Take">
-                            <Count>1</Count>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q2:DigitalInput">
-                            <q2:PortName>COM6</q2:PortName>
-                            <q2:Pin>6</q2:Pin>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>1</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="NestedWorkflow">
-                    <Name>LedOn</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="IntProperty">
-                            <Value>5</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM6</q2:PortName>
-                            <q2:Pin>5</q2:Pin>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="Sink">
-                    <Name>RecordEvent</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>Events</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:TimestampEvent">
-                            <q6:Name>DrinkStart</q6:Name>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Amb" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>8</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>1</From>
-                    <To>8</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>0</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>5</From>
-                    <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>5</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>7</From>
-                    <To>6</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>7</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>8</From>
-                    <To>9</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -1756,245 +1471,101 @@ def process(value):
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="NestedWorkflow">
-              <Name>FoodTrial</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="StringProperty">
-                      <Value>FoodReward</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="StringProperty">
-                      <Value>MissedTrial</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Sink">
-                    <Name>RecordEvent</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>Events</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:TimestampEvent">
-                            <q6:Name>FoodBeamBreak</q6:Name>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="SelectMany">
-                    <Name>AvailabilityTone</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:SquareWave">
-                            <q6:Value>15</q6:Value>
-                            <q6:Duration>PT0.35S</q6:Duration>
-                            <q6:Period>PT0.5S</q6:Period>
-                            <q6:Count>40</q6:Count>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM12</q2:PortName>
-                            <q2:Pin>3</q2:Pin>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Last" />
-                        </Expression>
-                        <Expression xsi:type="Unit" />
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>1</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>4</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>4</From>
-                          <To>5</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>5</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="SelectMany">
-                    <Name>BeamBreak</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Take">
-                            <Count>1</Count>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q2:DigitalInput">
-                            <q2:PortName>COM12</q2:PortName>
-                            <q2:Pin>6</q2:Pin>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Unit" />
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>1</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="Sink">
-                    <Name>RecordEvent</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>Events</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:TimestampEvent">
-                            <q6:Name>FoodStart</q6:Name>
-                          </Combinator>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Amb" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>7</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>1</From>
-                    <To>7</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>0</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>5</From>
-                    <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>5</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>3</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>7</From>
-                    <To>8</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="Merge" />
             </Expression>
+            <Expression xsi:type="SelectMany">
+              <Name>RewardTone</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Last" />
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:AnalogOutput">
+                      <q2:PortName>COM12</q2:PortName>
+                      <q2:Pin>3</q2:Pin>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q6:SquareWave">
+                      <q6:Value>128</q6:Value>
+                      <q6:Duration>PT0.05S</q6:Duration>
+                      <q6:Period>PT0.1S</q6:Period>
+                      <q6:Count>2</q6:Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:DigitalOutput">
+                      <q2:PortName>COM12</q2:PortName>
+                      <q2:Pin>8</q2:Pin>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="BooleanProperty">
+                      <Value>true</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:DigitalOutput">
+                      <q2:PortName>COM12</q2:PortName>
+                      <q2:Pin>8</q2:Pin>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="BooleanProperty">
+                      <Value>false</Value>
+                    </Combinator>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>0</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
             <Expression xsi:type="NestedWorkflow">
               <Name>FoodTrial</Name>
               <Workflow>
@@ -2054,7 +1625,7 @@ def process(value):
                             <q6:Value>15</q6:Value>
                             <q6:Duration>PT0.35S</q6:Duration>
                             <q6:Period>PT0.5S</q6:Period>
-                            <q6:Count>40</q6:Count>
+                            <q6:Count>80</q6:Count>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="WorkflowInput">
@@ -2071,11 +1642,38 @@ def process(value):
                           <Combinator xsi:type="Last" />
                         </Expression>
                         <Expression xsi:type="Unit" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:DigitalOutput">
+                            <q2:PortName>COM12</q2:PortName>
+                            <q2:Pin>8</q2:Pin>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>true</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:DigitalOutput">
+                            <q2:PortName>COM12</q2:PortName>
+                            <q2:Pin>8</q2:Pin>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>false</Value>
+                          </Combinator>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge>
                           <From>0</From>
                           <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>0</From>
+                          <To>7</To>
                           <Label>Source1</Label>
                         </Edge>
                         <Edge>
@@ -2094,8 +1692,23 @@ def process(value):
                           <Label>Source1</Label>
                         </Edge>
                         <Edge>
+                          <From>4</From>
+                          <To>9</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
                           <From>5</From>
                           <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>7</From>
+                          <To>6</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>9</From>
+                          <To>8</To>
                           <Label>Source1</Label>
                         </Edge>
                       </Edges>
@@ -2118,11 +1731,27 @@ def process(value):
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Unit" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:DigitalOutput">
+                            <q2:PortName>COM12</q2:PortName>
+                            <q2:Pin>8</q2:Pin>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>false</Value>
+                          </Combinator>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge>
                           <From>1</From>
                           <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>1</From>
+                          <To>5</To>
                           <Label>Source1</Label>
                         </Edge>
                         <Edge>
@@ -2133,6 +1762,11 @@ def process(value):
                         <Edge>
                           <From>3</From>
                           <To>0</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
                           <Label>Source1</Label>
                         </Edge>
                       </Edges>
@@ -2226,37 +1860,6 @@ def process(value):
                   <Edge>
                     <From>7</From>
                     <To>8</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Amb" />
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Name>DrinkFoodTrial</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Equal">
-                    <Operand xsi:type="StringProperty">
-                      <Value>DrinkFoodTrial</Value>
-                    </Operand>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -2479,8 +2082,8 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q11:CreateBody">
                       <q11:Position>
-                        <q11:X>-0.10291130531249171</q11:X>
-                        <q11:Y>0.38597747107780411</q11:Y>
+                        <q11:X>0.29047503440662981</q11:X>
+                        <q11:Y>0.6886320432827957</q11:Y>
                         <q11:Z>0</q11:Z>
                       </q11:Position>
                       <q11:Orientation>
@@ -2548,7 +2151,7 @@ single(Position.Y) as y)</q5:Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="q6:TimestampEvent">
                                   <q6:Name>BallTracking</q6:Name>
-                                  <q6:Value>(-0.1029113, 0.3859775)</q6:Value>
+                                  <q6:Value>(0.290475, 0.6886321)</q6:Value>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="WorkflowInput">
@@ -2658,10 +2261,41 @@ single(Position.Y) as y)</q5:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q12:GeomCollision">
-                      <q12:IncludeContacts>false</q12:IncludeContacts>
-                    </Combinator>
+                  <Expression xsi:type="Sink">
+                    <Name>RecordEvent</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>Events</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q6:TimestampEvent">
+                            <q6:Name>RatTouchBall</q6:Name>
+                          </Combinator>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>Random</Name>
@@ -2786,7 +2420,7 @@ single(Position.Y) as y)</q5:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q6:TimestampEvent">
                             <q6:Name>BallPosition</q6:Name>
-                            <q6:Value>(-0.102911305312492, 0.385977471077804)</q6:Value>
+                            <q6:Value>(0.29047503440663, 0.688632043282796)</q6:Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -2858,82 +2492,8 @@ single(Position.Y) as y)</q5:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="Condition">
-                    <Name>CheckRatIntersection</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Source.EventArgs.Geom.CategoryBits</Selector>
-                        </Expression>
-                        <Expression xsi:type="Equal">
-                          <Operand xsi:type="IntProperty">
-                            <Value>1</Value>
-                          </Operand>
-                        </Expression>
-                        <Expression xsi:type="Sink">
-                          <Name>RecordEvent</Name>
-                          <Workflow>
-                            <Nodes>
-                              <Expression xsi:type="WorkflowInput">
-                                <Name>Source1</Name>
-                              </Expression>
-                              <Expression xsi:type="WorkflowOutput" />
-                              <Expression xsi:type="MulticastSubject">
-                                <Name>Events</Name>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="q6:TimestampEvent">
-                                  <q6:Name>RatTouchBall</q6:Name>
-                                </Combinator>
-                              </Expression>
-                            </Nodes>
-                            <Edges>
-                              <Edge>
-                                <From>0</From>
-                                <To>3</To>
-                                <Label>Source1</Label>
-                              </Edge>
-                              <Edge>
-                                <From>2</From>
-                                <To>1</To>
-                                <Label>Source1</Label>
-                              </Edge>
-                              <Edge>
-                                <From>3</From>
-                                <To>2</To>
-                                <Label>Source1</Label>
-                              </Edge>
-                            </Edges>
-                          </Workflow>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>4</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>4</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>RatCollision</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>World</Name>
@@ -3340,215 +2900,76 @@ single(Position.Y) as y)</q5:Expression>
                   <Expression xsi:type="MemberSelector">
                     <Selector>Source.Body</Selector>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q12:CreateSphere">
-                      <q12:Enabled>true</q12:Enabled>
-                      <q12:CategoryBits>8</q12:CategoryBits>
-                      <q12:CollideBits>1</q12:CollideBits>
-                      <q12:Position xsi:nil="true" />
-                      <q12:Orientation xsi:nil="true" />
-                      <q12:Radius>0.2</q12:Radius>
-                    </Combinator>
+                  <Expression xsi:type="Sink">
+                    <Name>UpdateRatColliderPosition</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Source.Position</Selector>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>BallPosition</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q7:LatestOnUpdateFrame" />
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>Space</Name>
+                    <Name>EscapeForce</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q12:GeomCollision">
-                      <q12:IncludeContacts>true</q12:IncludeContacts>
-                    </Combinator>
+                    <Combinator xsi:type="CombineLatest" />
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="Take">
                       <Count>1</Count>
                     </Combinator>
                   </Expression>
-                  <Expression xsi:type="NestedWorkflow">
-                    <Name>EscapeForce</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q11:AddForce">
-                            <q11:Force>
-                              <q11:X>0.0010613101767376065</q11:X>
-                              <q11:Y>0.014962405897676945</q11:Y>
-                              <q11:Z>2.8238941922609229E-06</q11:Z>
-                            </q11:Force>
-                            <q11:Position xsi:nil="true" />
-                            <q11:RelativeForce>false</q11:RelativeForce>
-                            <q11:RelativePosition>false</q11:RelativePosition>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="InputMapping">
-                          <PropertyMappings>
-                            <Property name="Force" selector="Source.Item1.X,Source.Item1.Y,Source.Item1.Z" />
-                          </PropertyMappings>
-                          <Selector>Source.Item2</Selector>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Zip" />
-                        </Expression>
-                        <Expression xsi:type="Multiply" />
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Source.Sender.Position</Selector>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="CombineLatest" />
-                        </Expression>
-                        <Expression xsi:type="q5:ExpressionTransform">
-                          <q5:Expression>it.Normalized()</q5:Expression>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
-                            <Value>0.015</Value>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q7:CreateVector3">
-                            <q7:X>0.0144146662</q7:X>
-                            <q7:Y>0.203218713</q7:Y>
-                            <q7:Z>3.8354E-05</q7:Z>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="InputMapping">
-                          <PropertyMappings>
-                            <Property name="X" selector="Source.X" />
-                            <Property name="Y" selector="Source.Y" />
-                            <Property name="Z" selector="Source.Z" />
-                          </PropertyMappings>
-                        </Expression>
-                        <Expression xsi:type="Subtract" />
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Source.Position</Selector>
-                        </Expression>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="ExternalizedPropertyOfSingleFloatProperty">
-                          <MemberName>Value</MemberName>
-                          <Name>Force</Name>
-                          <Value>0.015</Value>
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Source.EventArgs.Contacts</Selector>
-                        </Expression>
-                        <Expression xsi:type="q5:ExpressionTransform">
-                          <q5:Expression>it[0]</q5:Expression>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="Zip" />
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Source.Sender.Body</Selector>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>13</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>1</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>3</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>4</From>
-                          <To>17</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>5</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>6</From>
-                          <To>5</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>7</From>
-                          <To>5</To>
-                          <Label>Source2</Label>
-                        </Edge>
-                        <Edge>
-                          <From>8</From>
-                          <To>6</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>9</From>
-                          <To>8</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>10</From>
-                          <To>9</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>11</From>
-                          <To>17</To>
-                          <Label>Source2</Label>
-                        </Edge>
-                        <Edge>
-                          <From>12</From>
-                          <To>4</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>12</From>
-                          <To>15</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>12</From>
-                          <To>18</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>14</From>
-                          <To>7</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>15</From>
-                          <To>16</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>16</From>
-                          <To>11</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>17</From>
-                          <To>10</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>18</From>
-                          <To>2</To>
-                          <Label>Source2</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q7:SampleOnUpdateFrame" />
+                    <Combinator xsi:type="q11:AddForce">
+                      <q11:Force>
+                        <q11:X>0.0028879062738269567</q11:X>
+                        <q11:Y>0.079947859048843384</q11:Y>
+                        <q11:Z>1.1938978786929511E-05</q11:Z>
+                      </q11:Force>
+                      <q11:Position xsi:nil="true" />
+                      <q11:RelativeForce>false</q11:RelativeForce>
+                      <q11:RelativePosition>false</q11:RelativePosition>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property name="Force" selector="Source.Item1.X,Source.Item1.Y,Source.Item1.Z" />
+                    </PropertyMappings>
+                    <Selector>Source.Item2</Selector>
                   </Expression>
                   <Expression xsi:type="SkipWhile">
                     <Workflow>
@@ -3580,44 +3001,10 @@ single(Position.Y) as y)</q5:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="Sink">
-                    <Name>RecordEvent</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>Events</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="q6:TimestampEvent">
-                            <q6:Name>RatMoveBall</q6:Name>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>3</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>1</From>
-                          <To>0</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q13:MouseDown" />
+                    <Combinator xsi:type="Take">
+                      <Count>1</Count>
+                    </Combinator>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -3648,7 +3035,7 @@ single(Position.Y) as y)</q5:Expression>
                   </Edge>
                   <Edge>
                     <From>7</From>
-                    <To>12</To>
+                    <To>29</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -3663,12 +3050,7 @@ single(Position.Y) as y)</q5:Expression>
                   </Edge>
                   <Edge>
                     <From>10</From>
-                    <To>11</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>11</From>
-                    <To>7</To>
+                    <To>22</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -3677,13 +3059,8 @@ single(Position.Y) as y)</q5:Expression>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>11</From>
-                    <To>21</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
                     <From>12</From>
-                    <To>17</To>
+                    <To>7</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -3738,22 +3115,27 @@ single(Position.Y) as y)</q5:Expression>
                   </Edge>
                   <Edge>
                     <From>22</From>
-                    <To>24</To>
+                    <To>11</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>22</From>
+                    <To>21</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>23</From>
-                    <To>22</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>24</From>
-                    <To>27</To>
+                    <To>24</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>26</From>
-                    <To>29</To>
+                    <From>24</From>
+                    <To>25</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>25</From>
+                    <To>27</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -3763,12 +3145,12 @@ single(Position.Y) as y)</q5:Expression>
                   </Edge>
                   <Edge>
                     <From>28</From>
-                    <To>22</To>
-                    <Label>Source1</Label>
+                    <To>24</To>
+                    <Label>Source2</Label>
                   </Edge>
                   <Edge>
                     <From>29</From>
-                    <To>25</To>
+                    <To>17</To>
                     <Label>Source1</Label>
                   </Edge>
                 </Edges>
@@ -3881,11 +3263,6 @@ single(Position.Y) as y)</q5:Expression>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>0</From>
-              <To>32</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
               <From>1</From>
               <To>3</To>
               <Label>Source1</Label>
@@ -3902,7 +3279,7 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>6</From>
-              <To>27</To>
+              <To>25</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3912,7 +3289,7 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>8</From>
-              <To>30</To>
+              <To>28</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3932,7 +3309,7 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>12</From>
-              <To>34</To>
+              <To>30</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3942,7 +3319,7 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>14</From>
-              <To>24</To>
+              <To>22</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3957,7 +3334,7 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>17</From>
-              <To>25</To>
+              <To>23</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3967,127 +3344,102 @@ single(Position.Y) as y)</q5:Expression>
             </Edge>
             <Edge>
               <From>19</From>
-              <To>18</To>
+              <To>27</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>20</From>
-              <To>31</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>21</From>
-              <To>19</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>22</From>
-              <To>40</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>23</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>24</From>
-              <To>23</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>25</From>
-              <To>23</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>26</From>
-              <To>23</To>
-              <Label>Source3</Label>
-            </Edge>
-            <Edge>
-              <From>27</From>
-              <To>29</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>28</From>
-              <To>31</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>29</From>
-              <To>33</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>30</From>
-              <To>29</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>31</From>
-              <To>29</To>
-              <Label>Source3</Label>
-            </Edge>
-            <Edge>
-              <From>32</From>
-              <To>20</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>32</From>
-              <To>28</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>33</From>
-              <To>9</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>33</From>
-              <To>21</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>33</From>
-              <To>22</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>34</From>
-              <To>35</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>35</From>
-              <To>0</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>36</From>
-              <To>39</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>37</From>
-              <To>7</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>37</From>
               <To>36</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>39</From>
-              <To>38</To>
+              <From>21</From>
+              <To>2</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>40</From>
+              <From>22</From>
+              <To>21</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>21</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>24</From>
+              <To>21</To>
+              <Label>Source3</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
               <To>26</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>26</From>
+              <To>29</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>27</From>
+              <To>18</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>28</From>
+              <To>26</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>29</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>29</From>
+              <To>19</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>29</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>30</From>
+              <To>31</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>31</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>32</From>
+              <To>35</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>33</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>33</From>
+              <To>32</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>35</From>
+              <To>34</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>36</From>
+              <To>24</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -4308,13 +3660,13 @@ single(Position.Y) as y)</q5:Expression>
               <q12:Material1>Rock</q12:Material1>
               <q12:Material2>Rock</q12:Material2>
               <q12:CollisionSurface>
-                <q12:Mode>FrictionDirection1</q12:Mode>
+                <q12:Mode>Bounce</q12:Mode>
                 <q12:Mu>0</q12:Mu>
                 <q12:Mu2>0</q12:Mu2>
                 <q12:Rho>0</q12:Rho>
                 <q12:Rho2>0</q12:Rho2>
                 <q12:RhoN>0</q12:RhoN>
-                <q12:Bounce>0.03</q12:Bounce>
+                <q12:Bounce>0.9</q12:Bounce>
                 <q12:BounceVelocity>0</q12:BounceVelocity>
                 <q12:SoftErp>0</q12:SoftErp>
                 <q12:SoftCfm>0</q12:SoftCfm>
@@ -4553,161 +3905,8 @@ single(Position.Y) as y)</q5:Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q7:UpdateFrame" />
       </Expression>
-      <Expression xsi:type="NestedWorkflow">
-        <Name>CreateRatCollider</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Switch" />
-            </Expression>
-            <Expression xsi:type="WindowWorkflow">
-              <Name>CreateCollider</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="q12:CreateTriMesh">
-                      <q12:Enabled>true</q12:Enabled>
-                      <q12:CategoryBits>1</q12:CategoryBits>
-                      <q12:CollideBits xsi:nil="true" />
-                      <q12:Material>Rock</q12:Material>
-                      <q12:Position xsi:nil="true" />
-                      <q12:Orientation xsi:nil="true" />
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>Space</Name>
-                  </Expression>
-                  <Expression xsi:type="Condition">
-                    <Name>CheckNotNull</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="q5:ExpressionTransform">
-                          <q5:Expression>it != null</q5:Expression>
-                        </Expression>
-                      </Nodes>
-                      <Edges>
-                        <Edge>
-                          <From>0</From>
-                          <To>2</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                        <Edge>
-                          <From>2</From>
-                          <To>1</To>
-                          <Label>Source1</Label>
-                        </Edge>
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="Zip" />
-                  </Expression>
-                  <Expression xsi:type="InputMapping">
-                    <PropertyMappings>
-                      <Property name="Data" selector="Source.Item1" />
-                    </PropertyMappings>
-                    <Selector>Source.Item2</Selector>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>0</From>
-                    <To>4</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>5</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>4</From>
-                    <To>5</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>5</From>
-                    <To>6</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>6</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q7:SampleOnUpdateFrame" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q6:CreateContourTriMesh">
-                <q6:ImageSize>
-                  <q6:Width>640</q6:Width>
-                  <q6:Height>640</q6:Height>
-                </q6:ImageSize>
-                <q6:Depth>10</q6:Depth>
-                <q6:FlipContour xsi:nil="true" />
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="InputMapping">
-              <PropertyMappings>
-                <Property name="ImageSize" selector="Source.ImageSize" />
-              </PropertyMappings>
-              <Selector>Source.Contour</Selector>
-            </Expression>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-          </Nodes>
-          <Edges>
-            <Edge>
-              <From>0</From>
-              <To>6</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>1</From>
-              <To>0</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>2</From>
-              <To>1</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>3</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>4</From>
-              <To>3</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>5</From>
-              <To>4</To>
-              <Label>Source1</Label>
-            </Edge>
-          </Edges>
-        </Workflow>
+      <Expression xsi:type="PublishSubject">
+        <Name>RatCollision</Name>
       </Expression>
       <Expression xsi:type="PublishSubject">
         <Name>StartTrigger</Name>
@@ -4752,15 +3951,15 @@ single(Position.Y) as y)</q5:Expression>
           <q6:TrialCount>100</q6:TrialCount>
           <q6:Names>
             <q6:WeightedOfString>
-              <q6:Weight>0.35</q6:Weight>
+              <q6:Weight>0</q6:Weight>
               <q6:Value>DrinkTrial</q6:Value>
             </q6:WeightedOfString>
             <q6:WeightedOfString>
-              <q6:Weight>0.35</q6:Weight>
+              <q6:Weight>1</q6:Weight>
               <q6:Value>FoodTrial</q6:Value>
             </q6:WeightedOfString>
             <q6:WeightedOfString>
-              <q6:Weight>0.3</q6:Weight>
+              <q6:Weight>0</q6:Weight>
               <q6:Value>DrinkFoodTrial</q6:Value>
             </q6:WeightedOfString>
           </q6:Names>
@@ -4808,22 +4007,812 @@ single(Position.Y) as y)</q5:Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="Concat" />
       </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q7:UpdateFrame" />
+      <Expression xsi:type="BehaviorSubject">
+        <Name>BallPosition</Name>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:LoadImage">
-          <q4:FileName>textures\walls.png</q4:FileName>
-          <q4:Mode>Unchanged</q4:Mode>
+        <Combinator xsi:type="q6:RandomPosition">
+          <q6:Minimum xsi:nil="true" />
+          <q6:Maximum xsi:nil="true" />
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q10:MouseButtonDown">
-          <q10:Filter>Left</q10:Filter>
+        <Combinator xsi:type="q6:RandomGenerator">
+          <q6:Seed xsi:nil="true" />
         </Combinator>
       </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.AuxiliaryData</Selector>
+      </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q10:MouseMove" />
+        <Combinator xsi:type="q8:MatrixWriter">
+          <q8:Path>Accelerometer.bin</q8:Path>
+          <q8:Suffix>None</q8:Suffix>
+          <q8:Overwrite>false</q8:Overwrite>
+          <q8:Layout>ColumnMajor</q8:Layout>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="NestedWorkflow">
+        <Name>CheckRatCollision</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q12:CreateSphere">
+                <q12:Enabled>true</q12:Enabled>
+                <q12:CategoryBits xsi:nil="true" />
+                <q12:CollideBits xsi:nil="true" />
+                <q12:Position xsi:nil="true" />
+                <q12:Orientation xsi:nil="true" />
+                <q12:Radius>0.01</q12:Radius>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:CreateContourTriMesh">
+                <q6:ImageSize>
+                  <q6:Width>640</q6:Width>
+                  <q6:Height>640</q6:Height>
+                </q6:ImageSize>
+                <q6:Depth>10</q6:Depth>
+                <q6:FlipContour xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property name="ImageSize" selector="Source.ImageSize" />
+              </PropertyMappings>
+              <Selector>Source.Contour</Selector>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>BallPosition</Name>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>CheckNotNull</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>it != null</q5:Expression>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:NullSpace" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:Collide">
+                <q6:MaxContacts>1</q6:MaxContacts>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>HasCollision</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Length</Selector>
+                  </Expression>
+                  <Expression xsi:type="GreaterThan">
+                    <Operand xsi:type="IntProperty">
+                      <Value>0</Value>
+                    </Operand>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="q5:ExpressionTransform">
+              <q5:Expression>new(
+false as IsInner,
+it as Vector)</q5:Expression>
+            </Expression>
+            <Expression xsi:type="SelectMany">
+              <Name>SingleShotTrimesh</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Take">
+                      <Count>1</Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q12:CreateTriMesh">
+                      <q12:Enabled>true</q12:Enabled>
+                      <q12:CategoryBits>1</q12:CategoryBits>
+                      <q12:CollideBits xsi:nil="true" />
+                      <q12:Material>Rock</q12:Material>
+                      <q12:Position xsi:nil="true" />
+                      <q12:Orientation xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property name="Data" selector="Source.Item1" />
+                    </PropertyMappings>
+                    <Selector>Source.Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>7</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q11:SetTransform">
+                <q11:Position>
+                  <q11:X>0.29047503440662981</q11:X>
+                  <q11:Y>0.6886320432827957</q11:Y>
+                  <q11:Z>0</q11:Z>
+                </q11:Position>
+                <q11:Orientation xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property name="Position" selector="Source.Item2" />
+              </PropertyMappings>
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q11:SetTransform">
+                <q11:Position>
+                  <q11:X>0.29047503440662981</q11:X>
+                  <q11:Y>0.6886320432827957</q11:Y>
+                  <q11:Z>0</q11:Z>
+                </q11:Position>
+                <q11:Orientation xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="InputMapping">
+              <PropertyMappings>
+                <Property name="Position" selector="Source.Item2" />
+              </PropertyMappings>
+              <Selector>Source.Item1</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q12:CreateSphere">
+                <q12:Enabled>true</q12:Enabled>
+                <q12:CategoryBits xsi:nil="true" />
+                <q12:CollideBits xsi:nil="true" />
+                <q12:Position xsi:nil="true" />
+                <q12:Orientation xsi:nil="true" />
+                <q12:Radius>0.2</q12:Radius>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="q5:ExpressionTransform">
+              <q5:Expression>it[0]</q5:Expression>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Name>HasCollision</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Length</Selector>
+                  </Expression>
+                  <Expression xsi:type="GreaterThan">
+                    <Operand xsi:type="IntProperty">
+                      <Value>0</Value>
+                    </Operand>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q6:Collide">
+                <q6:MaxContacts>1</q6:MaxContacts>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SelectMany">
+              <Name>SingleShotBigTrimesh</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Take">
+                      <Count>1</Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q12:CreateTriMesh">
+                      <q12:Enabled>true</q12:Enabled>
+                      <q12:CategoryBits>1</q12:CategoryBits>
+                      <q12:CollideBits xsi:nil="true" />
+                      <q12:Material>Rock</q12:Material>
+                      <q12:Position xsi:nil="true" />
+                      <q12:Orientation xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property name="Data" selector="Source.Item1" />
+                    </PropertyMappings>
+                    <Selector>Source.Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>7</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>EscapeForce</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="Multiply" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Geom2.Position</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="q5:ExpressionTransform">
+                    <q5:Expression>it.Normalized()</q5:Expression>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="FloatProperty">
+                      <Value>0.08</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q7:CreateVector3">
+                      <q7:X>-0.186343536</q7:X>
+                      <q7:Y>0.07169797</q7:Y>
+                      <q7:Z>0</q7:Z>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property name="X" selector="Source.X" />
+                      <Property name="Y" selector="Source.Y" />
+                      <Property name="Z" selector="Source.Z" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Subtract" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Position</Selector>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="ExternalizedPropertyOfSingleFloatProperty">
+                    <MemberName>Value</MemberName>
+                    <Name>Force</Name>
+                    <Value>0.08</Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>10</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>12</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>12</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="q5:ExpressionTransform">
+              <q5:Expression>new(
+true as IsInner,
+it as Vector)</q5:Expression>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q7:CreateVector3">
+                <q7:X>0</q7:X>
+                <q7:Y>0</q7:Y>
+                <q7:Z>0</q7:Z>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Gate" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Gate" />
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>31</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>16</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>16</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>19</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>9</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>25</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>31</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>30</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>11</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>28</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>29</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>14</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>14</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>15</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>25</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>19</From>
+              <To>18</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>20</From>
+              <To>19</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>26</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>22</From>
+              <To>21</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>22</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>24</From>
+              <To>23</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
+              <To>30</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>26</From>
+              <To>27</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>27</From>
+              <To>29</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>28</From>
+              <To>12</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>29</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>30</From>
+              <To>24</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>31</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Timestamp</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q8:MatrixWriter">
+          <q8:Path>EphysTimestamps.bin</q8:Path>
+          <q8:Suffix>None</q8:Suffix>
+          <q8:Overwrite>false</q8:Overwrite>
+          <q8:Layout>ColumnMajor</q8:Layout>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.IsInner</Selector>
+            </Expression>
+            <Expression xsi:type="BitwiseNot" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.IsInner</Selector>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>EscapeForce</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Vector</Selector>
       </Expression>
     </Nodes>
     <Edges>
@@ -4909,7 +4898,7 @@ single(Position.Y) as y)</q5:Expression>
       </Edge>
       <Edge>
         <From>18</From>
-        <To>79</To>
+        <To>102</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -5045,6 +5034,16 @@ single(Position.Y) as y)</q5:Expression>
       <Edge>
         <From>48</From>
         <To>24</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>48</From>
+        <To>100</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>48</From>
+        <To>103</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -5263,8 +5262,48 @@ single(Position.Y) as y)</q5:Expression>
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>97</From>
+        <From>98</From>
+        <To>97</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>99</From>
         <To>98</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>100</From>
+        <To>101</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>102</From>
+        <To>105</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>102</From>
+        <To>106</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>103</From>
+        <To>104</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>105</From>
+        <To>79</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>106</From>
+        <To>108</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>108</From>
+        <To>107</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -5286,6 +5325,10 @@ single(Position.Y) as y)</q5:Expression>
     <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ResizeCanvas, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LoadImage, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MorphologicalOperator, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.TimestampEvent, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TakeUntil, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.DrawMesh, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -5326,40 +5369,37 @@ single(Position.Y) as y)</q5:Expression>
     <Type>Bonsai.Physics.CreateBody, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.LatestOnRenderFrame, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Physics.Collision.GeomCollision, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Nullable`1[[Ode.Net.Vector3, Ode.Net, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Physics.Collision.CreateSphere, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.GreaterThanBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.Collide, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateSphere, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.CreateSphereMass, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.AddForce, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.Input.GamePad, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.FloatProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.LessThanBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Joints.CreatePlane2D, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Physics.CreateSphereMass, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.RandomPosition, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.MultiplyBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.CreateVector3, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.FloatProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.LatestOnUpdateFrame, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.SkipWhileBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.Input.MouseDown, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateHashSpace, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.Collision.CreateTriMesh, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.CreateContourTriMesh, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.UpdateTexture, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.LoadImage, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Switch, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Physics.CreateWorld, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ApproximatePolygon, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.ShuffleNames, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.RepeatCount, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Windows.Input.MouseButtonDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Windows.Input.MouseMove, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Videogame.NullSpace, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Physics.SetTransform, Bonsai.Physics, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.MultiplyBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.CreateVector3, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.FloatProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Gate, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseNotBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

@@ -53,6 +53,10 @@
       <HintPath>..\packages\Bonsai.Vision.2.3.0\lib\net45\Bonsai.Vision.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NDde, Version=2.1.563.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NDde.2.01.0563\lib\NDde.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Ode.Net, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Ode.Net.Double.0.1.3\lib\net45\Ode.Net.dll</HintPath>
       <Private>True</Private>
@@ -84,10 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AviSoftPlayWAV.cs" />
     <Compile Include="Collide.cs" />
     <Compile Include="CreateContourMesh.cs" />
     <Compile Include="CreateTriMeshData.cs" />
     <Compile Include="ExpandableCollectionConverter.cs" />
+    <Compile Include="NullSpace.cs" />
     <Compile Include="ObservableCombinators.cs" />
     <Compile Include="SetBoxLengths.cs" />
     <Compile Include="SetCapsuleDimensions.cs" />
@@ -116,6 +122,9 @@
   <ItemGroup>
     <None Include="Bonsai.Videogame.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NDde.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

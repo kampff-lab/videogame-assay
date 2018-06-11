@@ -188,7 +188,7 @@ def process(value):
           <q7:UpperBandwidth>7500</q7:UpperBandwidth>
           <q7:DspCutoffFrequency>1</q7:DspCutoffFrequency>
           <q7:DspEnabled>true</q7:DspEnabled>
-          <q7:CableDelayA xsi:nil="true" />
+          <q7:CableDelayA>6</q7:CableDelayA>
           <q7:CableDelayB xsi:nil="true" />
           <q7:CableDelayC xsi:nil="true" />
           <q7:CableDelayD xsi:nil="true" />
@@ -365,6 +365,94 @@ def process(value):
         <q2:IncludeHeader>false</q2:IncludeHeader>
         <q2:Selector>Source.X,Source.Y</q2:Selector>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q9:ImageWriter">
+          <q9:Path>\\.\pipe\video</q9:Path>
+          <q9:Suffix>None</q9:Suffix>
+          <q9:Overwrite>false</q9:Overwrite>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Value.Image</Selector>
+      </Expression>
+      <Expression xsi:type="q2:CsvWriter">
+        <q2:FileName>Video.csv</q2:FileName>
+        <q2:Append>false</q2:Append>
+        <q2:Overwrite>false</q2:Overwrite>
+        <q2:Suffix>None</q2:Suffix>
+        <q2:IncludeHeader>false</q2:IncludeHeader>
+        <q2:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q2:Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TakeUntil" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timestamp" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Delay">
+          <DueTime>PT1S</DueTime>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q10:FlyCapture">
+          <q10:Index>0</q10:Index>
+          <q10:ColorFormat>Rgb</q10:ColorFormat>
+          <q10:ColorProcessing>NearestNeighbor</q10:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>EndTrigger</Name>
+      </Expression>
+      <Expression xsi:type="Unit" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:UpdateUniform">
+          <q4:UniformName>mvp</q4:UniformName>
+          <q4:ShaderName>Walls</q4:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:UpdateUniform">
+          <q4:UniformName>mvp</q4:UniformName>
+          <q4:ShaderName>Debug</q4:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:UpdateUniform">
+          <q4:UniformName>mvp</q4:UniformName>
+          <q4:ShaderName>Ball</q4:ShaderName>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:WarpPerspective">
+          <q4:Destination>
+            <q4:Point2f>
+              <q4:X>-0.7262397</q4:X>
+              <q4:Y>-0.965328455</q4:Y>
+            </q4:Point2f>
+            <q4:Point2f>
+              <q4:X>-0.7262397</q4:X>
+              <q4:Y>0.914233565</q4:Y>
+            </q4:Point2f>
+            <q4:Point2f>
+              <q4:X>0.7427686</q4:X>
+              <q4:Y>0.9087591</q4:Y>
+            </q4:Point2f>
+            <q4:Point2f>
+              <q4:X>0.7376033</q4:X>
+              <q4:Y>-0.961678863</q4:Y>
+            </q4:Point2f>
+          </q4:Destination>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Take">
+          <Count>1</Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q4:UpdateFrame" />
+      </Expression>
       <Expression xsi:type="NestedWorkflow">
         <Name>Tracking</Name>
         <Workflow>
@@ -383,7 +471,7 @@ def process(value):
                   <q9:X>0</q9:X>
                   <q9:Y>0</q9:Y>
                 </q9:Offset>
-                <q9:MinArea>200</q9:MinArea>
+                <q9:MinArea>800</q9:MinArea>
                 <q9:MaxArea xsi:nil="true" />
               </Combinator>
             </Expression>
@@ -482,6 +570,31 @@ Item2 as ImageSize)</q5:Expression>
                 </q9:FillValue>
               </Combinator>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q9:LoadImage">
+                <q9:FileName>textures\walls-binary.png</q9:FileName>
+                <q9:Mode>Grayscale</q9:Mode>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Subtract" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q9:MorphologicalOperator">
+                <q9:Size>
+                  <q9:Width>3</q9:Width>
+                  <q9:Height>3</q9:Height>
+                </q9:Size>
+                <q9:Anchor>
+                  <q9:X>1</q9:X>
+                  <q9:Y>1</q9:Y>
+                </q9:Anchor>
+                <q9:Shape>Rectangle</q9:Shape>
+                <q9:Iterations>1</q9:Iterations>
+                <q9:Operation>Erode</q9:Operation>
+              </Combinator>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
@@ -501,12 +614,7 @@ Item2 as ImageSize)</q5:Expression>
             </Edge>
             <Edge>
               <From>3</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>3</From>
-              <To>10</To>
+              <To>18</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -559,96 +667,55 @@ Item2 as ImageSize)</q5:Expression>
               <To>3</To>
               <Label>Source1</Label>
             </Edge>
+            <Edge>
+              <From>15</From>
+              <To>16</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>10</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>16</To>
+              <Label>Source1</Label>
+            </Edge>
           </Edges>
         </Workflow>
       </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.AuxiliaryData</Selector>
+      </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q9:ImageWriter">
-          <q9:Path>\\.\pipe\video</q9:Path>
-          <q9:Suffix>None</q9:Suffix>
-          <q9:Overwrite>false</q9:Overwrite>
+        <Combinator xsi:type="q6:MatrixWriter">
+          <q6:Path>Accelerometer.bin</q6:Path>
+          <q6:Suffix>None</q6:Suffix>
+          <q6:Overwrite>false</q6:Overwrite>
+          <q6:Layout>ColumnMajor</q6:Layout>
         </Combinator>
       </Expression>
       <Expression xsi:type="MemberSelector">
-        <Selector>Source.Value.Image</Selector>
-      </Expression>
-      <Expression xsi:type="q2:CsvWriter">
-        <q2:FileName>Video.csv</q2:FileName>
-        <q2:Append>false</q2:Append>
-        <q2:Overwrite>false</q2:Overwrite>
-        <q2:Suffix>None</q2:Suffix>
-        <q2:IncludeHeader>false</q2:IncludeHeader>
-        <q2:Selector>Source.Timestamp,Source.Value.Metadata.embeddedFrameCounter</q2:Selector>
+        <Selector>Source.Timestamp</Selector>
       </Expression>
       <Expression xsi:type="Combinator">
-        <Combinator xsi:type="TakeUntil" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Timestamp" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Delay">
-          <DueTime>PT1S</DueTime>
+        <Combinator xsi:type="q6:MatrixWriter">
+          <q6:Path>EphysTimestamps.bin</q6:Path>
+          <q6:Suffix>None</q6:Suffix>
+          <q6:Overwrite>false</q6:Overwrite>
+          <q6:Layout>ColumnMajor</q6:Layout>
         </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q10:FlyCapture">
-          <q10:Index>0</q10:Index>
-          <q10:ColorFormat>Rgb</q10:ColorFormat>
-          <q10:ColorProcessing>NearestNeighbor</q10:ColorProcessing>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>EndTrigger</Name>
-      </Expression>
-      <Expression xsi:type="Unit" />
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:UpdateUniform">
-          <q4:UniformName>mvp</q4:UniformName>
-          <q4:ShaderName>Walls</q4:ShaderName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:UpdateUniform">
-          <q4:UniformName>mvp</q4:UniformName>
-          <q4:ShaderName>Debug</q4:ShaderName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:UpdateUniform">
-          <q4:UniformName>mvp</q4:UniformName>
-          <q4:ShaderName>Ball</q4:ShaderName>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:WarpPerspective">
-          <q4:Destination>
-            <q4:Point2f>
-              <q4:X>-0.7262397</q4:X>
-              <q4:Y>-0.965328455</q4:Y>
-            </q4:Point2f>
-            <q4:Point2f>
-              <q4:X>-0.7262397</q4:X>
-              <q4:Y>0.914233565</q4:Y>
-            </q4:Point2f>
-            <q4:Point2f>
-              <q4:X>0.7427686</q4:X>
-              <q4:Y>0.9087591</q4:Y>
-            </q4:Point2f>
-            <q4:Point2f>
-              <q4:X>0.7376033</q4:X>
-              <q4:Y>-0.961678863</q4:Y>
-            </q4:Point2f>
-          </q4:Destination>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Take">
-          <Count>1</Count>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q4:UpdateFrame" />
       </Expression>
     </Nodes>
     <Edges>
@@ -764,7 +831,7 @@ Item2 as ImageSize)</q5:Expression>
       </Edge>
       <Edge>
         <From>29</From>
-        <To>50</To>
+        <To>49</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -818,13 +885,23 @@ Item2 as ImageSize)</q5:Expression>
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>37</From>
+        <To>57</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>37</From>
+        <To>59</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>39</From>
         <To>0</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>41</From>
-        <To>40</To>
+        <To>56</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -849,13 +926,13 @@ Item2 as ImageSize)</q5:Expression>
       </Edge>
       <Edge>
         <From>46</From>
-        <To>45</To>
-        <Label>Source1</Label>
+        <To>44</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
         <From>47</From>
         <To>45</To>
-        <Label>Source2</Label>
+        <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>48</From>
@@ -864,12 +941,12 @@ Item2 as ImageSize)</q5:Expression>
       </Edge>
       <Edge>
         <From>49</From>
-        <To>47</To>
+        <To>31</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>50</From>
-        <To>31</To>
+        <From>51</From>
+        <To>50</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
@@ -894,7 +971,17 @@ Item2 as ImageSize)</q5:Expression>
       </Edge>
       <Edge>
         <From>56</From>
-        <To>55</To>
+        <To>40</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>57</From>
+        <To>58</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>59</From>
+        <To>60</To>
         <Label>Source1</Label>
       </Edge>
     </Edges>
@@ -921,6 +1008,13 @@ Item2 as ImageSize)</q5:Expression>
     <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.AsyncSubjectBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -930,12 +1024,9 @@ Item2 as ImageSize)</q5:Expression>
     <Type>Bonsai.Vision.Resize, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Crop, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.ResizeCanvas, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.UpdateUniform, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.WarpPerspective, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Shaders.UpdateFrame, Bonsai.Shaders, Version=0.18.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LoadImage, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MorphologicalOperator, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>

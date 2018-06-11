@@ -22,5 +22,18 @@ namespace Bonsai.Videogame
                 return contacts;
             });
         }
+
+        public IObservable<ContactGeom[]> Process<TGeom1, TGeom2>(IObservable<Tuple<TGeom1, TGeom2>> source)
+            where TGeom1 : Geom
+            where TGeom2 : Geom
+        {
+            return source.Select(input =>
+            {
+                var contacts = new ContactGeom[MaxContacts];
+                var ncontacts = Geom.Collide(input.Item1, input.Item2, contacts);
+                Array.Resize(ref contacts, ncontacts);
+                return contacts;
+            });
+        }
     }
 }
