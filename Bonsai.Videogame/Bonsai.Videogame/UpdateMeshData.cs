@@ -48,6 +48,7 @@ namespace Bonsai.Videogame
                     throw new InvalidOperationException("A mesh name must be specified.");
                 }
 
+
                 Mesh mesh = null;
                 return source.CombineEither(
                     ShaderManager.WindowSource.Do(window =>
@@ -71,6 +72,11 @@ namespace Bonsai.Videogame
                             mesh.DrawMode = DrawMode;
                             VertexHelper.UpdateVertexBuffer(mesh.VertexBuffer, input.Item1, Usage);
                             mesh.VertexCount = VertexHelper.UpdateIndexBuffer(mesh.ElementArray, input.Item2, Usage);
+
+                            for (int i=0; i < input.Item1.Length; i++)
+                            {
+                                Console.WriteLine(input.Item1[i].ToString());
+                            }
                         });
                         return input;
                     });

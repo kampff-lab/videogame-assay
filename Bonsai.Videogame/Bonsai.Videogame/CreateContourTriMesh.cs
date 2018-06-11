@@ -49,24 +49,40 @@ namespace Bonsai.Videogame
                 {
                     var x = scaleX * (points[i].X / width - 0.5f);
                     var y = scaleY * (points[i].Y / height - 0.5f);
-                    vertices[vi++] = x;
-                    vertices[vi++] = y;
-                    vertices[vi++] = -depth;
-                    vertices[vi++] = x;
-                    vertices[vi++] = y;
-                    vertices[vi++] = +depth;
+                    vertices[vi++] = x; // v0.x
+                    vertices[vi++] = y; // v0.y
+                    vertices[vi++] = -depth; // v0.z
+                    vertices[vi++] = x; // v1.x
+                    vertices[vi++] = y; // v1.y
+                    vertices[vi++] = +depth; // v1.z
+
+                    // clock-wise
                     if (i > 0)
                     {
-                        indices[ii++] = vcount + 0; // t1v0
-                        indices[ii++] = vcount + 0; // t1v0
-                        indices[ii++] = vcount + 1; // t1v1
-                        indices[ii++] = vcount - 1; // t0v1
+                        indices[ii++] = vcount + 1; // p1v1
+                        indices[ii++] = vcount + 1; // p1v1
+                        indices[ii++] = vcount + 0; // p1v0
+                        indices[ii++] = vcount - 2; // p0v0
                     }
                     if (i < points.Length - 1)
                     {
-                        indices[ii++] = vcount + 1; // t0v1
-                        indices[ii++] = vcount + 0; // t0v0
+                        indices[ii++] = vcount + 0; // p0v0
+                        indices[ii++] = vcount + 1; // p0v1
                     }
+
+                    // counter clock-wise
+                    //if (i > 0)
+                    //{
+                    //    indices[ii++] = vcount + 0; // p1v0
+                    //    indices[ii++] = vcount + 0; // p1v0
+                    //    indices[ii++] = vcount + 1; // p1v1
+                    //    indices[ii++] = vcount - 1; // p0v1
+                    //}
+                    //if (i < points.Length - 1)
+                    //{
+                    //    indices[ii++] = vcount + 1; // p0v1
+                    //    indices[ii++] = vcount + 0; // p0v0
+                    //}
                 }
                 output.BuildSingle(vertices, indices);
                 return output;

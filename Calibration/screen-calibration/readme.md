@@ -1,8 +1,8 @@
 # Projector and Camera Calibration
 
-1. Set display and picture parameters.
+1. Set projector and camera settings according to the README file in the Calibration folder.
 2. Display fullscreen white (white.bonsai).
-3. Align projector margins and keystone.
+3. If necessary, adjust projector margins and keystone to ensure projection fits the outer box area.
 4. Display calibration target (target.bonsai).
 5. Adjust warp corners to match the box corners, aligning each corner with the border between green and white.
 6. Check that the center of the calibration target matches the physical center of the box.

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.3.0-alpha3">
+<WorkflowBuilder Version="2.3.0">
   <Workflow xmlns:q2="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.Videogame;assembly=Bonsai.Videogame" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q4="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Arduino;assembly=Bonsai.Arduino" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalOutput">
-          <q1:PortName>COM4</q1:PortName>
+          <q1:PortName>COM12</q1:PortName>
           <q1:Pin>2</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:DigitalInput">
-          <q1:PortName>COM4</q1:PortName>
+          <q1:PortName>COM12</q1:PortName>
           <q1:Pin>6</q1:Pin>
         </Combinator>
       </Expression>
@@ -31,13 +31,13 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM4</q1:PortName>
+          <q1:PortName>COM12</q1:PortName>
           <q1:Pin>3</q1:Pin>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM4</q1:PortName>
+          <q1:PortName>COM12</q1:PortName>
           <q1:Pin>3</q1:Pin>
         </Combinator>
       </Expression>
@@ -72,7 +72,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:AnalogOutput">
-          <q1:PortName>COM4</q1:PortName>
+          <q1:PortName>COM12</q1:PortName>
           <q1:Pin>5</q1:Pin>
         </Combinator>
       </Expression>
@@ -101,6 +101,44 @@
         <Combinator xsi:type="q3:WaterValve">
           <q3:MillilitersPerSecond>0.06</q3:MillilitersPerSecond>
           <q3:MicrolitersPerDelivery>15</q3:MicrolitersPerDelivery>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:AnalogOutput">
+          <q1:PortName>COM6</q1:PortName>
+          <q1:Pin>3</q1:Pin>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:SquareWave">
+          <q3:Value>128</q3:Value>
+          <q3:Duration>PT0.05S</q3:Duration>
+          <q3:Period>PT0.1S</q3:Period>
+          <q3:Count>2</q3:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:KeyDown">
+          <q2:Filter>V</q2:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:AnalogOutput">
+          <q1:PortName>COM6</q1:PortName>
+          <q1:Pin>3</q1:Pin>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:SquareWave">
+          <q3:Value>15</q3:Value>
+          <q3:Duration>PT0.1S</q3:Duration>
+          <q3:Period>PT0.2S</q3:Period>
+          <q3:Count>50</q3:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:KeyDown">
+          <q2:Filter>N</q2:Filter>
         </Combinator>
       </Expression>
     </Nodes>
@@ -175,17 +213,37 @@
         <To>0</To>
         <Label>Source1</Label>
       </Edge>
+      <Edge>
+        <From>20</From>
+        <To>19</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>21</From>
+        <To>20</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>23</From>
+        <To>22</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>24</From>
+        <To>23</To>
+        <Label>Source1</Label>
+      </Edge>
     </Edges>
   </Workflow>
   <ExtensionTypes>
-    <Type>Bonsai.Arduino.DigitalOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Arduino.DigitalOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Arduino.DigitalInput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Arduino.AnalogOutput, Bonsai.Arduino, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.SquareWave, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.ExpressionTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Merge, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Videogame.WaterValve, Bonsai.Videogame, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
