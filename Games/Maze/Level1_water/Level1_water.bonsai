@@ -22,8 +22,8 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q2:DigitalInput">
-                <q2:PortName>COM6</q2:PortName>
-                <q2:Pin>6</q2:Pin>
+                <q2:PortName>COM3</q2:PortName>
+                <q2:Pin>7</q2:Pin>
               </Combinator>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -552,12 +552,12 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfDoubleExponentialTimer">
               <MemberName>Mean</MemberName>
               <Name>Mean</Name>
-              <Value>6000</Value>
+              <Value>20000</Value>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfDoubleExponentialTimer">
               <MemberName>Offset</MemberName>
               <Name>Offset</Name>
-              <Value>3000</Value>
+              <Value>10000</Value>
             </Expression>
             <Expression xsi:type="Sink">
               <Name>RecordEvent</Name>
@@ -686,8 +686,8 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:DigitalOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>4</q2:Pin>
+                      <q2:PortName>COM3</q2:PortName>
+                      <q2:Pin>2</q2:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -702,8 +702,8 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:DigitalOutput">
-                      <q2:PortName>COM6</q2:PortName>
-                      <q2:Pin>4</q2:Pin>
+                      <q2:PortName>COM3</q2:PortName>
+                      <q2:Pin>2</q2:Pin>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -762,7 +762,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
+                      <q2:PortName>COM3</q2:PortName>
                       <q2:Pin>3</q2:Pin>
                     </Combinator>
                   </Expression>
@@ -1040,7 +1040,7 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM6</q2:PortName>
+                            <q2:PortName>COM3</q2:PortName>
                             <q2:Pin>3</q2:Pin>
                           </Combinator>
                         </Expression>
@@ -1090,8 +1090,8 @@ def process(value):
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q2:DigitalInput">
-                            <q2:PortName>COM6</q2:PortName>
-                            <q2:Pin>6</q2:Pin>
+                            <q2:PortName>COM3</q2:PortName>
+                            <q2:Pin>7</q2:Pin>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Unit" />
@@ -1621,7 +1621,7 @@ def process(value):
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM6</q2:PortName>
+                            <q2:PortName>COM3</q2:PortName>
                             <q2:Pin>5</q2:Pin>
                           </Combinator>
                         </Expression>
@@ -1733,7 +1733,7 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q2:AnalogOutput">
-                            <q2:PortName>COM6</q2:PortName>
+                            <q2:PortName>COM3</q2:PortName>
                             <q2:Pin>3</q2:Pin>
                           </Combinator>
                         </Expression>
@@ -2020,7 +2020,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
+                      <q2:PortName>COM3</q2:PortName>
                       <q2:Pin>5</q2:Pin>
                     </Combinator>
                   </Expression>
@@ -2132,7 +2132,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:AnalogOutput">
-                      <q2:PortName>COM6</q2:PortName>
+                      <q2:PortName>COM3</q2:PortName>
                       <q2:Pin>3</q2:Pin>
                     </Combinator>
                   </Expression>
@@ -2656,11 +2656,11 @@ def process(value):
           <q4:TrialCount>100</q4:TrialCount>
           <q4:Names>
             <q4:WeightedOfString>
-              <q4:Weight>0</q4:Weight>
+              <q4:Weight>1</q4:Weight>
               <q4:Value>DrinkTrial</q4:Value>
             </q4:WeightedOfString>
             <q4:WeightedOfString>
-              <q4:Weight>1</q4:Weight>
+              <q4:Weight>0</q4:Weight>
               <q4:Value>FoodTrial</q4:Value>
             </q4:WeightedOfString>
             <q4:WeightedOfString>

@@ -2523,7 +2523,7 @@ single(Position.Y) as y)</q5:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q11:AddForce">
                             <q11:Force>
-                              <q11:X>-0.001</q11:X>
+                              <q11:X>0.001</q11:X>
                               <q11:Y>0</q11:Y>
                               <q11:Z>0</q11:Z>
                             </q11:Force>
@@ -2535,7 +2535,7 @@ single(Position.Y) as y)</q5:Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q11:AddForce">
                             <q11:Force>
-                              <q11:X>0.001</q11:X>
+                              <q11:X>-0.001</q11:X>
                               <q11:Y>0</q11:Y>
                               <q11:Z>0</q11:Z>
                             </q11:Force>
